@@ -13,8 +13,8 @@ in {
 
     package = mkOption {
       type = types.package;
-      default = pkgs.nur.repos.augu5te.batsky;
-      defaultText = " pkgs.nur.repos.augu5te.batsky";
+      default = pkgs.nur.repos.kapack.batsky;
+      defaultText = " pkgs.nur.repos.kapack.batsky";
     };
 
     controller = mkOption {

@@ -112,8 +112,8 @@ in
 
       package = mkOption {
         type = types.package;
-        default = pkgs.nur.repos.augu5te.fe-slurm;
-        defaultText = "pkgs.nur.repos.augu5te.fe-slurm";
+        default = pkgs.nur.repos.kapack.fe-slurm;
+        defaultText = "pkgs.nur.repos.kapack.fe-slurm";
         example = literalExample "pkgs.slurm-full";
         description = ''
           The package to use for slurm binaries.

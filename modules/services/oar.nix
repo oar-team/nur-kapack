@@ -82,7 +82,7 @@ oarTools = pkgs.stdenv.mkDerivation {
     #oardo -> cli
     gen_oardo () {
       substitute ${cfg.package}/tools/oardo.c.in oardo.c\
-        --replace TT/usr/local/oar/oarsub ${pkgs.nur.repos.augu5te.oar}/bin/$1 \
+        --replace TT/usr/local/oar/oarsub ${pkgs.nur.repos.kapack.oar}/bin/$1 \
         --replace "%%OARDIR%%" /run/wrappers/bin \
         --replace "%%OARCONFDIR%%" /etc/oar \
         --replace "%%XAUTHCMDPATH%%" /run/current-system/sw/bin/xauth \
@@ -119,8 +119,8 @@ in
 
       package = mkOption {
         type = types.package;
-        default = pkgs.nur.repos.augu5te.oar;
-        defaultText = "pkgs.nur.repos.augu5te.oar";
+        default = pkgs.nur.repos.kapack.oar;
+        defaultText = "pkgs.nur.repos.kapack.oar";
       };
 
       privateKeyFile =  mkOption {
@@ -225,7 +225,7 @@ in
 
     # add package*
     # TODO oarVisualization conditional
-    environment.systemPackages =  [ oarVisualization oarTools pkgs.taktuk pkgs.xorg.xauth pkgs.nur.repos.augu5te.oar ];
+    environment.systemPackages =  [ oarVisualization oarTools pkgs.taktuk pkgs.xorg.xauth pkgs.nur.repos.kapack.oar ];
     
     # oardodo
     security.wrappers.oardodo = {
@@ -1238,7 +1238,7 @@ EOF
           #   def hello():
           #     return str(request.environ)
           # '';
-          pythonPackages = self: with self; [ pkgs.nur.repos.augu5te.oar ];
+          pythonPackages = self: with self; [ pkgs.nur.repos.kapack.oar ];
         };
       };
     };
