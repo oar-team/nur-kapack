@@ -34,4 +34,5 @@ $ nix-env -iA -f "<nixpkgs>" nur.repos.kapack.pybatsim
 ```
 
 [![Build Status](https://travis-ci.com/oar-team/nur-kapack.svg?branch=master)](https://travis-ci.com/oar-team/nur-kapack)
+[![Cachix Cache](https://img.shields.io/badge/cachix-kapack-blue.svg)](https://kapack.cachix.org)
 
