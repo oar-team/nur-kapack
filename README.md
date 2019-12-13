@@ -33,5 +33,5 @@ Basic usage
 $ nix-env -iA -f "<nixpkgs>" nur.repos.kapack.pybatsim
 ```
 
-
+[![Build Status](https://travis-ci.com/oar-team/nur-kapack.svg?branch=master)](https://travis-ci.com/oar-team/nur-kapack)
 
