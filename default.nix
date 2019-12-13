@@ -20,7 +20,6 @@ rec {
   });
 
   
-  
   batsky = pkgs.callPackage ./pkgs/batsky { };
 
   procset = pkgs.callPackage ./pkgs/procset { };
@@ -30,11 +29,12 @@ rec {
   pytest_flask = pkgs.callPackage ./pkgs/pytest-flask { };
 
   remote_pdb = pkgs.callPackage ./pkgs/remote-pdb { };
-  
+
+  cigri = pkgs.callPackage ./pkgs/cigri { };
+ 
   oar = pkgs.callPackage ./pkgs/oar { inherit procset sqlalchemy_utils pytest_flask pybatsim remote_pdb; };
 
   sqlalchemy_utils = pkgs.callPackage ./pkgs/sqlalchemy-utils { };
-  
   
   slurm-bsc-simulator =  pkgs.callPackage ./pkgs/slurm-simulator { libmysqlclient = pkgs.libmysql; };
 
@@ -73,6 +73,6 @@ rec {
     oldDependency = pkgs.glibc;
     newDependency = glibc-batsky;
   };
-  
+
 }
 
