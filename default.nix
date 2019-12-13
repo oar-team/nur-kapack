@@ -19,8 +19,6 @@ rec {
       ./pkgs/glibc-batsky/gettimeofday.patch ];
   });
 
-  
-  
   batsky = pkgs.callPackage ./pkgs/batsky { };
 
   procset = pkgs.callPackage ./pkgs/procset { };
@@ -34,8 +32,7 @@ rec {
   oar = pkgs.callPackage ./pkgs/oar { inherit procset sqlalchemy_utils pytest_flask pybatsim remote_pdb; };
 
   sqlalchemy_utils = pkgs.callPackage ./pkgs/sqlalchemy-utils { };
-  
-  
+    
   slurm-bsc-simulator =  pkgs.callPackage ./pkgs/slurm-simulator { libmysqlclient = pkgs.libmysql; };
 
   slurm-bsc-simulator-v17 = slurm-bsc-simulator;
@@ -73,6 +70,8 @@ rec {
     oldDependency = pkgs.glibc;
     newDependency = glibc-batsky;
   };
-  
+
+  tgz-g5k = pkgs.callPackage ./pkgs/tgz-g5k { };
+
 }
 
