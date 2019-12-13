@@ -4,7 +4,7 @@ sudo: false
 
 env:
   global:
-    - CACHIX_CACHE=
+    - CACHIX_CACHE=kapack
     - NUR_REPO=https://github.com/oar-team/nur-kapack
 
 matrix:
