@@ -2,22 +2,14 @@
 
 python37Packages.buildPythonPackage rec {
   name = "oar-${version}";
-  version = "3.0.0.dev3";
+  version = "3.0.0.dev3";  
 
-  src = /home/auguste/dev/oar3;
-  
-  #src = fetchgit {
-  #  url = /home/auguste/dev/oar3;
-  #  sha256 = "17lakcbdfpwi6d8648cb7x6hmm0vylry2336zb901fl04h7d5l75";
-  #  rev = "d18cac7666fdea9d07383fca2097dc06c6c079b5";
-  #};
-
-  # src = fetchFromGitHub {
-  #   owner = "oar-team";
-  #   repo = "oar3";
-  #   rev = "060d183386e364d3be6a70561f3e85c197537152";
-  #   sha256 = "1cq92bbp6s4cbj4l147n1gms206pxnsdsw9zniz4fsbk4cs4fwp1";
-  # };
+  src = fetchFromGitHub {
+    owner = "oar-team";
+    repo = "oar3";
+    rev = "27c364b8c57cd4f179e21169de6aa308d7ab4cb3";
+    sha256 = "0435yrrpz0b574h0xvxcri49rs08d3qiik6487cac9kv0zpb8yds";
+  };
 
   propagatedBuildInputs = with python37Packages; [
     pyzmq
