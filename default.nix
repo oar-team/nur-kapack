@@ -40,7 +40,7 @@ rec {
   slurm-bsc-simulator-v14 = slurm-bsc-simulator.override { version="14"; };
   
   slurm-multiple-slurmd = pkgs.slurm.overrideAttrs (oldAttrs: {
-    configureFlags = oldAttrs.configureFlags ++ ["--enable-multiple-slurmd"];});
+    configureFlags = oldAttrs.configureFlags ++ ["--enable-multiple-slurmd" "--enable-silent-rules"];});
   
   slurm-front-end = pkgs.slurm.overrideAttrs (oldAttrs: {
     configureFlags = [
@@ -48,6 +48,7 @@ rec {
       "--with-lz4=${pkgs.lz4.dev}"
       "--with-zlib=${pkgs.zlib}"
       "--sysconfdir=/etc/slurm"
+      "--enable-silent-rules"
     ];
   });
 
