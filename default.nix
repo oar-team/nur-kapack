@@ -43,20 +43,12 @@ rec {
     configureFlags = oldAttrs.configureFlags ++ ["--enable-multiple-slurmd"];});
   
   slurm-front-end = pkgs.slurm.overrideAttrs (oldAttrs: {
-    #configureFlags = with pkgs.stdenv.lib; [
     configureFlags = [
       "--enable-front-end"
       "--with-lz4=${pkgs.lz4.dev}"
       "--with-zlib=${pkgs.zlib}"
       "--sysconfdir=/etc/slurm"
     ];
-    version = "19.05.3.2";
-    src = pkgs.fetchFromGitHub {
-      owner = "SchedMD";
-      repo = "slurm";
-      rev = "19-05-3-2";
-      sha256 = "1ds4dvwswyx9rjcmcwz2fm2zi3q4gcc2n0fxxihl31i5i6wg1kv0";
-    };
   });
 
   bs-slurm = pkgs.replaceDependency {
