@@ -17,6 +17,13 @@ rec {
   glibc-batsky = pkgs.glibc.overrideAttrs (attrs: {
     patches = attrs.patches ++ [ ./pkgs/glibc-batsky/clock_gettime.patch
       ./pkgs/glibc-batsky/gettimeofday.patch ];
+    postConfigure = ''
+      export NIX_CFLAGS_LINK=
+      export NIX_LDFLAGS_BEFORE=
+      export NIX_DONT_SET_RPATH=1
+      unset CFLAGS
+      makeFlagsArray+=("bindir=$bin/bin" "sbindir=$bin/sbin" "rootsbindir=$bin/sbin" "--quiet")
+    '';
   });
 
   batsky = pkgs.callPackage ./pkgs/batsky { };
