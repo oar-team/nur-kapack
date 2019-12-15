@@ -44,7 +44,7 @@ rec {
 
   slurm-bsc-simulator-v17 = slurm-bsc-simulator;
   
-  slurm-bsc-simulator-v14 = slurm-bsc-simulator.override { version="14"; };
+  #slurm-bsc-simulator-v14 = slurm-bsc-simulator.override { version="14"; };
   
   slurm-multiple-slurmd = pkgs.slurm.overrideAttrs (oldAttrs: {
     configureFlags = oldAttrs.configureFlags ++ ["--enable-multiple-slurmd" "--enable-silent-rules"];});
