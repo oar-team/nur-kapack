@@ -1,7 +1,7 @@
 { stdenv, fetchFromGitHub, pkgconfig, libtool, curl
 , python, munge, perl, pam, openssl, zlib
 , ncurses, libmysqlclient, lua, hwloc, numactl
-, readline, freeipmi, libssh2, lz4, autoconf, automake, gtk2,  version ? "17"
+, readline, freeipmi, libssh2, lz4, autoconf, automake, gtk2, version ? "17"
 }:
 
 let
@@ -41,9 +41,10 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ pkgconfig libtool ];
   buildInputs = [
     curl python munge perl pam openssl zlib
-      libmysqlclient ncurses lz4 
-      lua hwloc numactl readline #];
-  autoconf automake gtk2];
+    libmysqlclient ncurses lz4 
+    lua hwloc numactl readline
+    autoconf automake gtk2
+  ];
  
   preBuild = ''
     makeFlagsArray+=("CFLAGS=-DSLURM_SIMULATOR -g0 -O2 -D NDEBUG=1 -DNUMA_VERSION1_COMPATIBILITY -pthread -lrt")

@@ -40,7 +40,7 @@ rec {
 
   sqlalchemy_utils = pkgs.callPackage ./pkgs/sqlalchemy-utils { };
     
-  slurm-bsc-simulator =  pkgs.callPackage ./pkgs/slurm-simulator { libmysqlclient = pkgs.libmysql; };
+  slurm-bsc-simulator =  pkgs.callPackage ./pkgs/slurm-simulator { };
 
   slurm-bsc-simulator-v17 = slurm-bsc-simulator;
   
