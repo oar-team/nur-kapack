@@ -39,11 +39,8 @@ rec {
   oar = pkgs.callPackage ./pkgs/oar { inherit procset sqlalchemy_utils pytest_flask pybatsim remote_pdb; };
 
   sqlalchemy_utils = pkgs.callPackage ./pkgs/sqlalchemy-utils { };
-    
-  slurm-bsc-simulator =
-    if pkgs ? libmysql
-    then pkgs.callPackage ./pkgs/slurm-simulator { libmysqlclient = pkgs.libmysql; }
-    else pkgs.callPackage ./pkgs/slurm-simulator { };
+
+  slurm-bsc-simulator = pkgs.callPackage ./pkgs/slurm-simulator { };
 
   slurm-bsc-simulator-v17 = slurm-bsc-simulator;
   
