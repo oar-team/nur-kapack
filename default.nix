@@ -40,8 +40,11 @@ rec {
 
   sqlalchemy_utils = pkgs.callPackage ./pkgs/sqlalchemy-utils { };
 
-  slurm-bsc-simulator = pkgs.callPackage ./pkgs/slurm-simulator { };
-
+  # Setting needed for nixos-19.03 and nixos-19.09
+  slurm-bsc-simulator =
+    if pkgs ? libmysql
+    then pkgs.callPackage ./pkgs/slurm-simulator { libmysqlclient = pkgs.libmysql; }
+    else pkgs.callPackage ./pkgs/slurm-simulator { };
   slurm-bsc-simulator-v17 = slurm-bsc-simulator;
   
   #slurm-bsc-simulator-v14 = slurm-bsc-simulator.override { version="14"; };
