@@ -10,6 +10,7 @@ python37Packages.buildPythonPackage rec {
     rev = "27c364b8c57cd4f179e21169de6aa308d7ab4cb3";
     sha256 = "0435yrrpz0b574h0xvxcri49rs08d3qiik6487cac9kv0zpb8yds";
   };
+  #src = /home/auguste/dev/oar3;
 
   propagatedBuildInputs = with python37Packages; [
     pyzmq
