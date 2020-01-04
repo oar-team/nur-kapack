@@ -4,14 +4,14 @@ sudo: false
 
 env:
   global:
-    - CACHIX_CACHE=
-    - NUR_REPO=<YOUR_NUR_REPO_NAME_HERE>
+    - CACHIX_CACHE=kapack
+    - NUR_REPO=https://github.com/oar-team/nur-kapack
 
 matrix:
   include:
     - env: NIX_CHANNEL=https://nixos.org/channels/nixpkgs-unstable
     - env: NIX_CHANNEL=https://nixos.org/channels/nixos-unstable
-    - env: NIX_CHANNEL=https://nixos.org/channels/nixos-19.03
+    - env: NIX_CHANNEL=https://nixos.org/channels/nixos-19.09
 
 install:
  - nix --version
