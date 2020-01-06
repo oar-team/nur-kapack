@@ -8,11 +8,9 @@ let
 DATABASE_TYPE = "Pg" 
 DATABASE_HOST = "${cfg.server.host}"
 DATABASE_NAME = "${cfg.database.dbname}"
-#DATABASE_USER_NAME = "cigri3"
-#DATABASE_USER_PASSWORD = "cigri3"
 
 # Where is CiGri installed
-INSTALL_PATH = "/usr/local/share/cigri/"
+INSTALL_PATH = "${cfg.package}/share/cigri/"
 
 # Timeout in seconds for jobs remaining in the waiting status on the clusters
 # or in the cigri queues

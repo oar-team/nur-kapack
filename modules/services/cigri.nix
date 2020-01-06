@@ -5,7 +5,7 @@ with lib;
 
 let
   cfg = config.services.cigri;
-inherit (import ./cigri-conf.nix { pkgs=pkgs; lib=lib; cfg=cfg;} ) cigriBaseConf 
+inherit (import ./cigri-conf.nix { pkgs=pkgs; lib=lib; cfg=cfg;} ) cigriBaseConf;
 in
 
 {
@@ -29,6 +29,64 @@ in
         description = "Home for CiGri user ";
       };
 
+      database = {
+        host = mkOption {
+          type = types.str;
+          default = "localhost";
+          description = ''
+            Host of the postgresql server. 
+          '';
+        };
+
+        passwordFile = mkOption {
+        type = types.nullOr types.path;
+        default = null;
+        example = "/run/keys/cigri-dbpassword";
+        description = ''
+          A file containing the usernames/passwords for database, content example:
+
+          DATABASE_USER_NAME = "cigri3"
+          DATABASE_USER_PASSWORD = "cigri3"
+        '';
+        };
+        
+        dbname = mkOption {
+          type = types.str;
+          default = "cigri3";
+          description = "Name of the postgresql database";
+        };
+      };
+
+      extraConfig = mkOption {
+        type = types.attrs;
+        default = {};
+        example = {
+          LOG_LEVEL="3";
+          DEFAULT_JOB_RESOURCES="/resource_id=1";
+        };
+        description = ''
+          Extra configuration options that will replace default.
+        '';
+      };
+
+      client = {
+        enable = mkEnableOption "CiGri client";
+      };
+
+      server = {
+        enable = mkEnableOption "CiGri server";
+        host = mkOption {
+          type = types.str;
+          default = "localhost";
+          description = ''
+            Host of the CiGri server. 
+          '';
+        };
+      };
+      
+      dbserver = {
+        enable = mkEnableOption "CiGri database";
+      };
     };
   };
 
@@ -38,14 +96,31 @@ in
                   cfg.server.enable ||
                   cfg.dbserver.enable ) {
 
+    environment.etc."cigri/cigri-base.conf" = { mode = "0600"; source = cigriBaseConf; };
+    
     # cigri user declaration
-    users.users.oar = mkIf ( cfg.server )  {
+    users.users.cigri = mkIf ( cfg.server )  {
       description = "CiGri user";
       home = cfg.cigriHomeDir;
       shell = pkgs.bashInteractive;
       uid = 746;
     };
 
+    systemd.services.cigri-conf-init = {
+      wantedBy = [ "network.target" ];
+      before = [ "network.target" ];
+      serviceConfig.Type = "oneshot";
+      script = ''
+        mkdir -p /etc/cigri
+
+        touch /etc/cigri/cigri.conf
+        chmod 600 /etc/cigri/cigri.conf
+        chown cigri /etc/cigri/cigri.conf
+
+        cat ${cfg.database.passwordFile} >> /etc/cigri/cigri.conf
+        cat /etc/cigri/cigri-base.conf >> /etc/cigri/cigri.conf
+      '';
+    };
     
     ################
     # Server Section
@@ -54,10 +129,8 @@ in
       after = [ "network.target"];
       description = "CiGri server's main process";
       restartIfChanged = false;
-      #environment.OARDIR = "${cfg.package}/bin";
       serviceConfig = {
         User = "cigri";
-        #Group = "root";
         ExecStart = "${cfg.package}/share/cigri/modules/almighty.rb";
         KillMode = "process";
         Restart = "on-failure";
@@ -90,8 +163,10 @@ in
       wantedBy = [ "multi-user.target" ];
       serviceConfig.Type = "oneshot";
       script = ''
-        ${cfg.package}/database/init_db.rb -d cigri3 -u cigri3 -p cigri3 \
-        -t psql -s ${cfg.package}/database/psql_structure.sql
+        source ${cfg.database.passwordFile};
+        ${cfg.package}/database/init_db.rb \
+          -d $DATABASE_NAME -u $DATABASE_USER_NAME -p $DATABASE_USER_PASSWOR \
+          -t psql -s ${cfg.package}/database/psql_structure.sql
       '';
     };
   };
