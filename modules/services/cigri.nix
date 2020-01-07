@@ -196,7 +196,7 @@ in
     ################
     # Rest-api Section
     systemd.services.cigri-rest-api =  mkIf cfg.server.enable {
-      after = [ "cigri-server" "network.target" ];
+      after = [ "network.target" ];
       wantedBy = [ "multi-user.target" ];
       description = "CiGri's rest api";
       environment = cigriEnv;
@@ -206,7 +206,7 @@ in
         TimeoutSec = "infinity";
         KillMode = "process";
         Restart = "on-failure";
-        WorkingDirectory = "${cfg.package}//share/cigri/api";
+        WorkingDirectory = "${cfg.package}/share/cigri/api";
         ExecStart = "${cfg.package.rubyEnv}/bin/unicorn -c ${unicornConfig} -E production";
       };
     };

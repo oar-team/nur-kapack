@@ -4,7 +4,7 @@ let
   name = "cigri-env";
   inherit ruby;
   gemdir  = ./.;
-  groups = [ "default" "unicorn" "test" ]; # TODO not used
+  #groups = [ "default" "unicorn" "test" ]; # TODO not used
 };
   in
     stdenv.mkDerivation rec {
