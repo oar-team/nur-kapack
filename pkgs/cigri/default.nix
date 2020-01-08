@@ -33,7 +33,8 @@ let
   postInstall = ''
     cp -r database $out
   '';
-  
+
+  # Allow rubyEnv to be use in modules/services/cigri configuration
   passthru = {
     inherit rubyEnv;
   };
