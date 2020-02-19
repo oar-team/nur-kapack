@@ -3,7 +3,7 @@
 python37Packages.buildPythonApplication rec {
   name = "colmet-${version}";
   version = "0.5.4";
-    
+
   src = fetchFromGitHub {
     owner = "oar-team";
     repo = "colmet";
@@ -12,7 +12,7 @@ python37Packages.buildPythonApplication rec {
   };
 
   buildInputs = [ libpowercap ];
-  
+
   propagatedBuildInputs = with python37Packages; [
     pyinotify
     pyzmq
