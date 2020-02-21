@@ -25,19 +25,19 @@ rec {
       makeFlagsArray+=("bindir=$bin/bin" "sbindir=$bin/sbin" "rootsbindir=$bin/sbin" "--quiet")
     '';
   });
-  
+
   libpowercap = pkgs.callPackage ./pkgs/libpowercap { };
 
   haskellPackages = import ./pkgs/haskellPackages { inherit pkgs; };
-  
+
   arion = pkgs.callPackage ./pkgs/arion { arion-compose = haskellPackages.arion-compose; };
- 
+
   batsky = pkgs.callPackage ./pkgs/batsky { };
 
   colmet = pkgs.callPackage ./pkgs/colmet { inherit libpowercap; };
-  
+
   procset = pkgs.callPackage ./pkgs/procset { };
-  
+
   pybatsim = pkgs.callPackage ./pkgs/pybatsim { inherit procset; };
 
   pytest_flask = pkgs.callPackage ./pkgs/pytest-flask { };
@@ -45,7 +45,7 @@ rec {
   remote_pdb = pkgs.callPackage ./pkgs/remote-pdb { };
 
   cigri = pkgs.callPackage ./pkgs/cigri { };
-  
+
   oar = pkgs.callPackage ./pkgs/oar { inherit procset sqlalchemy_utils pytest_flask pybatsim remote_pdb; };
 
   sqlalchemy_utils = pkgs.callPackage ./pkgs/sqlalchemy-utils { };
@@ -56,12 +56,12 @@ rec {
     then pkgs.callPackage ./pkgs/slurm-simulator { libmysqlclient = pkgs.libmysql; }
     else pkgs.callPackage ./pkgs/slurm-simulator { };
   slurm-bsc-simulator-v17 = slurm-bsc-simulator;
-  
+
   #slurm-bsc-simulator-v14 = slurm-bsc-simulator.override { version="14"; };
-  
+
   slurm-multiple-slurmd = pkgs.slurm.overrideAttrs (oldAttrs: {
     configureFlags = oldAttrs.configureFlags ++ ["--enable-multiple-slurmd" "--enable-silent-rules"];});
-  
+
   slurm-front-end = pkgs.slurm.overrideAttrs (oldAttrs: {
     configureFlags = [
       "--enable-front-end"
@@ -77,7 +77,7 @@ rec {
   #   oldDependency = pkgs.glibc;
   #   newDependency = glibc-batsky;
   # };
-  
+
   # fe-slurm = pkgs.replaceDependency {
   #   drv = slurm-front-end;
   #   oldDependency = pkgs.glibc;
