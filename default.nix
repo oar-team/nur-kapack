@@ -45,6 +45,9 @@ rec {
 
   oar = pkgs.callPackage ./pkgs/oar { inherit procset sqlalchemy_utils pytest_flask pybatsim remote_pdb; };
 
+  simgrid325 = pkgs.callPackage ./pkgs/simgrid/simgrid325.nix { };
+  simgrid = simgrid325;
+
   sqlalchemy_utils = pkgs.callPackage ./pkgs/sqlalchemy-utils { };
 
   # Setting needed for nixos-19.03 and nixos-19.09
