@@ -33,6 +33,8 @@ rec {
 
   colmet = pkgs.callPackage ./pkgs/colmet { inherit libpowercap; };
 
+  docopt_cpp = pkgs.callPackage ./pkgs/docopt_cpp { };
+
   intervalset = pkgs.callPackage ./pkgs/intervalset { };
 
   procset = pkgs.callPackage ./pkgs/procset { };
