@@ -43,6 +43,8 @@ rec {
 
   pytest_flask = pkgs.callPackage ./pkgs/pytest-flask { };
 
+  redox = pkgs.callPackage ./pkgs/redox { };
+
   remote_pdb = pkgs.callPackage ./pkgs/remote-pdb { };
 
   cigri = pkgs.callPackage ./pkgs/cigri { };
