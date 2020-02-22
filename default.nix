@@ -33,6 +33,8 @@ rec {
 
   colmet = pkgs.callPackage ./pkgs/colmet { inherit libpowercap; };
 
+  intervalset = pkgs.callPackage ./pkgs/intervalset { };
+
   procset = pkgs.callPackage ./pkgs/procset { };
 
   pybatsim = pkgs.callPackage ./pkgs/pybatsim { inherit procset; };
