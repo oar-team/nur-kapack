@@ -1,12 +1,9 @@
-# This file describes your repository contents.
-# It should return a set of nix derivations
-# and optionally the special attributes `lib`, `modules` and `overlays`.
-# It should NOT import <nixpkgs>. Instead, you should take pkgs as an argument.
-# Having pkgs default to <nixpkgs> is fine though, and it lets you use short
-# commands such as:
-#     nix-build -A mypackage
-
-{ pkgs ? import <nixpkgs> {} }:
+# If called without explicitly setting the 'pkgs' arg, a pinned nixpkgs version is used by default.
+# If you want to use your <nixpkgs> instead, set usePinnedPkgs to false (e.g., nix-build --arg usePinnedPkgs false ...)
+{ usePinnedPkgs ? true
+, pkgs ? if usePinnedPkgs then import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/19.09.tar.gz") {}
+                          else import <nixpkgs> {}
+}:
 
 rec {
   # The `lib`, `modules`, and `overlay` names are special
