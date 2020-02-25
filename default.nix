@@ -24,7 +24,7 @@ rec {
   });
 
   libpowercap = pkgs.callPackage ./pkgs/libpowercap { };
-
+  
   haskellPackages = import ./pkgs/haskellPackages { inherit pkgs; };
 
   arion = pkgs.callPackage ./pkgs/arion { arion-compose = haskellPackages.arion-compose; };
@@ -32,6 +32,8 @@ rec {
   batsky = pkgs.callPackage ./pkgs/batsky { };
 
   colmet = pkgs.callPackage ./pkgs/colmet { inherit libpowercap; };
+
+  colmet-rs =  pkgs.callPackage ./pkgs/colmet-rs { };
 
   melissa = pkgs.callPackage ./pkgs/melissa { };
   
