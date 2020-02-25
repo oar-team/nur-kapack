@@ -11,7 +11,9 @@ stdenv.mkDerivation rec {
     sha256 = "1wfvwryfcy9166zp6ndmdnv1ybdkjnkl5y5lbprdfjb7ipv4a8ph";
   };
 
-  buildInputs = [ cmake gfortran python37 zeromq ];
+  buildInputs = [ cmake gfortran python37 zeromq openmpi];
+
+  enableParallelBuilding = false;
 
   meta = with stdenv.lib; {
     homepage = "https://melissa-sa.github.io/";
