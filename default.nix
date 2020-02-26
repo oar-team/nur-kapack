@@ -59,6 +59,7 @@ rec {
 
   simgrid325 = pkgs.callPackage ./pkgs/simgrid/simgrid325.nix { };
   simgrid = simgrid325;
+  simgrid-light = simgrid.override { minimalBindings = true; withoutBin = true; };
 
   sqlalchemy_utils = pkgs.callPackage ./pkgs/sqlalchemy-utils { };
 

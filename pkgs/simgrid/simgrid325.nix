@@ -3,8 +3,11 @@
 , buildDocumentation ? false, transfig, ghostscript, doxygen
 , buildJavaBindings ? false, openjdk
 , modelCheckingSupport ? false, libunwind, libevent, elfutils # Inside elfutils: libelf and libdw
+, minimalBindings ? false
 , debug ? false
+, optimize ? (!debug)
 , moreTests ? false
+, withoutBin ? false
 }:
 
 with stdenv.lib;
@@ -41,6 +44,7 @@ stdenv.mkDerivation rec {
   cmakeFlags = [
     "-Denable_documentation=${optionOnOff buildDocumentation}"
     "-Denable_java=${optionOnOff buildJavaBindings}"
+    "-Denable_msg=${optionOnOff buildJavaBindings}"
     "-Denable_fortran=${optionOnOff fortranSupport}"
     "-Denable_model-checking=${optionOnOff modelCheckingSupport}"
     "-Denable_ns3=off"
@@ -50,11 +54,12 @@ stdenv.mkDerivation rec {
     "-Denable_mallocators=on"
     "-Denable_debug=on"
     "-Denable_smpi=on"
+    "-Dminimal-bindings=${optionOnOff minimalBindings}"
     "-Denable_smpi_ISP_testsuite=${optionOnOff moreTests}"
     "-Denable_smpi_MPICH3_testsuite=${optionOnOff moreTests}"
     "-Denable_compile_warnings=${optionOnOff debug}"
-    "-Denable_compile_optimizations=${optionOnOff (!debug)}"
-    "-Denable_lto=${optionOnOff (!debug)}"
+    "-Denable_compile_optimizations=${optionOnOff optimize}"
+    "-Denable_lto=${optionOnOff optimize}"
   ];
 
   makeFlags = optional debug "VERBOSE=1";
@@ -72,6 +77,11 @@ stdenv.mkDerivation rec {
     cat <<EOW >CTestCustom.cmake
     SET(CTEST_CUSTOM_TESTS_IGNORE smpi-replay-multiple)
     EOW
+  '';
+
+  dontStrip = debug;
+  postInstall = "" + stdenv.lib.optionalString withoutBin ''
+    rm -rf $out/bin
   '';
 
   enableParallelBuilding = true;
