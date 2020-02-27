@@ -15,11 +15,11 @@ stdenv.mkDerivation rec {
 
     # as we suppose the archive has been obtained from gitlab on batsim's master branch,
     # the archive should contain a directory named "batsim-master-COMMIT".
-    local parsed_commit=$(ls | sed -n -E 's/^batsim-master-([[:xdigit:]]{40})$/\1/p')
+    local parsed_commit=$(ls | sed -n -E 's/^${pname}-master-([[:xdigit:]]{40})$/\1/p')
     echo "git commit seems to be $parsed_commit (parsed from extracted archive directory name)"
 
     # hack meson's default version
-    cd batsim-master-$parsed_commit
+    cd ${pname}-master-$parsed_commit
     local version_name="commit $parsed_commit (built by Nix from master branch)"
     echo "overriding meson's version: $version_name"
     sed -iE "s/version: '.*',/version: '$version_name',/" meson.build

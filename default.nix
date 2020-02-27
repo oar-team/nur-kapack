@@ -31,6 +31,8 @@ rec {
 
   arion = pkgs.callPackage ./pkgs/arion { arion-compose = haskellPackages.arion-compose; };
 
+  batsched-master = pkgs.callPackage ./pkgs/batsched/master.nix { inherit gmp intervalset loguru redox debug; };
+
   batsim-master = pkgs.callPackage ./pkgs/batsim/master.nix { inherit docopt_cpp intervalset redox debug; simgrid = simgrid-light; };
 
   batsky = pkgs.callPackage ./pkgs/batsky { };
