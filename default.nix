@@ -3,6 +3,7 @@
 { usePinnedPkgs ? true
 , pkgs ? if usePinnedPkgs then import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/19.09.tar.gz") {}
                           else import <nixpkgs> {}
+, debug ? false
 }:
 
 rec {
@@ -30,7 +31,7 @@ rec {
 
   arion = pkgs.callPackage ./pkgs/arion { arion-compose = haskellPackages.arion-compose; };
 
-  batsim-master = pkgs.callPackage ./pkgs/batsim/master.nix { inherit docopt_cpp intervalset redox; simgrid = simgrid-light; };
+  batsim-master = pkgs.callPackage ./pkgs/batsim/master.nix { inherit docopt_cpp intervalset redox debug; simgrid = simgrid-light; };
 
   batsky = pkgs.callPackage ./pkgs/batsky { };
 
@@ -60,7 +61,7 @@ rec {
 
   oar = pkgs.callPackage ./pkgs/oar { inherit procset sqlalchemy_utils pytest_flask pybatsim remote_pdb; };
 
-  simgrid325 = pkgs.callPackage ./pkgs/simgrid/simgrid325.nix { };
+  simgrid325 = pkgs.callPackage ./pkgs/simgrid/simgrid325.nix { inherit debug; };
   simgrid = simgrid325;
   simgrid-light = simgrid.override { minimalBindings = true; withoutBin = true; };
 
