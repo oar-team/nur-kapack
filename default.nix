@@ -47,6 +47,8 @@ rec {
 
   intervalset = pkgs.callPackage ./pkgs/intervalset { };
 
+  loguru = pkgs.callPackage ./pkgs/loguru { inherit debug; };
+
   procset = pkgs.callPackage ./pkgs/procset { };
 
   pybatsim = pkgs.callPackage ./pkgs/pybatsim { inherit procset; };
