@@ -24,7 +24,7 @@ rec {
   });
 
   libpowercap = pkgs.callPackage ./pkgs/libpowercap { };
-  
+
   haskellPackages = import ./pkgs/haskellPackages { inherit pkgs; };
 
   arion = pkgs.callPackage ./pkgs/arion { arion-compose = haskellPackages.arion-compose; };
@@ -38,9 +38,9 @@ rec {
   colmet-rs = pkgs.callPackage ./pkgs/colmet-rs { };
 
   colmet-collector = pkgs.callPackage ./pkgs/colmet-collector { };
-  
+
   melissa = pkgs.callPackage ./pkgs/melissa { };
-  
+
   docopt_cpp = pkgs.callPackage ./pkgs/docopt_cpp { };
 
   intervalset = pkgs.callPackage ./pkgs/intervalset { };
