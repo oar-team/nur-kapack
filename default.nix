@@ -10,6 +10,7 @@ rec {
   lib = import ./lib { inherit pkgs; }; # functions
   modules = import ./modules; # NixOS modules
   overlays = import ./overlays; # nixpkgs overlays
+  inherit pkgs;
 
   glibc-batsky = pkgs.glibc.overrideAttrs (attrs: {
     patches = attrs.patches ++ [ ./pkgs/glibc-batsky/clock_gettime.patch
