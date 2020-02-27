@@ -45,6 +45,8 @@ rec {
 
   docopt_cpp = pkgs.callPackage ./pkgs/docopt_cpp { };
 
+  gmp = pkgs.callPackage ./pkgs/gmp { gmp6 = pkgs.gmp6; };
+
   intervalset = pkgs.callPackage ./pkgs/intervalset { };
 
   loguru = pkgs.callPackage ./pkgs/loguru { inherit debug; };
