@@ -58,6 +58,7 @@ rec {
   procset = pkgs.callPackage ./pkgs/procset { };
 
   pybatsim = pkgs.callPackage ./pkgs/pybatsim { inherit procset; };
+  pybatsim-master = pkgs.callPackage ./pkgs/pybatsim/master.nix { inherit pybatsim; };
 
   pytest_flask = pkgs.callPackage ./pkgs/pytest-flask { };
 
