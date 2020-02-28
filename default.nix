@@ -33,6 +33,8 @@ rec {
 
   batsched-master = pkgs.callPackage ./pkgs/batsched/master.nix { inherit gmp intervalset loguru redox debug; };
 
+  batsim-310 = pkgs.callPackage ./pkgs/batsim/batsim310.nix { inherit docopt_cpp intervalset redox debug; simgrid = simgrid-324; };
+  batsim = batsim-310;
   batsim-master = pkgs.callPackage ./pkgs/batsim/master.nix { inherit docopt_cpp intervalset redox debug; simgrid = simgrid-light; };
 
   batsky = pkgs.callPackage ./pkgs/batsky { };
