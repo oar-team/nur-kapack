@@ -67,9 +67,11 @@ rec {
 
   oar = pkgs.callPackage ./pkgs/oar { inherit procset sqlalchemy_utils pytest_flask pybatsim remote_pdb; };
 
-  simgrid325 = pkgs.callPackage ./pkgs/simgrid/simgrid325.nix { inherit debug; };
-  simgrid = simgrid325;
-  simgrid-light = simgrid.override { minimalBindings = true; withoutBin = true; };
+  simgrid-324 = pkgs.callPackage ./pkgs/simgrid/simgrid324.nix { inherit debug; };
+  simgrid-325 = pkgs.callPackage ./pkgs/simgrid/simgrid325.nix { inherit debug; };
+  simgrid-325light = simgrid.override { minimalBindings = true; withoutBin = true; };
+  simgrid = simgrid-325;
+  simgrid-light = simgrid-325light;
 
   sqlalchemy_utils = pkgs.callPackage ./pkgs/sqlalchemy-utils { };
 
