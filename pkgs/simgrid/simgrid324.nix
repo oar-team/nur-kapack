@@ -56,7 +56,7 @@ stdenv.mkDerivation rec {
     "-Dminimal-bindings=${optionOnOff minimalBindings}"
     "-Denable_smpi_ISP_testsuite=${optionOnOff moreTests}"
     "-Denable_smpi_MPICH3_testsuite=${optionOnOff moreTests}"
-    "-Denable_compile_warnings=${optionOnOff debug}"
+    "-Denable_compile_warnings=off"
     "-Denable_compile_optimizations=${optionOnOff optimize}"
     "-Denable_lto=${optionOnOff optimize}"
   ];
