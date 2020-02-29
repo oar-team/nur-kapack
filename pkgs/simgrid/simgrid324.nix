@@ -18,14 +18,14 @@ in
 
 stdenv.mkDerivation rec {
   pname = "simgrid";
-  version = "3.25";
+  version = "3.24";
 
   src = fetchFromGitLab {
     domain = "framagit.org";
     owner = pname;
     repo = pname;
     rev = "v${version}";
-    sha256 = "019fgryfwpcrkv1f3271v7qxk0mfw2w990vgnk1cqhmr9i1f17gs";
+    sha256 = "1r9zgfx5npjw4mk0ywxx07jyi1m1b1i06j0m60n3dsrz75492x6m";
   };
 
   nativeBuildInputs = [ cmake perl python3 boost valgrind ]
@@ -44,7 +44,6 @@ stdenv.mkDerivation rec {
   cmakeFlags = [
     "-Denable_documentation=${optionOnOff buildDocumentation}"
     "-Denable_java=${optionOnOff buildJavaBindings}"
-    "-Denable_msg=${optionOnOff buildJavaBindings}"
     "-Denable_fortran=${optionOnOff fortranSupport}"
     "-Denable_model-checking=${optionOnOff modelCheckingSupport}"
     "-Denable_ns3=off"

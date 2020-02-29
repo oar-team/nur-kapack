@@ -15,6 +15,7 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ meson ninja pkgconfig ];
   buildInputs = [ boost gtest ];
   mesonBuildType = if debug then "debug" else "release";
+  dontStrip = debug;
   doCheck = true;
 
   meta = with stdenv.lib; {

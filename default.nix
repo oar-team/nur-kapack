@@ -3,6 +3,7 @@
 { usePinnedPkgs ? true
 , pkgs ? if usePinnedPkgs then import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/19.09.tar.gz") {}
                           else import <nixpkgs> {}
+, debug ? false
 }:
 
 rec {
@@ -10,6 +11,7 @@ rec {
   lib = import ./lib { inherit pkgs; }; # functions
   modules = import ./modules; # NixOS modules
   overlays = import ./overlays; # nixpkgs overlays
+  inherit pkgs;
 
   glibc-batsky = pkgs.glibc.overrideAttrs (attrs: {
     patches = attrs.patches ++ [ ./pkgs/glibc-batsky/clock_gettime.patch
@@ -24,10 +26,21 @@ rec {
   });
 
   libpowercap = pkgs.callPackage ./pkgs/libpowercap { };
-  
+
   haskellPackages = import ./pkgs/haskellPackages { inherit pkgs; };
 
   arion = pkgs.callPackage ./pkgs/arion { arion-compose = haskellPackages.arion-compose; };
+
+  batsched-130 = pkgs.callPackage ./pkgs/batsched/batsched130.nix { inherit gmp intervalset loguru redox debug; };
+  batsched = batsched-130;
+  batsched-master = pkgs.callPackage ./pkgs/batsched/master.nix { inherit gmp intervalset loguru redox debug; };
+
+  batexpe = pkgs.callPackage ./pkgs/batexpe { };
+  batexpe-master = pkgs.callPackage ./pkgs/batexpe/master.nix { inherit batexpe; };
+
+  batsim-310 = pkgs.callPackage ./pkgs/batsim/batsim310.nix { inherit docopt_cpp intervalset redox debug; simgrid = simgrid-324; };
+  batsim = batsim-310;
+  batsim-master = pkgs.callPackage ./pkgs/batsim/master.nix { inherit docopt_cpp intervalset redox debug; simgrid = simgrid-light; };
 
   batsky = pkgs.callPackage ./pkgs/batsky { };
 
@@ -36,16 +49,21 @@ rec {
   colmet-rs = pkgs.callPackage ./pkgs/colmet-rs { };
 
   colmet-collector = pkgs.callPackage ./pkgs/colmet-collector { };
-  
+
   melissa = pkgs.callPackage ./pkgs/melissa { };
-  
+
   docopt_cpp = pkgs.callPackage ./pkgs/docopt_cpp { };
 
+  gmp = pkgs.callPackage ./pkgs/gmp { gmp6 = pkgs.gmp6; };
+
   intervalset = pkgs.callPackage ./pkgs/intervalset { };
+
+  loguru = pkgs.callPackage ./pkgs/loguru { inherit debug; };
 
   procset = pkgs.callPackage ./pkgs/procset { };
 
   pybatsim = pkgs.callPackage ./pkgs/pybatsim { inherit procset; };
+  pybatsim-master = pkgs.callPackage ./pkgs/pybatsim/master.nix { inherit pybatsim; };
 
   pytest_flask = pkgs.callPackage ./pkgs/pytest-flask { };
 
@@ -57,8 +75,11 @@ rec {
 
   oar = pkgs.callPackage ./pkgs/oar { inherit procset sqlalchemy_utils pytest_flask pybatsim remote_pdb; };
 
-  simgrid325 = pkgs.callPackage ./pkgs/simgrid/simgrid325.nix { };
-  simgrid = simgrid325;
+  simgrid-324 = pkgs.callPackage ./pkgs/simgrid/simgrid324.nix { inherit debug; };
+  simgrid-325 = pkgs.callPackage ./pkgs/simgrid/simgrid325.nix { inherit debug; };
+  simgrid-325light = simgrid.override { minimalBindings = true; withoutBin = true; };
+  simgrid = simgrid-325;
+  simgrid-light = simgrid-325light;
 
   sqlalchemy_utils = pkgs.callPackage ./pkgs/sqlalchemy-utils { };
 
