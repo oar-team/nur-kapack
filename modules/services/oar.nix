@@ -85,15 +85,13 @@ oarTools = pkgs.stdenv.mkDerivation {
       $CC -Wall -O2 oardo.c -o $out/$2
     }
    
-    # generate cli
-    
-    a=(oarsub3 oarstat3 oardel3 oarnodes3 oarnodesetting3)
-    b=(oarsub oarstat oardel oarnodes oarnodesetting)
+    # generate cli    
+    a=(oarsub oarstat oardel oarnodes oarnodesetting oarconnect)
     
     for (( i=0; i<''${#a[@]}; i++ ))
     do
-      echo generate ''${b[i]}
-      gen_oardo ''${a[i]} ''${b[i]}
+      echo generate ''${a[i]}
+      gen_oardo ''${a[i]}3 ''${a[i]}
     done
 
   '';
@@ -255,7 +253,7 @@ in
         setuid = true;
         permissions = "u+rwx,g+rx";
       };
-    } // lib.genAttrs ["oarsub" "oarstat" "oardel" "oarnodes" "oarnodesetting"]
+    } // lib.genAttrs ["oarsub" "oarstat" "oardel" "oarnodes" "oarnodesetting" "oarconnect"]
       (name: {
       source = "${oarTools}/${name}";
       owner = "root";
