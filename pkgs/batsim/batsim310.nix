@@ -18,8 +18,8 @@ stdenv.mkDerivation rec {
     ninja
     pkgconfig
   ];
-
-  buildInputs = [
+  # runtimeDeps is used to generate multi-layered docker contained
+  runtimeDeps = [
     simgrid
     intervalset
     boost
@@ -31,6 +31,7 @@ stdenv.mkDerivation rec {
     docopt_cpp
     pugixml
   ];
+  buildInputs = runtimeDeps;
 
   mesonBuildType = if debug then "debug" else "release";
   enableParallelBuilding = true;
