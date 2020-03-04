@@ -86,12 +86,13 @@ oarTools = pkgs.stdenv.mkDerivation {
     }
    
     # generate cli    
-    a=(oarsub oarstat oardel oarnodes oarnodesetting oarconnect)
+    a=(oarsub oarstat oardel oarresume oarnodes oarnotify oarqueue oarconnect oarremoveresource \
+    oarnodesetting oaraccounting oarproperty)
     
     for (( i=0; i<''${#a[@]}; i++ ))
     do
       echo generate ''${a[i]}
-      gen_oardo ''${a[i]}3 ''${a[i]}
+      gen_oardo .''${a[i]} ''${a[i]}
     done
 
   '';
@@ -253,7 +254,9 @@ in
         setuid = true;
         permissions = "u+rwx,g+rx";
       };
-    } // lib.genAttrs ["oarsub" "oarstat" "oardel" "oarnodes" "oarnodesetting" "oarconnect"]
+    } // lib.genAttrs ["oarsub" "oarstat" "oarresume" "oardel" "oarnodes"  "oarnotify"
+      "oarqueue" "oarconnect" "oarremoveresource" "oarnodesetting" "oaraccounting"
+      "oarproperty"]
       (name: {
       source = "${oarTools}/${name}";
       owner = "root";
@@ -382,7 +385,7 @@ in
 
     systemd.services.oar-node-register =  mkIf (cfg.node.register.enable) {
       wantedBy = [ "multi-user.target" ];      
-      after = [ "network.target" "oar-user-init" "oar-node" ];
+      after = [ "network.target" "oar-user-init" "oar-conf-init" "oar-node" ];
       serviceConfig.Type = "oneshot";
       path = [ pkgs.hostname ];
       script = concatStringsSep "\n" [''
@@ -404,7 +407,7 @@ in
       serviceConfig = {
         User = "oar";
         Group = "oar";
-        ExecStart = "${cfg.package}/bin/oar3-almighty";
+        ExecStart = "${cfg.package}/bin/oar-almighty";
         KillMode = "process";
         Restart = "on-failure";
       };
