@@ -5,10 +5,10 @@ python37Packages.buildPythonPackage rec {
   version = "3.0.0.dev3";  
 
   src = fetchFromGitHub {
-    owner = "oar-team";
-    repo = "oar3";
-    rev = "f8104a677263467d97476977f642b504dfdb8ba6";
-    sha256 = "1dlpbb3bn6h6ranj48zbf7shzsimlpdqyyysmva8rmsrwrhb61ql";
+     owner = "oar-team";
+     repo = "oar3";
+     rev = "29523ba7c46c2002a3630c7bc22068cedbcba9cb";
+     sha256 = "09mmj1g266j1w9v8258h2r88ndmqhyl3cfxkwkfnbasd7qkzyp48";
   };
   #src = /home/auguste/dev/oar3;
 
