@@ -24,6 +24,6 @@ rustPlatform.buildRustPackage rec {
     homepage = https://github.com/oar-team;
     description = "Monitoring processes inside cgroup";
     license = licenses.lgpl2;
-    
+    broken = true;
   };
 }
