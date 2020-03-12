@@ -15,8 +15,6 @@ rustPlatform.buildRustPackage rec {
   
   buildInputs = [ zeromq cmake ];
   nativeBuildInputs = [ pkgconfig ];
-
-  #LD_LIBRARY_PATH="${lib_perf_hw}/lib"; 
   
   cargoSha256 = "1yr0wbq6qdphmzj3jbili3isgwc0xkd06gkx0xvpinhkp6k5y7n3";
 
