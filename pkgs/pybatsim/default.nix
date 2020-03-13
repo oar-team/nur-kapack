@@ -1,20 +1,20 @@
-{ stdenv, python37Packages, procset }:
+{ stdenv, python3Packages, procset }:
 
-python37Packages.buildPythonPackage rec {
+python3Packages.buildPythonPackage rec {
     pname = "pybatsim";
     version = "3.1.0";
 
-    src = python37Packages.fetchPypi {
+    src = python3Packages.fetchPypi {
       inherit pname version;
       sha256 = "0dmqqk831zplrky114bf5j0p53l84x282zy7q219hzxv6jq0q2wg";
     };
 
-    buildInputs = with python37Packages; [
+    buildInputs = with python3Packages; [
       autopep8
       coverage
       ipdb
     ];
-    propagatedBuildInputs = with python37Packages; [
+    propagatedBuildInputs = with python3Packages; [
       sortedcontainers
       pyzmq
       redis
