@@ -60,6 +60,8 @@ rec {
 
   intervalset = pkgs.callPackage ./pkgs/intervalset { };
 
+  kube-batch = pkgs.callPackage ./pkgs/kube-batch { };
+
   loguru = pkgs.callPackage ./pkgs/loguru { inherit debug; };
 
   procset = pkgs.callPackage ./pkgs/procset { };
