@@ -2,13 +2,13 @@
 
 python37Packages.buildPythonPackage rec {
   name = "oar-${version}";
-  version = "3.0.0.dev3";  
+  version = "3.0.0.dev4";  
 
   src = fetchFromGitHub {
      owner = "oar-team";
      repo = "oar3";
-     rev = "29523ba7c46c2002a3630c7bc22068cedbcba9cb";
-     sha256 = "09mmj1g266j1w9v8258h2r88ndmqhyl3cfxkwkfnbasd7qkzyp48";
+     rev = "9cb30d1627d65ee41fb52cd39eea1f8404c4c839";
+     sha256 = "1s5s2lg5z61lgr5j6ji07fpgzii8h260jz9jqsgd9vwkdgvl06d8";
   };
   #src = /home/auguste/dev/oar3;
 
@@ -29,7 +29,8 @@ python37Packages.buildPythonPackage rec {
     pybatsim
     pytest_flask
     psycopg2
-    remote_pdb
+    remote_pdb # for debug only
+    passlib
   ];
 
   # Tests do not pass
