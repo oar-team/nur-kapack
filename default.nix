@@ -84,6 +84,8 @@ rec {
   simgrid-325light = simgrid.override { minimalBindings = true; withoutBin = true; };
   simgrid = simgrid-325;
   simgrid-light = simgrid-325light;
+  simgrid-master = pkgs.callPackage ./pkgs/simgrid/master.nix { inherit simgrid; };
+  simgrid-light-master = pkgs.callPackage ./pkgs/simgrid/master.nix { simgrid = simgrid-light; };
 
   sqlalchemy_utils = pkgs.callPackage ./pkgs/sqlalchemy-utils { };
 
