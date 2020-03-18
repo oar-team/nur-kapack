@@ -489,7 +489,7 @@ in
           
           location ~ ^/oarapi-priv {
             auth_basic "OAR API Authentication";
-            auth_basic_user_file /etc/oarapi-users;
+            auth_basic_user_file /etc/oar/api-users;
             error_page 404 = @oarapi;
           }
 
