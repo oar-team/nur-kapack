@@ -58,6 +58,8 @@ rec {
 
   gmp = pkgs.callPackage ./pkgs/gmp { gmp6 = pkgs.gmp6; };
 
+  go-swagger  = pkgs.callPackage ./pkgs/go-swagger { };
+  
   intervalset = pkgs.callPackage ./pkgs/intervalset { };
 
   kube-batch = pkgs.callPackage ./pkgs/kube-batch { };
