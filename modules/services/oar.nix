@@ -87,7 +87,7 @@ oarTools = pkgs.stdenv.mkDerivation {
    
     # generate cli    
     a=(oarsub oarstat oardel oarresume oarnodes oarnotify oarqueue oarconnect oarremoveresource \
-    oarnodesetting oaraccounting oarproperty)
+    oarnodesetting oaraccounting oarproperty oarwalltime)
     
     for (( i=0; i<''${#a[@]}; i++ ))
     do
@@ -256,7 +256,7 @@ in
       };
     } // lib.genAttrs ["oarsub" "oarstat" "oarresume" "oardel" "oarnodes"  "oarnotify"
       "oarqueue" "oarconnect" "oarremoveresource" "oarnodesetting" "oaraccounting"
-      "oarproperty"]
+      "oarproperty" "oarwalltime"]
       (name: {
       source = "${oarTools}/${name}";
       owner = "root";
