@@ -59,6 +59,8 @@ rec {
 
   batsky = pkgs.callPackage ./pkgs/batsky { };
 
+  cgvg = pkgs.callPackage ./pkgs/cgvg { };
+
   colmet = pkgs.callPackage ./pkgs/colmet { inherit libpowercap; };
 
   colmet-rs = pkgs.callPackage ./pkgs/colmet-rs { };
