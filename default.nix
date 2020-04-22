@@ -65,6 +65,8 @@ rec {
 
   colmet-collector = pkgs.callPackage ./pkgs/colmet-collector { };
 
+  evalys = pkgs.callPackage ./pkgs/evalys { inherit procset; };
+
   melissa = pkgs.callPackage ./pkgs/melissa { };
 
   docopt_cpp = pkgs.callPackage ./pkgs/docopt_cpp { };
