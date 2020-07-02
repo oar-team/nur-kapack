@@ -220,6 +220,31 @@ in
         drawgantt = {
           enable = mkEnableOption "Drawgantt web page";
         };
+        proxy = {
+          enable = mkEnableOption "Enable proxy service based on Traefik";
+          entryPointHttp = mkOption {
+            type = types.str;
+            default = "";
+            description = ''
+              Entry Point for proxy server (example "server:5000"). 
+            '';
+          };
+          configOptions =  mkOption {
+            description = ''
+              Config for Traefik.
+            '';
+            type = types.attrs;
+            default = {
+              defaultentrypoints = [ "http"];
+              #     # [api]
+              #     # dashboard = true
+              #     # entrypoint = "auth_api"
+              wss.protocol = "http";
+              file.filename = "/etc/oar/proxy/rules_oar_traefik.toml";
+              file.watch = true;
+            };
+          };
+        };
         extraConfig = mkOption {
           type = types.str;
           default = "";
@@ -597,7 +622,6 @@ in
       serviceConfig.Type = "oneshot";
       script = concatStringsSep "\n" [''
         mkdir -p /etc/oar
-        touch /etc/oar/yop
         source ${cfg.database.passwordFile}
       ''  
         (optionalString cfg.web.monika.enable ''
@@ -622,5 +646,64 @@ in
         ];
     };
 
+     systemd.tmpfiles.rules =  mkIf cfg.web.proxy.enable [
+       "d '/etc/oar/proxy' - oar oar - -"
+     ];
+
+    
+    systemd.services.oar-proxy-cleaner =  mkIf cfg.web.proxy.enable {
+      description = "OAR's proxy rules cleaner";
+      wantedBy = [ "multi-user.target" ];
+      after = [ "network-online.target" ];
+      #preStart = "touch /etc/oar/proxy/rules_oar_traefik.toml";
+      environment.OARDIR = "${cfg.package}/bin";
+      serviceConfig = {
+        User = "oar";
+        Group = "oar";
+        ExecStart = "${cfg.package}/bin/oar-proxy-cleaner";
+        KillMode = "process";
+        Restart = "on-failure";
+      };
+    };
+    
+    systemd.services.oar-proxy-traefik = mkIf cfg.web.proxy.enable {
+      description = "OAR's proxy rules cleaner";
+      wantedBy = [ "multi-user.target" ];
+      after = [ "network-online.target" ];
+      preStart = "touch /etc/oar/proxy/rules_oar_traefik.toml";
+      serviceConfig = {
+        ExecStart = let configFile = pkgs.runCommand "config.toml" {
+          buildInputs = [ pkgs.remarshal ];
+          preferLocalBuild = true;
+        } ''
+          remarshal -if json -of toml \
+          < ${pkgs.writeText "config.json" (builtins.toJSON (cfg.web.proxy.configOptions // {entryPoints.http.address = cfg.web.proxy.entryPointHttp;}))} \
+          > $out
+        '';
+      in
+      ''${pkgs.traefik}/bin/traefik --configfile=${configFile}'';
+        Type = "simple";
+        User = "oar";
+        Group = "oar";
+        Restart = "on-failure";
+        StartLimitInterval = 86400;
+        StartLimitBurst = 5;
+      };
+    };
+    # services.traefik = mkIf cfg.web.proxy.enable {
+    #   enable = true;     
+    #   configOptions = {
+    #     #debug = true;
+    #     #logLevel = "DEBUG";
+    #     defaultentrypoints = [ "http"];
+    #     # [api]
+    #     # dashboard = true
+    #     # entrypoint = "auth_api"
+    #     wss.protocol = "http";
+    #     file.filename = "/etc/oar/proxy/rules_oar_traefik.toml";
+    #     file.watch = true;
+    #     entryPoints.http.address = cfg.web.proxy.entryPointHttp;
+    #   };
+    #};
   };
 }
