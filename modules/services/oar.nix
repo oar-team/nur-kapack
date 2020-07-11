@@ -189,6 +189,11 @@ in
         enable = mkEnableOption "OAR node";
         register = {
           enable = mkEnableOption "Register node into OAR server";
+          add = mkOption {
+            type = types.bool;
+            default = true;
+            description = "Execute oarnodesseting";
+          };
           extraCommand = mkOption {
             type = types.str;
             default = "";
@@ -413,8 +418,9 @@ in
       after = [ "network.target" "oar-user-init" "oar-conf-init" "oar-node" ];
       serviceConfig.Type = "oneshot";
       path = [ pkgs.hostname ];
-      script = concatStringsSep "\n" [''
-        /run/wrappers/bin/oarnodesetting -a -s Alive''
+      script = concatStringsSep "\n" [
+        (optionalString cfg.node.register.add ''
+          /run/wrappers/bin/oarnodesetting -a -s Alive'')
         (optionalString (cfg.node.register.extraCommand != "") ''
           ${cfg.node.register.extraCommand}
         '')

@@ -7,8 +7,8 @@ python37Packages.buildPythonPackage rec {
   src = fetchFromGitHub {
       owner = "oar-team";
       repo = "oar3";
-      rev = "0897ac61d1372844dd071711f491d7e11c83c63a";
-      sha256 = "1fnw12hrx5cndyd9bzwsg9axdabjhj95kyn830iaih853wm43579";
+      rev = "88d7a903df7ece3a0e9bcb0b8979917b838c4ab8";
+      sha256 = "1kj1rlqmk1l9k5gdaa1i4wa3gpqy9bs1d644h3gf469s74vq0d44";
   };
   #src = /home/auguste/dev/oar3;
 
@@ -32,6 +32,8 @@ python37Packages.buildPythonPackage rec {
     remote_pdb # for debug only
     passlib
     pyyaml
+    escapism
+    toml
   ];
 
   # Tests do not pass

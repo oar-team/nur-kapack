@@ -1,6 +1,5 @@
 {
-  # Add your overlays here
-  #
-  # my-overlay = import ./my-overlay;
+  overlay-dev = import ./overlay-dev.nix;
+  overlay = import ./overlay1.nix;
 }
 
