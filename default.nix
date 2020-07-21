@@ -44,9 +44,9 @@ rec {
 
   arion = pkgs.callPackage ./pkgs/arion { arion-compose = haskellPackages.arion-compose; };
 
-  batsched-130 = pkgs.callPackage ./pkgs/batsched/batsched130.nix { inherit gmp intervalset loguru redox debug; };
+  batsched-130 = pkgs.callPackage ./pkgs/batsched/batsched130.nix { inherit intervalset loguru redox debug; };
   batsched = batsched-130;
-  batsched-master = pkgs.callPackage ./pkgs/batsched/master.nix { inherit gmp intervalset loguru redox debug; };
+  batsched-master = pkgs.callPackage ./pkgs/batsched/master.nix { inherit intervalset loguru redox debug; };
 
   batexpe = pkgs.callPackage ./pkgs/batexpe { };
   batexpe-master = pkgs.callPackage ./pkgs/batexpe/master.nix { inherit batexpe; };
@@ -72,8 +72,6 @@ rec {
   melissa = pkgs.callPackage ./pkgs/melissa { };
 
   docopt_cpp = pkgs.callPackage ./pkgs/docopt_cpp { };
-
-  gmp = pkgs.callPackage ./pkgs/gmp { gmp6 = pkgs.gmp6; };
 
   go-swagger  = pkgs.callPackage ./pkgs/go-swagger { };
   
