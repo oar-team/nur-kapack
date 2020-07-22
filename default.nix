@@ -24,7 +24,7 @@ rec {
       makeFlagsArray+=("bindir=$bin/bin" "sbindir=$bin/sbin" "rootsbindir=$bin/sbin" "--quiet")
     '';
   });
-  
+
   go_1_14-batsky = if (pkgs ? go_1_14) then
     (pkgs.go_1_14.overrideAttrs (attrs: {
     src = pkgs.fetchFromGitHub {
@@ -37,7 +37,7 @@ rec {
   }))
     else
     pkgs.callPackage ({}: {meta.broken=true;}) {};
-  
+
   libpowercap = pkgs.callPackage ./pkgs/libpowercap { };
 
   haskellPackages = import ./pkgs/haskellPackages { inherit pkgs; };
@@ -74,7 +74,7 @@ rec {
   docopt_cpp = pkgs.callPackage ./pkgs/docopt_cpp { };
 
   go-swagger  = pkgs.callPackage ./pkgs/go-swagger { };
-  
+
   intervalset = pkgs.callPackage ./pkgs/intervalset { };
 
   kube-batch = pkgs.callPackage ./pkgs/kube-batch { };
