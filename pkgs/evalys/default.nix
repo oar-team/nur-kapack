@@ -1,12 +1,12 @@
 {stdenv, python3Packages, procset}:
 python3Packages.buildPythonPackage rec {
   pname = "evalys";
-  version = "4.0.4";
+  version = "4.0.5";
   name = "${pname}-${version}";
 
   src = python3Packages.fetchPypi {
     inherit pname version;
-    sha256 = "1j9gp1zdfaip0kfyf64n1aa9ayllfb85xlbn0srmr4a2gb3r4jq7";
+    sha256 = "0qj1gm6j1r4ziaz5sfbqh59xjpvhg2v573xicfhrl568yqsca95q";
   };
 
   propagatedBuildInputs = with python3Packages; [
