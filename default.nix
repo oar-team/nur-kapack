@@ -52,7 +52,8 @@ rec {
   batexpe-master = pkgs.callPackage ./pkgs/batexpe/master.nix { inherit batexpe; };
 
   batsim-310 = pkgs.callPackage ./pkgs/batsim/batsim310.nix { inherit docopt_cpp intervalset redox debug; simgrid = simgrid-324; };
-  batsim = batsim-310;
+  batsim-400 = pkgs.callPackage ./pkgs/batsim/batsim400.nix { inherit docopt_cpp intervalset redox debug; simgrid = simgrid-325light; };
+  batsim = batsim-400;
   batsim-master = pkgs.callPackage ./pkgs/batsim/master.nix { inherit docopt_cpp intervalset redox debug; simgrid = simgrid-light; };
   batsim-docker = pkgs.callPackage ./pkgs/batsim/batsim-docker.nix { inherit batsim; };
   batsim-docker-master = pkgs.callPackage ./pkgs/batsim/batsim-docker.nix { batsim = batsim-master; };
