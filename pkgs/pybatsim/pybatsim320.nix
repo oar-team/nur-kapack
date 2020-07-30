@@ -2,11 +2,11 @@
 
 python3Packages.buildPythonPackage rec {
     pname = "pybatsim";
-    version = "3.1.0";
+    version = "3.2.0";
 
     src = python3Packages.fetchPypi {
       inherit pname version;
-      sha256 = "0dmqqk831zplrky114bf5j0p53l84x282zy7q219hzxv6jq0q2wg";
+      sha256 = "1bv9di8llisk0va16mpvlcszsglxv4cx44pdw1rljj943bnayjyj";
     };
 
     buildInputs = with python3Packages; [
