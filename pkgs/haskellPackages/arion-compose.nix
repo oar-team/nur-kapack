@@ -8,8 +8,10 @@ mkDerivation {
   version = "0.1.0.0";
   src = fetchgit {
     url = "https://github.com/oar-team/arion";
-    sha256 = "0ipw01w9banpy4qaycqm3c2sbvfn4la3yx6nm8hc6cg33x1k8xl3";
-    rev = "14f5cf0de887b412837d67539d953fbd42398be4";
+    sha256 = "jHzcVhfBfG2zQGJ6ZCmE9J5qwlxMmWpQnqoBcttUOm8=";
+    rev = "6e9b5b2c984bda256bfe10f462fe567a8c1ccca8";
+    #sha256 = "0ipw01w9banpy4qaycqm3c2sbvfn4la3yx6nm8hc6cg33x1k8xl3";
+    #rev = "14f5cf0de887b412837d67539d953fbd42398be4";
     fetchSubmodules = true;
   };
   doCheck = false;
