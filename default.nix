@@ -101,6 +101,10 @@ rec {
 
   oar = pkgs.callPackage ./pkgs/oar { inherit procset sqlalchemy_utils pytest_flask pybatsim remote_pdb; };
 
+  rsg-030 = pkgs.callPackage ./pkgs/remote-simgrid/rsg030.nix { inherit debug docopt_cpp ; simgrid = simgrid; };
+  rsg = rsg-030;
+  rsg-master = pkgs.callPackage ./pkgs/remote-simgrid/master.nix { inherit rsg ; };
+
   simgrid-324 = pkgs.callPackage ./pkgs/simgrid/simgrid324.nix { inherit debug; };
   simgrid-325 = pkgs.callPackage ./pkgs/simgrid/simgrid325.nix { inherit debug; };
   simgrid-325light = simgrid.override { minimalBindings = true; withoutBin = true; };
