@@ -77,6 +77,8 @@ rec {
 
   go-swagger  = pkgs.callPackage ./pkgs/go-swagger { };
 
+  gcovr = pkgs.callPackage ./pkgs/gcovr/csv.nix { };
+
   intervalset = pkgs.callPackage ./pkgs/intervalset { };
 
   kube-batch = pkgs.callPackage ./pkgs/kube-batch { };
