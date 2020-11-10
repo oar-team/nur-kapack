@@ -1,6 +1,6 @@
-{ stdenv, pkgs, fetchgit, python37Packages}:
+{ stdenv, pkgs, fetchgit, python3Packages}:
 
-python37Packages.buildPythonPackage rec {
+python3Packages.buildPythonPackage rec {
   name = "procset-${version}";
   version = "v1.0";
 
