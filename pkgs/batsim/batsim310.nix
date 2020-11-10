@@ -13,6 +13,11 @@ stdenv.mkDerivation rec {
     sha256 = "0aa5b3bp7khazn7gyslczxydijigshxg5xf1284v31l28iq7mzvx";
   };
 
+  # Temporary hack. Meson is no longer able to pick up Boost automatically.
+  # https://github.com/NixOS/nixpkgs/issues/86131
+  BOOST_INCLUDEDIR = "${stdenv.lib.getDev boost}/include";
+  BOOST_LIBRARYDIR = "${stdenv.lib.getLib boost}/lib";
+
   nativeBuildInputs = [
     meson
     ninja
