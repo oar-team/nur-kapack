@@ -109,9 +109,11 @@ rec {
 
   simgrid-324 = pkgs.callPackage ./pkgs/simgrid/simgrid324.nix { inherit debug; };
   simgrid-325 = pkgs.callPackage ./pkgs/simgrid/simgrid325.nix { inherit debug; };
-  simgrid-325light = simgrid.override { minimalBindings = true; withoutBin = true; };
-  simgrid = simgrid-325;
-  simgrid-light = simgrid-325light;
+  simgrid-326 = pkgs.callPackage ./pkgs/simgrid/simgrid326.nix { inherit debug; };
+  simgrid-325light = simgrid-325.override { minimalBindings = true; withoutBin = true; };
+  simgrid-326light = simgrid-326.override { minimalBindings = true; withoutBin = true; };
+  simgrid = simgrid-326;
+  simgrid-light = simgrid-326light;
   simgrid-master = pkgs.callPackage ./pkgs/simgrid/master.nix { inherit simgrid; };
   simgrid-light-master = pkgs.callPackage ./pkgs/simgrid/master.nix { simgrid = simgrid-light; };
 
