@@ -25,7 +25,7 @@ stdenv.mkDerivation rec {
       This is a simple wrapper around Boost.Icl.
     '';
     homepage = https://framagit.org/batsim/intervalset;
-    platforms = platforms.x86_64;
+    platforms = [ "x86_64-linux" "aarch64-linux" ];
     license = licenses.lgpl3;
     broken = false;
   };
