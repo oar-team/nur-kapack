@@ -21,7 +21,7 @@ python3Packages.buildPythonPackage rec {
       useful when writing schedulers.'';
     description = ''Toolkit to manage sets of closed intervals.'';
     homepage    = "https://gitlab.inria.fr/bleuse/procset.py";
-    platforms   = platforms.unix;
+    platforms   = platforms.all;
     license     = licenses.lgpl3;
     broken      = false;
   };

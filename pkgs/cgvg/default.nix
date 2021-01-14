@@ -22,7 +22,7 @@ cgvg uses the Perl internal find and does its own searching, rather than being a
     '';
     homepage = http://uzix.org/cgvg.html;
     license = licenses.gpl2;
-    platforms = platforms.unix;
+    platforms = platforms.all;
     broken = false;
   };
 }

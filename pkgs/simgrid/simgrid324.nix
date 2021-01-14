@@ -99,6 +99,6 @@ stdenv.mkDerivation rec {
     license = licenses.lgpl2Plus;
     broken = false;
     maintainers = with maintainers; [ mickours mpoquet ];
-    platforms = ["x86_64-linux"];
+    platforms = platforms.all;
   };
 }

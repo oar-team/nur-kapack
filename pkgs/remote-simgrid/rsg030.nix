@@ -29,7 +29,7 @@ stdenv.mkDerivation rec {
       The provided API calls are blocking, which allows rsg_server to control how the processes should execute in accordance with its simulation.
     '';
     homepage = "https://framagit.org/simgrid/remote-simgrid";
-    platforms = platforms.unix;
+    platforms = platforms.all;
     license = licenses.lgpl3;
     broken = false;
   };

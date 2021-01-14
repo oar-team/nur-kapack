@@ -20,7 +20,7 @@ buildGoPackage rec {
 
   goDeps = ./deps.nix;
 
-  meta = {
+  meta = with stdenv.lib; {
     description = "set of Go tools around Batsim to simplify experiments";
     longDescription = ''
       It includes:
@@ -34,9 +34,9 @@ buildGoPackage rec {
         (written in Go).  This allows users to build their own tools (in Go) with
         decent code reuse.
     '';
-    license = stdenv.lib.licenses.lgpl3;
+    license = licenses.lgpl3;
     broken = false;
-    maintainers = [ stdenv.lib.maintainers.mickours ];
-    meta.platforms = stdenv.lib.platforms.linux;
+    maintainers = with maintainers; [ mickours ];
+    platforms = platforms.all;
   };
 }
