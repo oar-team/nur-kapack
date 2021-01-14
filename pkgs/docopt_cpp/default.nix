@@ -12,11 +12,10 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [ cmake python2 ];
 
-  cmakeFlags = ["-DWITH_TESTS=ON"];
-
-  doCheck = true;
-
+  doCheck = !stdenv.isDarwin;
   checkPhase = "LD_LIBRARY_PATH=$(pwd) python2 ./run_tests";
+
+  cmakeFlags = [] ++ stdenv.lib.optional doCheck [ "-DWITH_TESTS=ON" ];
 
   meta = with stdenv.lib; {
     description = "C++11 port of docopt";
