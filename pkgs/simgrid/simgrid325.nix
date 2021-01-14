@@ -1,4 +1,4 @@
-{ stdenv, fetchFromGitLab, cmake, perl, python3, boost, valgrind
+{ stdenv, fetchFromGitLab, cmake, perl, python3, boost
 , fortranSupport ? false, gfortran
 , buildDocumentation ? false, transfig, ghostscript, doxygen
 , buildJavaBindings ? false, openjdk
@@ -28,7 +28,7 @@ stdenv.mkDerivation rec {
     sha256 = "019fgryfwpcrkv1f3271v7qxk0mfw2w990vgnk1cqhmr9i1f17gs";
   };
 
-  nativeBuildInputs = [ cmake perl python3 boost valgrind ]
+  nativeBuildInputs = [ cmake perl python3 boost ]
     ++ optionals fortranSupport [ gfortran ]
     ++ optionals buildJavaBindings [ openjdk ]
     ++ optionals buildDocumentation [ transfig ghostscript doxygen ]
