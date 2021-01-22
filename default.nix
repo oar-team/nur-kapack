@@ -52,10 +52,10 @@ rec {
   batexpe = pkgs.callPackage ./pkgs/batexpe { };
   batexpe-master = pkgs.callPackage ./pkgs/batexpe/master.nix { inherit batexpe; };
 
-  batsim-310 = pkgs.callPackage ./pkgs/batsim/batsim310.nix { inherit docopt_cpp intervalset redox debug; simgrid = simgrid-324; };
-  batsim-400 = pkgs.callPackage ./pkgs/batsim/batsim400.nix { inherit docopt_cpp intervalset redox debug; simgrid = simgrid-325light; };
+  batsim-310 = pkgs.callPackage ./pkgs/batsim/batsim310.nix { inherit intervalset redox debug; simgrid = simgrid-324; };
+  batsim-400 = pkgs.callPackage ./pkgs/batsim/batsim400.nix { inherit intervalset redox debug; simgrid = simgrid-325light; };
   batsim = batsim-400;
-  batsim-master = pkgs.callPackage ./pkgs/batsim/master.nix { inherit docopt_cpp intervalset redox debug; simgrid = simgrid-light; };
+  batsim-master = pkgs.callPackage ./pkgs/batsim/master.nix { inherit intervalset redox debug; simgrid = simgrid-light; };
   batsim-docker = pkgs.callPackage ./pkgs/batsim/batsim-docker.nix { inherit batsim; };
   batsim-docker-master = pkgs.callPackage ./pkgs/batsim/batsim-docker.nix { batsim = batsim-master; };
 
@@ -72,8 +72,6 @@ rec {
   evalys = pkgs.callPackage ./pkgs/evalys { inherit procset; };
 
   melissa = pkgs.callPackage ./pkgs/melissa { };
-
-  docopt_cpp = pkgs.callPackage ./pkgs/docopt_cpp { };
 
   go-swagger  = pkgs.callPackage ./pkgs/go-swagger { };
 
@@ -103,7 +101,7 @@ rec {
 
   oar = pkgs.callPackage ./pkgs/oar { inherit procset sqlalchemy_utils pytest_flask pybatsim remote_pdb; };
 
-  rsg-030 = pkgs.callPackage ./pkgs/remote-simgrid/rsg030.nix { inherit debug docopt_cpp ; simgrid = simgrid; };
+  rsg-030 = pkgs.callPackage ./pkgs/remote-simgrid/rsg030.nix { inherit debug ; simgrid = simgrid; };
   rsg = rsg-030;
   rsg-master = pkgs.callPackage ./pkgs/remote-simgrid/master.nix { inherit rsg ; };
 
