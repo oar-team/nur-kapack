@@ -22,6 +22,10 @@ install:
  - cachix use batsim
  - nix-channel --add "${NIX_CHANNEL}" nixpkgs
  - travis_retry nix-channel --update
+ - nix-channel --list
+ - echo ${NIX_PATH}
+ - ls -l /nix/var/nix/profiles/per-user/root/channels/nixpkgs
+
 
 script:
  - nix-build ci.nix -A buildOutputs
