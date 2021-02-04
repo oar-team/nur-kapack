@@ -13,7 +13,7 @@ rustPlatform.buildRustPackage rec {
   buildInputs = [ zeromq ];
   nativeBuildInputs = [ pkgconfig ];
 
-  cargoSha256 = "0m85p4is0irchl70vm56qxhh508082hj8qwbxsk4pf3wx9n9xyax";
+  cargoSha256 = "sha256:0yk5hl6zwpxdadi7r4zaqilsxbfawsmfka24vhjh0g0c4f9p8ais";
 
   meta = with stdenv.lib; {
     homepage = https://gitlab.inria.fr/batsim/oxidisched;
