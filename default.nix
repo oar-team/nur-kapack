@@ -14,6 +14,7 @@ rec {
   inherit pkgs;
 
   glibc-batsky = pkgs.glibc.overrideAttrs (attrs: {
+    meta.broken = true;
     patches = attrs.patches ++ [ ./pkgs/glibc-batsky/clock_gettime.patch
       ./pkgs/glibc-batsky/gettimeofday.patch ];
     postConfigure = ''

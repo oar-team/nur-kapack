@@ -85,6 +85,7 @@ stdenv.mkDerivation rec {
   enableParallelBuilding = true;
 
   meta = with stdenv.lib; {
+    broken = true;
     homepage = http://www.schedmd.com/;
     description = "Simple Linux Utility for Resource Management";
     platforms = platforms.linux;
