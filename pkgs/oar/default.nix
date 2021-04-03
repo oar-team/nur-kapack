@@ -1,4 +1,4 @@
-{ stdenv, pkgs, fetchgit, fetchFromGitHub, python37Packages, zeromq, procset, sqlalchemy_utils, pybatsim,  pytest_flask, remote_pdb}:
+{ lib, pkgs, fetchgit, fetchFromGitHub, python37Packages, zeromq, procset, sqlalchemy_utils, pybatsim,  pytest_flask, remote_pdb}:
 
 python37Packages.buildPythonPackage rec {
   name = "oar-${version}";
@@ -26,7 +26,7 @@ python37Packages.buildPythonPackage rec {
     sqlalchemy_utils
     simpy
     redis
-    pybatsim
+    #pybatsim
     pytest_flask
     psycopg2
     remote_pdb # for debug only
@@ -45,10 +45,10 @@ python37Packages.buildPythonPackage rec {
     cp -r visualization_interfaces $out
   '';
 
-  meta = with stdenv.lib; {
+  meta = {
     homepage = "https://github.com/oar-team/oar3";
     description = "The OAR Resources and Tasks Management System";
-    license = licenses.lgpl3;
+    license = lib.licenses.lgpl3;
     longDescription = ''
     '';
   };
