@@ -38,7 +38,7 @@ stdenv.mkDerivation rec {
   meta = with stdenv.lib; {
     description = "An infrastructure simulator that focuses on resource management techniques.";
     homepage = "https://framagit.org/batsim/batsim";
-    platforms = platforms.unix;
+    platforms = platforms.all;
     license = licenses.lgpl3;
     broken = false;
 

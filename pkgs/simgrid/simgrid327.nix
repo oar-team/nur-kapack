@@ -1,7 +1,8 @@
-{ stdenv, fetchFromGitLab, cmake, perl, python3, boost
+{ stdenv, lib, fetchFromGitLab, cmake, perl, python3, boost
 , fortranSupport ? false, gfortran
 , buildDocumentation ? false, transfig, ghostscript, doxygen
 , buildJavaBindings ? false, openjdk
+, buildPythonBindings ? true, pybind11
 , modelCheckingSupport ? false, libunwind, libevent, elfutils # Inside elfutils: libelf and libdw
 , minimalBindings ? false
 , debug ? false
@@ -10,7 +11,7 @@
 , withoutBin ? false
 }:
 
-with stdenv.lib;
+with lib;
 
 let
   optionOnOff = option: if option then "on" else "off";
@@ -18,19 +19,20 @@ in
 
 stdenv.mkDerivation rec {
   pname = "simgrid";
-  version = "3.25";
+  version = "3.27";
 
   src = fetchFromGitLab {
     domain = "framagit.org";
     owner = pname;
     repo = pname;
     rev = "v${version}";
-    sha256 = "019fgryfwpcrkv1f3271v7qxk0mfw2w990vgnk1cqhmr9i1f17gs";
+    sha256 = "13nwsyk030fhl3srhpc28j5s6594z0m38606f4ygc4qhv9wxw011";
   };
 
   nativeBuildInputs = [ cmake perl python3 boost ]
     ++ optionals fortranSupport [ gfortran ]
     ++ optionals buildJavaBindings [ openjdk ]
+    ++ optionals buildPythonBindings [ pybind11 ]
     ++ optionals buildDocumentation [ transfig ghostscript doxygen ]
     ++ optionals modelCheckingSupport [ libunwind libevent elfutils ];
 
@@ -44,6 +46,7 @@ stdenv.mkDerivation rec {
   cmakeFlags = [
     "-Denable_documentation=${optionOnOff buildDocumentation}"
     "-Denable_java=${optionOnOff buildJavaBindings}"
+    "-Denable_python=${optionOnOff buildPythonBindings}"
     "-Denable_msg=${optionOnOff buildJavaBindings}"
     "-Denable_fortran=${optionOnOff fortranSupport}"
     "-Denable_model-checking=${optionOnOff modelCheckingSupport}"
@@ -80,11 +83,9 @@ stdenv.mkDerivation rec {
   '';
 
   dontStrip = debug;
-  postInstall = "" + stdenv.lib.optionalString withoutBin ''
+  postInstall = "" + lib.optionalString withoutBin ''
     rm -rf $out/bin
   '';
-
-  enableParallelBuilding = true;
 
   meta = {
     description = "Framework for the simulation of distributed applications";

@@ -1,7 +1,7 @@
 # If called without explicitly setting the 'pkgs' arg, a pinned nixpkgs version is used by default.
 # If you want to use your <nixpkgs> instead, set usePinnedPkgs to false (e.g., nix-build --arg usePinnedPkgs false ...)
 { usePinnedPkgs ? true
-, pkgs ? if usePinnedPkgs then import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/20.03.tar.gz") {}
+, pkgs ? if usePinnedPkgs then import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/20.09.tar.gz") {}
                           else import <nixpkgs> {}
 , debug ? false
 }:
@@ -14,6 +14,7 @@ rec {
   inherit pkgs;
 
   glibc-batsky = pkgs.glibc.overrideAttrs (attrs: {
+    meta.broken = true;
     patches = attrs.patches ++ [ ./pkgs/glibc-batsky/clock_gettime.patch
       ./pkgs/glibc-batsky/gettimeofday.patch ];
     postConfigure = ''
@@ -52,10 +53,10 @@ rec {
   batexpe = pkgs.callPackage ./pkgs/batexpe { };
   batexpe-master = pkgs.callPackage ./pkgs/batexpe/master.nix { inherit batexpe; };
 
-  batsim-310 = pkgs.callPackage ./pkgs/batsim/batsim310.nix { inherit docopt_cpp intervalset redox debug; simgrid = simgrid-324; };
-  batsim-400 = pkgs.callPackage ./pkgs/batsim/batsim400.nix { inherit docopt_cpp intervalset redox debug; simgrid = simgrid-325light; };
+  batsim-310 = pkgs.callPackage ./pkgs/batsim/batsim310.nix { inherit intervalset redox debug; simgrid = simgrid-324; };
+  batsim-400 = pkgs.callPackage ./pkgs/batsim/batsim400.nix { inherit intervalset redox debug; simgrid = simgrid-325light; };
   batsim = batsim-400;
-  batsim-master = pkgs.callPackage ./pkgs/batsim/master.nix { inherit docopt_cpp intervalset redox debug; simgrid = simgrid-light; };
+  batsim-master = pkgs.callPackage ./pkgs/batsim/master.nix { inherit intervalset redox debug; simgrid = simgrid-light; };
   batsim-docker = pkgs.callPackage ./pkgs/batsim/batsim-docker.nix { inherit batsim; };
   batsim-docker-master = pkgs.callPackage ./pkgs/batsim/batsim-docker.nix { batsim = batsim-master; };
 
@@ -73,9 +74,9 @@ rec {
 
   melissa = pkgs.callPackage ./pkgs/melissa { };
 
-  docopt_cpp = pkgs.callPackage ./pkgs/docopt_cpp { };
-
   go-swagger  = pkgs.callPackage ./pkgs/go-swagger { };
+
+  gcovr = pkgs.callPackage ./pkgs/gcovr/csv.nix { };
 
   intervalset = pkgs.callPackage ./pkgs/intervalset { };
 
@@ -101,11 +102,19 @@ rec {
 
   oar = pkgs.callPackage ./pkgs/oar { inherit procset sqlalchemy_utils pytest_flask pybatsim remote_pdb; };
 
+  rsg-030 = pkgs.callPackage ./pkgs/remote-simgrid/rsg030.nix { inherit debug ; simgrid = simgrid; };
+  rsg = rsg-030;
+  rsg-master = pkgs.callPackage ./pkgs/remote-simgrid/master.nix { inherit rsg ; };
+
   simgrid-324 = pkgs.callPackage ./pkgs/simgrid/simgrid324.nix { inherit debug; };
   simgrid-325 = pkgs.callPackage ./pkgs/simgrid/simgrid325.nix { inherit debug; };
-  simgrid-325light = simgrid.override { minimalBindings = true; withoutBin = true; };
-  simgrid = simgrid-325;
-  simgrid-light = simgrid-325light;
+  simgrid-326 = pkgs.callPackage ./pkgs/simgrid/simgrid326.nix { inherit debug; };
+  simgrid-327 = pkgs.callPackage ./pkgs/simgrid/simgrid327.nix { inherit debug; };
+  simgrid-325light = simgrid-325.override { minimalBindings = true; withoutBin = true; };
+  simgrid-326light = simgrid-326.override { minimalBindings = true; withoutBin = true; };
+  simgrid-327light = simgrid-327.override { minimalBindings = true; withoutBin = true; };
+  simgrid = simgrid-327;
+  simgrid-light = simgrid-327light;
   simgrid-master = pkgs.callPackage ./pkgs/simgrid/master.nix { inherit simgrid; };
   simgrid-light-master = pkgs.callPackage ./pkgs/simgrid/master.nix { simgrid = simgrid-light; };
 

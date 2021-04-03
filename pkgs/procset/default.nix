@@ -1,6 +1,6 @@
-{ stdenv, pkgs, fetchgit, python37Packages}:
+{ stdenv, pkgs, fetchgit, python3Packages}:
 
-python37Packages.buildPythonPackage rec {
+python3Packages.buildPythonPackage rec {
   name = "procset-${version}";
   version = "v1.0";
 
@@ -21,7 +21,7 @@ python37Packages.buildPythonPackage rec {
       useful when writing schedulers.'';
     description = ''Toolkit to manage sets of closed intervals.'';
     homepage    = "https://gitlab.inria.fr/bleuse/procset.py";
-    platforms   = platforms.unix;
+    platforms   = platforms.all;
     license     = licenses.lgpl3;
     broken      = false;
   };

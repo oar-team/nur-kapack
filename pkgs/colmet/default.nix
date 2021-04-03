@@ -34,7 +34,7 @@ python37Packages.buildPythonApplication rec {
   meta = with stdenv.lib; {
     description = "Collecting metrics about process running in cpuset and in a distributed environnement";
     homepage    = https://github.com/oar-team/colmet;
-    platforms   = platforms.unix;
+    platforms   = platforms.all;
     licence     = licenses.gpl2;
     longDescription = ''
     '';

@@ -29,7 +29,7 @@ python3Packages.buildPythonPackage rec {
     meta = with stdenv.lib; {
       description = "Python API and Schedulers for Batsim";
       homepage = "https://gitlab.inria.fr/batsim/pybatsim";
-      platforms = platforms.unix;
+      platforms = platforms.all;
       license = licenses.lgpl3;
       broken = false;
 

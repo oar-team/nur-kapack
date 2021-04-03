@@ -42,7 +42,7 @@ EOF
     description = "A header-only C++ logging library";
     longDescription = "A lightweight and flexible C++ logging library.";
     homepage = https://github.com/emilk/loguru;
-    platforms = platforms.x86_64;
+    platforms = platforms.all;
     license = licenses.publicDomain;
     broken = false;
   };

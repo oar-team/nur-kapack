@@ -23,7 +23,7 @@ stdenv.mkDerivation rec {
     description = "Modern, asynchronous, and wicked fast C++11 client for Redis";
     homepage    = https://github.com/hmartiro/redox;
     license     = licenses.asl20;
-    platforms   = platforms.unix;
+    platforms   = platforms.all;
     broken = false;
 
     longDescription = ''

@@ -22,7 +22,7 @@ python37Packages.buildPythonApplication rec {
   meta = with stdenv.lib; {
     description = "Metrics collector for Rust version of Colmet (colmet-rs)";
     homepage    = https://github.com/oar-team/colmet-collector;
-    platforms   = platforms.unix;
+    platforms   = platforms.all;
     licence     = licenses.gpl2;
   };
 }

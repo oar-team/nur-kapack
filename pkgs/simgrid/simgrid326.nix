@@ -2,6 +2,7 @@
 , fortranSupport ? false, gfortran
 , buildDocumentation ? false, transfig, ghostscript, doxygen
 , buildJavaBindings ? false, openjdk
+, buildPythonBindings ? true, pybind11
 , modelCheckingSupport ? false, libunwind, libevent, elfutils # Inside elfutils: libelf and libdw
 , minimalBindings ? false
 , debug ? false
@@ -18,19 +19,20 @@ in
 
 stdenv.mkDerivation rec {
   pname = "simgrid";
-  version = "3.25";
+  version = "3.26";
 
   src = fetchFromGitLab {
     domain = "framagit.org";
     owner = pname;
     repo = pname;
     rev = "v${version}";
-    sha256 = "019fgryfwpcrkv1f3271v7qxk0mfw2w990vgnk1cqhmr9i1f17gs";
+    sha256 = "0kwiggdjqjhjvmwb1m7hb9clvm3xz948fy5ia67dif2pakwad754";
   };
 
   nativeBuildInputs = [ cmake perl python3 boost ]
     ++ optionals fortranSupport [ gfortran ]
     ++ optionals buildJavaBindings [ openjdk ]
+    ++ optionals buildPythonBindings [ pybind11 ]
     ++ optionals buildDocumentation [ transfig ghostscript doxygen ]
     ++ optionals modelCheckingSupport [ libunwind libevent elfutils ];
 
@@ -44,6 +46,7 @@ stdenv.mkDerivation rec {
   cmakeFlags = [
     "-Denable_documentation=${optionOnOff buildDocumentation}"
     "-Denable_java=${optionOnOff buildJavaBindings}"
+    "-Denable_python=${optionOnOff buildPythonBindings}"
     "-Denable_msg=${optionOnOff buildJavaBindings}"
     "-Denable_fortran=${optionOnOff fortranSupport}"
     "-Denable_model-checking=${optionOnOff modelCheckingSupport}"
