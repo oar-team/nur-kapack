@@ -9,7 +9,7 @@ stdenv.mkDerivation rec {
   version = "1.3.0";
 
   src = fetchurl {
-    url = "https://framagit.org/batsim/batsched/repository/v${version}/archive.tar.gz";
+    url = "https://gitlab.inria.fr/batsim/batsched/repository/v${version}/archive.tar.gz";
     sha256 = "033m3b6ws5mx0q4sm04j4nn6zlssa33n5ips10p2ssvv5dxl5jls";
   };
 

@@ -7,7 +7,7 @@
 stdenv.mkDerivation rec {
   pname = "batsched";
   version = "master";
-  src = builtins.fetchurl "https://framagit.org/batsim/batsched/repository/master/archive.tar.gz";
+  src = builtins.fetchurl "https://gitlab.inria.fr/batsim/batsched/repository/master/archive.tar.gz";
 
   unpackPhase = ''
     tar xf $src

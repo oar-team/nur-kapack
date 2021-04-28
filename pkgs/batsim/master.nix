@@ -7,7 +7,7 @@
 stdenv.mkDerivation rec {
   pname = "batsim";
   version = "master";
-  src = builtins.fetchurl "https://framagit.org/batsim/batsim/repository/master/archive.tar.gz";
+  src = builtins.fetchurl "https://gitlab.inria.fr/batsim/batsim/repository/master/archive.tar.gz";
 
   unpackPhase = ''
     # extract archive

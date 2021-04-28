@@ -7,7 +7,7 @@ stdenv.mkDerivation rec {
   name = "intervalset-${version}";
 
   src = fetchgit {
-    url = "https://framagit.org/batsim/intervalset.git";
+    url = "https://gitlab.inria.fr/batsim/intervalset.git";
     rev = "v${version}";
     sha256 = "1ayj6jjznbd0kwacz6dki6yk4rxdssapmz4gd8qh1yq1z1qbjqgs";
   };
