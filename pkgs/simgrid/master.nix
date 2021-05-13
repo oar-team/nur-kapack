@@ -2,5 +2,5 @@
 
 simgrid.overrideAttrs (attrs: rec {
   version = "master";
-  src = fetchTarball "https://gitlab.inria.fr/simgrid/simgrid/repository/master/archive.tar.gz";
+  src = fetchTarball "https://github.com/simgrid/simgrid/tarball/master";
 })
