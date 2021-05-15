@@ -1,18 +1,19 @@
-{ lib, pkgs, fetchgit, fetchFromGitHub, python37Packages, zeromq, procset, sqlalchemy_utils, pybatsim,  pytest_flask, remote_pdb}:
+{ lib, pkgs, fetchgit, fetchFromGitHub, python3Packages, zeromq, procset
+, sqlalchemy_utils, pytest_flask, pybatsim, remote_pdb }:
 
-python37Packages.buildPythonPackage rec {
+python3Packages.buildPythonPackage rec {
   name = "oar-${version}";
-  version = "3.0.0.dev4";  
+  version = "3.0.0.dev4";
 
   src = fetchFromGitHub {
-      owner = "oar-team";
-      repo = "oar3";
-      rev = "88d7a903df7ece3a0e9bcb0b8979917b838c4ab8";
-      sha256 = "1kj1rlqmk1l9k5gdaa1i4wa3gpqy9bs1d644h3gf469s74vq0d44";
+    owner = "oar-team";
+    repo = "oar3";
+    rev = "88d7a903df7ece3a0e9bcb0b8979917b838c4ab8";
+    sha256 = "1kj1rlqmk1l9k5gdaa1i4wa3gpqy9bs1d644h3gf469s74vq0d44";
   };
   #src = /home/auguste/dev/oar3;
 
-  propagatedBuildInputs = with python37Packages; [
+  propagatedBuildInputs = with python3Packages; [
     pyzmq
     requests
     sqlalchemy
@@ -29,11 +30,13 @@ python37Packages.buildPythonPackage rec {
     #pybatsim
     pytest_flask
     psycopg2
-    remote_pdb # for debug only
+    #remote_pdb # for debug only
     passlib
     pyyaml
     escapism
     toml
+    #wheel
+    #setuptools
   ];
 
   # Tests do not pass
@@ -46,11 +49,10 @@ python37Packages.buildPythonPackage rec {
   '';
 
   meta = {
-    broken = true;
+    #broken = true;
     homepage = "https://github.com/oar-team/oar3";
     description = "The OAR Resources and Tasks Management System";
     license = lib.licenses.lgpl3;
-    longDescription = ''
-    '';
+    longDescription = "";
   };
 }
