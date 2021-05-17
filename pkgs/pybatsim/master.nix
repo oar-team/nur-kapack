@@ -2,5 +2,8 @@
 
 pybatsim.overrideAttrs (attr: rec {
   version = "master";
-  src = fetchTarball "https://gitlab.inria.fr/batsim/pybatsim/repository/master/archive.tar.gz";
+  src = builtins.fetchGit {
+    url = "https://gitlab.inria.fr/batsim/pybatsim.git";
+    ref = "master";
+  };
 })

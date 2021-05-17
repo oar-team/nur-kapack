@@ -1,4 +1,4 @@
-{ stdenv, fetchurl
+{ stdenv
 , meson, ninja, pkgconfig
 , simgrid, intervalset, boost, rapidjson, redox, hiredis, libev, zeromq, docopt_cpp, pugixml
 , debug ? false
@@ -7,20 +7,13 @@
 stdenv.mkDerivation rec {
   pname = "batsim";
   version = "master";
-  src = builtins.fetchurl "https://gitlab.inria.fr/batsim/batsim/repository/master/archive.tar.gz";
+  src = builtins.fetchGit {
+    url = "https://framagit.org/batsim/batsim.git";
+    ref = "master";
+  };
 
-  unpackPhase = ''
-    # extract archive
-    tar xf $src
-
-    # as we suppose the archive has been obtained from gitlab on batsim's master branch,
-    # the archive should contain a directory named "batsim-master-COMMIT".
-    local parsed_commit=$(ls | sed -n -E 's/^${pname}-master-([[:xdigit:]]{40})$/\1/p')
-    echo "git commit seems to be $parsed_commit (parsed from extracted archive directory name)"
-
-    # hack meson's default version
-    cd ${pname}-master-$parsed_commit
-    local version_name="commit $parsed_commit (built by Nix from master branch)"
+  patchPhase = ''
+    local version_name="commit ${src.shortRev} (built by Nix from master branch)"
     echo "overriding meson's version: $version_name"
     sed -iE "s/version: '.*',/version: '$version_name',/" meson.build
   '';
