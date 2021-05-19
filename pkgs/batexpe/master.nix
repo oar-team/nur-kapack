@@ -2,5 +2,5 @@
 
 batexpe.overrideAttrs (attrs: rec {
   version = "master";
-  src = fetchTarball "https://gitlab.inria.fr/batsim/batexpe/repository/master/archive.tar.gz";
+  src = builtins.fetchurl "https://framagit.org/api/v4/projects/batsim%2Fbatexpe/repository/archive.tar.gz?sha=master";
 })

@@ -1,4 +1,4 @@
-{ stdenv, fetchurl
+{ stdenv, fetchFromGitLab
 , meson, ninja, pkgconfig
 , simgrid, intervalset, boost, rapidjson, redox, zeromq, docopt_cpp, pugixml
 , debug ? false
@@ -8,9 +8,12 @@ stdenv.mkDerivation rec {
   pname = "batsim";
   version = "4.0.0";
 
-  src = fetchurl {
-    url = "https://gitlab.inria.fr/batsim/batsim/repository/v${version}/archive.tar.gz";
-    sha256 = "1kyhpmnpiff78p2cx0281ksbxc8m9c7n6hbxacfxn092kw6x0hl4";
+  src = fetchFromGitLab {
+    domain = "framagit.org";
+    owner = "batsim";
+    repo = pname;
+    rev = "v${version}";
+    sha256 = "0lr3vawdbmajisgvbj5cjqw0wfy9y990yhl20kplarambx40nplp";
   };
 
   nativeBuildInputs = [

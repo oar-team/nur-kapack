@@ -1,4 +1,4 @@
-{ stdenv, fetchurl
+{ stdenv, fetchFromGitLab
 , meson, ninja, pkgconfig
 , simgrid, intervalset, boost, rapidjson, redox, hiredis, libev, zeromq, docopt_cpp, pugixml
 , debug ? false
@@ -8,9 +8,12 @@ stdenv.mkDerivation rec {
   pname = "batsim";
   version = "3.1.0";
 
-  src = fetchurl {
-    url = "https://gitlab.inria.fr/batsim/batsim/repository/v${version}/archive.tar.gz";
-    sha256 = "0aa5b3bp7khazn7gyslczxydijigshxg5xf1284v31l28iq7mzvx";
+  src = fetchFromGitLab {
+    domain = "framagit.org";
+    owner = "batsim";
+    repo = pname;
+    rev = "v${version}";
+    sha256 = "1yyga9mj76k316rm4qp2sjhgkm03213d855n2j8fjnd2ikdj7zm6";
   };
 
   # Temporary hack. Meson is no longer able to pick up Boost automatically.

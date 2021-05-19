@@ -1,4 +1,4 @@
-{ stdenv, fetchurl
+{ stdenv
 , meson, ninja, pkgconfig
 , simgrid, intervalset, boost, rapidjson, redox, hiredis, libev, zeromq, docopt_cpp, pugixml
 , debug ? false
@@ -7,7 +7,7 @@
 stdenv.mkDerivation rec {
   pname = "batsim";
   version = "master";
-  src = builtins.fetchurl "https://gitlab.inria.fr/batsim/batsim/repository/master/archive.tar.gz";
+  src = builtins.fetchurl "https://framagit.org/api/v4/projects/batsim%2Fbatsim/repository/archive.tar.gz?sha=master";
 
   unpackPhase = ''
     # extract archive
