@@ -1,22 +1,19 @@
-{ lib, pkgs, fetchgit, fetchFromGitHub, python3Packages, zeromq, procset
-, sqlalchemy_utils, pytest_flask, pybatsim, remote_pdb }:
+{ lib, pkgs, fetchFromGitHub, python3Packages, zeromq, procset, pybatsim, remote_pdb}:
 
 python3Packages.buildPythonPackage rec {
   name = "oar-${version}";
   version = "3.0.0.dev4";
-
   src = fetchFromGitHub {
-    owner = "oar-team";
-    repo = "oar3";
-    rev = "88d7a903df7ece3a0e9bcb0b8979917b838c4ab8";
-    sha256 = "1kj1rlqmk1l9k5gdaa1i4wa3gpqy9bs1d644h3gf469s74vq0d44";
+        owner = "oar-team";
+        repo = "oar3";
+        rev = "8eb57ab83144c64de3bd9c4b024380a78311279d";
+        sha256 = "sha256-PnPUq+KUTqG0TU0lQSeVrftimoJuz1VOG2eqsfXNUzs=";
   };
   #src = /home/auguste/dev/oar3;
 
-  propagatedBuildInputs = with python3Packages; [
+propagatedBuildInputs = with python3Packages; [
     pyzmq
     requests
-    sqlalchemy
     alembic
     procset
     click
@@ -24,22 +21,19 @@ python3Packages.buildPythonPackage rec {
     flask
     tabulate
     psutil
-    sqlalchemy_utils
+    sqlalchemy-utils
     simpy
     redis
     #pybatsim
-    pytest_flask
+    #pytest_flask
     psycopg2
     #remote_pdb # for debug only
     passlib
     pyyaml
     escapism
     toml
-    #wheel
-    #setuptools
   ];
 
-  # Tests do not pass
   doCheck = false;
 
   postInstall = ''

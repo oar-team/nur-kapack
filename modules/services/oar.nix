@@ -298,8 +298,8 @@ in
     # oar user declaration
     users.users.oar = mkIf ( cfg.client.enable || cfg.node.enable || cfg.server.enable )  {
       description = "OAR user";
+      isSystemUser = true;
       home = cfg.oarHomeDir;
-      #shell = pkgs.bashInteractive;
       shell = "${oarTools}/bin/oarsh_shell";
       group = "oar";
       uid = 745;

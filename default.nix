@@ -100,7 +100,7 @@ rec {
 
   cigri = pkgs.callPackage ./pkgs/cigri { };
 
-  oar = pkgs.callPackage ./pkgs/oar { inherit procset sqlalchemy_utils pytest_flask pybatsim remote_pdb; };
+  oar = pkgs.callPackage ./pkgs/oar { inherit procset pybatsim remote_pdb; };
 
   rsg-030 = pkgs.callPackage ./pkgs/remote-simgrid/rsg030.nix { inherit debug ; simgrid = simgrid; };
   rsg = rsg-030;
@@ -117,9 +117,7 @@ rec {
   simgrid-light = simgrid-327light;
   simgrid-master = pkgs.callPackage ./pkgs/simgrid/master.nix { inherit simgrid; };
   simgrid-light-master = pkgs.callPackage ./pkgs/simgrid/master.nix { simgrid = simgrid-light; };
-
-  sqlalchemy_utils = pkgs.callPackage ./pkgs/sqlalchemy-utils { };
-
+    
   # Setting needed for nixos-19.03 and nixos-19.09
   slurm-bsc-simulator =
     if pkgs ? libmysql
