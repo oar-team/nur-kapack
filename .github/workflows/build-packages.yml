@@ -10,9 +10,17 @@ jobs:
         run: |
           curl -L https://nixos.org/nix/install | sh
           source ~/.nix-profile/etc/profile.d/nix.sh
+          nix --version
       - name: Setup cachix
         run: |
+          source ~/.nix-profile/etc/profile.d/nix.sh
           nix-env -iA cachix -f https://cachix.org/api/v1/install
+          cachix --version
           cachix use ${CACHIX_CACHE}
+      - uses: actions/checkout@v2
       - name: Build packages
-        run: nix-shell -p python3Packages.pytest --command "pytest -ra --cachix-name=${CACHIX_CACHE} --push-deps-on-cachix --push-on-cachix"
+        env:
+          CACHIX_AUTH_TOKEN: ${{ secrets.CACHIX_AUTH_TOKEN }}
+        run: |
+          source ~/.nix-profile/etc/profile.d/nix.sh
+          nix run -f https://github.com/NixOS/nixpkgs/archive/20.09.tar.gz python3Packages.pytest --command pytest -ra -v -s --cachix-name=${CACHIX_CACHE} --push-deps-on-cachix --push-on-cachix
