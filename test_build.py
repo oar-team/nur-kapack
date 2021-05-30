@@ -18,14 +18,14 @@ def run_cmd_handle_failure(cmd, input=None):
         raise Exception(f'Process failed (returned {p.returncode})')
     return p
 
-def test_build(request, attribute, attributes_with_inputs):
+def test_build(request, attribute, graph):
     # build dependencies and push them to cachix
     cachix_name = request.config.getoption("--cachix-name")
     if request.config.getoption("--push-deps-on-cachix"):
         echo_cmd = f'echo "entered nix-shell of attribute {attribute}"'
         run_cmd_handle_failure(f"nix-shell -A {attribute} --command '{echo_cmd}'")
 
-        input_paths = '\n'.join(attributes_with_inputs[attribute]["inputs"])
+        input_paths = '\n'.join(graph[attribute]["inputs"])
         run_cmd_handle_failure(f"cachix push {cachix_name}", input=input_paths)
 
     # build the package
@@ -33,6 +33,6 @@ def test_build(request, attribute, attributes_with_inputs):
 
     # push the package to cachix
     if request.config.getoption("--push-on-cachix"):
-        derivation = attributes_with_inputs[attribute]["derivation"]
+        derivation = graph[attribute]["derivation"]
         run_cmd_handle_failure(f"cachix push {cachix_name}", input=derivation)
 
