@@ -40,7 +40,8 @@ nix-env -f https://github.com/oar-team/nur-kapack/archive/master.tar.gz -iA bats
 Usage from Nix expressions
 --------------------------
 
-You can write Nix expression to define environments like this.
+You can write Nix expression to define environments that use our packages.
+Assuming that you have a file named `shell.nix` that has the following content, you can enter the defined shell by calling `nix-shell`.
 ```nix
 { kapack ? import
     (fetchTarball "https://github.com/oar-team/nur-kapack/archive/master.tar.gz")
