@@ -92,8 +92,6 @@ rec {
   pybatsim = pybatsim-320;
   pybatsim-master = pkgs.callPackage ./pkgs/pybatsim/master.nix { inherit pybatsim; };
 
-  pytest_flask = pkgs.callPackage ./pkgs/pytest-flask { };
-
   redox = pkgs.callPackage ./pkgs/redox { };
 
   remote_pdb = pkgs.callPackage ./pkgs/remote-pdb { };
