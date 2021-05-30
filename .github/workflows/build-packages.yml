@@ -1,5 +1,9 @@
 name: Build packages
-on: [push]
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "0 8 * * MON"
 env:
   CACHIX_CACHE: capack
 jobs:
