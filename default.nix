@@ -100,7 +100,7 @@ rec {
 
   oar = pkgs.callPackage ./pkgs/oar { inherit procset pybatsim remote_pdb; };
 
-  rsg-030 = pkgs.callPackage ./pkgs/remote-simgrid/rsg030.nix { inherit debug ; simgrid = simgrid; };
+  rsg-030 = pkgs.callPackage ./pkgs/remote-simgrid/rsg030.nix { inherit debug ; simgrid = simgrid-326; };
   rsg = rsg-030;
   rsg-master = pkgs.callPackage ./pkgs/remote-simgrid/master.nix { inherit rsg ; };
 
