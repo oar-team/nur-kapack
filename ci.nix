@@ -8,7 +8,7 @@ let
   isBuildable = p: !(p.meta.broken or false) && p.meta.license.free or true;
   isMaster = n: builtins.match "^.*-master$" n != null;
   wantToBuild = n: v: isDerivation v && isBuildable v && !(isMaster n);
-  allInputs = p: p.buildInputs ++ p.nativeBuildInputs ++ p.propagatedBuildInputs;
+  allInputs = p: builtins.filter (v: v!=null) (p.buildInputs ++ p.nativeBuildInputs ++ p.propagatedBuildInputs);
 in
 
 rec {
