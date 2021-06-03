@@ -42,6 +42,7 @@ stdenv.mkDerivation rec {
   buildInputs = runtimeDeps;
 
   mesonBuildType = if debug then "debug" else "release";
+  ninjaFlags = [ "-v" ];
   enableParallelBuilding = true;
 
   meta = with stdenv.lib; {

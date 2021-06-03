@@ -19,6 +19,7 @@ stdenv.mkDerivation rec {
   propagatedBuildInputs = [ protobuf ];
 
   mesonBuildType = if debug then "debug" else "release";
+  ninjaFlags = [ "-v" ];
   enableParallelBuilding = true;
 
   meta = with stdenv.lib; {

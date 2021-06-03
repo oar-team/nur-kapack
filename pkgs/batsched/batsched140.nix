@@ -24,6 +24,7 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ meson ninja pkgconfig ];
   buildInputs = [ boost gmp rapidjson intervalset loguru redox cppzmq zeromq ];
   mesonBuildType = if debug then "debug" else "release";
+  ninjaFlags = [ "-v" ];
   enableParallelBuilding = true;
 
   meta = with stdenv.lib; {
