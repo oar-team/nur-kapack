@@ -15,6 +15,7 @@ stdenv.mkDerivation rec {
     rev = "v${version}";
     sha256 = "0lr3vawdbmajisgvbj5cjqw0wfy9y990yhl20kplarambx40nplp";
   };
+  patches = [ ./fix-missing-include-gcc-9-to-10.patch ];
 
   nativeBuildInputs = [
     meson

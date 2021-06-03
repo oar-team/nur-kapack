@@ -1,7 +1,7 @@
 # If called without explicitly setting the 'pkgs' arg, a pinned nixpkgs version is used by default.
 # If you want to use your <nixpkgs> instead, set usePinnedPkgs to false (e.g., nix-build --arg usePinnedPkgs false ...)
 { usePinnedPkgs ? true
-, pkgs ? if usePinnedPkgs then import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/20.09.tar.gz") {}
+, pkgs ? if usePinnedPkgs then import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/21.05.tar.gz") {}
                           else import <nixpkgs> {}
 , debug ? false
 }:
@@ -26,24 +26,24 @@ rec {
     '';
   });
 
-  go_1_14-batsky = if (pkgs ? go_1_14) then
-    (pkgs.go_1_14.overrideAttrs (attrs: {
-    src = pkgs.fetchFromGitHub {
-      owner = "oar-team";
-      repo = "go_1_14-batsky";
-      rev = "0119ed47a612226f73a9db56d6572cfab858d59e";
-      sha256 = "1795xk5r0h6nl7fgjpdwzhmc4rgyz1v4jr6q46cdzp3fjqg345n3";
-    };
-    doCheck = false;
-  }))
-    else
-    pkgs.callPackage ({}: {meta.broken=true;}) {};
+  # go_1_14-batsky = if (pkgs ? go_1_14) then
+  #   (pkgs.go_1_14.overrideAttrs (attrs: {
+  #   src = pkgs.fetchFromGitHub {
+  #     owner = "oar-team";
+  #     repo = "go_1_14-batsky";
+  #     rev = "0119ed47a612226f73a9db56d6572cfab858d59e";
+  #     sha256 = "1795xk5r0h6nl7fgjpdwzhmc4rgyz1v4jr6q46cdzp3fjqg345n3";
+  #   };
+  #   doCheck = false;
+  # }))
+  #   else
+  #   pkgs.callPackage ({}: {meta.broken=true;}) {};
 
   libpowercap = pkgs.callPackage ./pkgs/libpowercap { };
 
   haskellPackages = import ./pkgs/haskellPackages { inherit pkgs; };
 
-  arion = pkgs.callPackage ./pkgs/arion { arion-compose = haskellPackages.arion-compose; };
+  # arion = pkgs.callPackage ./pkgs/arion { arion-compose = haskellPackages.arion-compose; };
 
   batsched-130 = pkgs.callPackage ./pkgs/batsched/batsched130.nix { inherit intervalset loguru redox debug; };
   batsched-140 = pkgs.callPackage ./pkgs/batsched/batsched140.nix { inherit intervalset loguru redox debug; };
