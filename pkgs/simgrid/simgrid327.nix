@@ -2,7 +2,7 @@
 , fortranSupport ? false, gfortran
 , buildDocumentation ? false, transfig, ghostscript, doxygen
 , buildJavaBindings ? false, openjdk
-, buildPythonBindings ? true, pybind11
+, buildPythonBindings ? true, python3Packages
 , modelCheckingSupport ? false, libunwind, libevent, elfutils # Inside elfutils: libelf and libdw
 , minimalBindings ? false
 , debug ? false
@@ -32,7 +32,7 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ cmake perl python3 boost ]
     ++ optionals fortranSupport [ gfortran ]
     ++ optionals buildJavaBindings [ openjdk ]
-    ++ optionals buildPythonBindings [ pybind11 ]
+    ++ optionals buildPythonBindings [ python3Packages.pybind11 ]
     ++ optionals buildDocumentation [ transfig ghostscript doxygen ]
     ++ optionals modelCheckingSupport [ libunwind libevent elfutils ];
 
