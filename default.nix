@@ -26,18 +26,18 @@ rec {
     '';
   });
 
-  go_1_14-batsky = if (pkgs ? go_1_14) then
-    (pkgs.go_1_14.overrideAttrs (attrs: {
-    src = pkgs.fetchFromGitHub {
-      owner = "oar-team";
-      repo = "go_1_14-batsky";
-      rev = "0119ed47a612226f73a9db56d6572cfab858d59e";
-      sha256 = "1795xk5r0h6nl7fgjpdwzhmc4rgyz1v4jr6q46cdzp3fjqg345n3";
-    };
-    doCheck = false;
-  }))
-    else
-    pkgs.callPackage ({}: {meta.broken=true;}) {};
+  # go_1_14-batsky = if (pkgs ? go_1_14) then
+  #   (pkgs.go_1_14.overrideAttrs (attrs: {
+  #   src = pkgs.fetchFromGitHub {
+  #     owner = "oar-team";
+  #     repo = "go_1_14-batsky";
+  #     rev = "0119ed47a612226f73a9db56d6572cfab858d59e";
+  #     sha256 = "1795xk5r0h6nl7fgjpdwzhmc4rgyz1v4jr6q46cdzp3fjqg345n3";
+  #   };
+  #   doCheck = false;
+  # }))
+  #   else
+  #   pkgs.callPackage ({}: {meta.broken=true;}) {};
 
   libpowercap = pkgs.callPackage ./pkgs/libpowercap { };
 
