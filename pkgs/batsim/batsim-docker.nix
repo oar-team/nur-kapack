@@ -1,14 +1,11 @@
-{ dockerTools, symlinkJoin, batsim }:
+{ dockerTools, symlinkJoin, batsim, bash }:
 
 let self = rec {
   tag = if batsim.version == "master" then "latest" else batsim.version;
   layer-dependencies = dockerTools.buildImage {
     name = "oarteam/batsim-deps";
     inherit tag;
-    contents = symlinkJoin {
-      name = "batsim-runtime-deps";
-      paths = batsim.runtimeDeps;
-    };
+    contents = batsim.runtimeDeps ++ [bash];
   };
   layer-batsim = dockerTools.buildImage {
     fromImage = layer-dependencies;
