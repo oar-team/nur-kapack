@@ -1,4 +1,4 @@
-{ stdenv, fetchFromGitLab
+{ stdenv, lib, fetchFromGitLab
 , cmake
 , boost, gmp, rapidjson, intervalset, loguru, redox, cppzmq, zeromq
 , debug ? false
@@ -21,7 +21,7 @@ stdenv.mkDerivation rec {
   cmakeBuildType = if debug then "Debug" else "Release";
   dontStrip = debug;
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "Batsim C++ scheduling algorithms.";
     longDescription = "A set of scheduling algorithms for Batsim (and WRENCH).";
     homepage = "https://gitlab.inria.fr/batsim/batsched";

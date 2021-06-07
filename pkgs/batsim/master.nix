@@ -1,4 +1,4 @@
-{ stdenv
+{ stdenv, lib
 , meson, ninja, pkgconfig
 , simgrid, intervalset, boost, rapidjson, redox, hiredis, libev, zeromq, docopt_cpp, pugixml
 , debug ? false
@@ -48,7 +48,7 @@ stdenv.mkDerivation rec {
   ninjaFlags = [ "-v" ];
   enableParallelBuilding = true;
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "An infrastructure simulator that focuses on resource management techniques.";
     homepage = "https://framagit.org/batsim/batsim";
     platforms = platforms.all;

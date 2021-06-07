@@ -1,4 +1,4 @@
-{ stdenv
+{ stdenv, lib
 , meson, ninja, pkgconfig
 , boost, gmp, rapidjson, intervalset, loguru, redox, cppzmq, zeromq
 , debug ? false
@@ -27,8 +27,8 @@ stdenv.mkDerivation rec {
 
   # Temporary hack. Meson is no longer able to pick up Boost automatically.
   # https://github.com/NixOS/nixpkgs/issues/86131
-  BOOST_INCLUDEDIR = "${stdenv.lib.getDev boost}/include";
-  BOOST_LIBRARYDIR = "${stdenv.lib.getLib boost}/lib";
+  BOOST_INCLUDEDIR = "${lib.getDev boost}/include";
+  BOOST_LIBRARYDIR = "${lib.getLib boost}/lib";
 
   nativeBuildInputs = [ meson ninja pkgconfig ];
   buildInputs = [ boost gmp rapidjson intervalset loguru redox cppzmq zeromq ];
@@ -36,7 +36,7 @@ stdenv.mkDerivation rec {
   ninjaFlags = [ "-v" ];
   dontStrip = debug;
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "Batsim C++ scheduling algorithms.";
     longDescription = "A set of scheduling algorithms for Batsim (and WRENCH).";
     homepage = "https://gitlab.inria.fr/batsim/batsched";

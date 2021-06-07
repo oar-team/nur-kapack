@@ -1,4 +1,4 @@
-{stdenv, python3Packages, procset}:
+{lib, python3Packages, procset}:
 python3Packages.buildPythonPackage rec {
   pname = "evalys";
   version = "4.0.5";
@@ -21,7 +21,7 @@ python3Packages.buildPythonPackage rec {
   # FIXME: tests are not passing and need to be refactored...
   doCheck = false;
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "Infrastructure Performance Evaluation Toolkit Edit";
     homepage    = https://github.com/oar-team/evalys;
     platforms   = platforms.all;

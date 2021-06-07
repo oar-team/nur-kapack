@@ -1,4 +1,4 @@
-{ stdenv, buildGoPackage, fetchFromGitHub }:
+{ lib, buildGoPackage, fetchFromGitHub }:
 
 buildGoPackage rec {
   pname = "go-swagger";
@@ -21,7 +21,7 @@ buildGoPackage rec {
     -ldflags=-X github.com/go-swagger/go-swagger/cmd/swagger/commands/version.Version=${version}
   '';
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     homepage = "https://goswagger.io";
     description = "Swagger 2.0 implementation for go";
     license = licenses.asl20;

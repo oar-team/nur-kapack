@@ -1,4 +1,4 @@
-{ stdenv, buildGoPackage, fetchFromGitHub }:
+{ lib, buildGoPackage, fetchFromGitHub }:
 
 buildGoPackage rec {
   pname = "kube-batch";
@@ -19,7 +19,7 @@ buildGoPackage rec {
     -ldflags=-X github.com/kubernetes-sigs/kube-batch/pkg/version.Version=${version}
   '';
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     homepage = "https://github.com/kubernetes-sigs/kube-batch";
     description = "The Kubernetes Native Serverless Framework";
     license = licenses.asl20;

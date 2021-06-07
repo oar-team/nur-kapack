@@ -1,4 +1,4 @@
-{ stdenv
+{ lib
 , python3Packages
 , fetchgit
 }:
@@ -30,7 +30,7 @@ python3Packages.buildPythonPackage rec {
     "gcovr.configuration"
   ];
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "A Python script for summarizing gcov data";
     license = licenses.bsd0;
     homepage = "https://www.gcovr.com/";

@@ -1,4 +1,4 @@
-{ stdenv, fetchgit, meson, ninja, pkgconfig, boost, gtest
+{ stdenv, lib, fetchgit, meson, ninja, pkgconfig, boost, gtest
 , debug ? false
 }:
 
@@ -19,7 +19,7 @@ stdenv.mkDerivation rec {
   dontStrip = debug;
   doCheck = true;
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "C++ library to manage sets of integral closed intervals";
     longDescription = ''
       intervalset is a C++ library to manage sets of closed intervals of integers.

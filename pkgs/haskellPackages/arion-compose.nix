@@ -1,4 +1,4 @@
-{ mkDerivation, aeson, aeson-pretty, async, base, bytestring
+{ mkDerivation, lib, aeson, aeson-pretty, async, base, bytestring
 , directory, fetchgit, hspec, lens, lens-aeson
 , optparse-applicative, process, protolude, QuickCheck, stdenv
 , temporary, text, unix
@@ -30,5 +30,5 @@ mkDerivation {
   ];
   homepage = "https://github.com/hercules-ci/arion#readme";
   description = "Run docker-compose with help from Nix/NixOS";
-  license = stdenv.lib.licenses.asl20;
+  license = lib.licenses.asl20;
 }

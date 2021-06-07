@@ -1,4 +1,4 @@
-{ stdenv, fetchgit
+{ stdenv, lib, fetchgit
 , ninja, meson, pkgconfig
 , simgrid, boost, docopt_cpp, protobuf
 , debug ? false
@@ -22,7 +22,7 @@ stdenv.mkDerivation rec {
   ninjaFlags = [ "-v" ];
   enableParallelBuilding = true;
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "A solution to execute your distributed application on top of SimGrid.";
     longDescription = ''
       Remote SimGrid allows to study real distributed applications by sandboxing their execution in a SimGrid simulation.

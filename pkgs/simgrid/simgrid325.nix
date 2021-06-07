@@ -1,4 +1,4 @@
-{ stdenv, fetchFromGitLab, cmake, perl, python3, boost
+{ stdenv, lib, fetchFromGitLab, cmake, perl, python3, boost
 , fortranSupport ? false, gfortran
 , buildDocumentation ? false, transfig, ghostscript, doxygen
 , buildJavaBindings ? false, openjdk
@@ -10,7 +10,7 @@
 , withoutBin ? false
 }:
 
-with stdenv.lib;
+with lib;
 
 let
   optionOnOff = option: if option then "on" else "off";
@@ -80,7 +80,7 @@ stdenv.mkDerivation rec {
   '';
 
   dontStrip = debug;
-  postInstall = "" + stdenv.lib.optionalString withoutBin ''
+  postInstall = "" + lib.optionalString withoutBin ''
     rm -rf $out/bin
   '';
 

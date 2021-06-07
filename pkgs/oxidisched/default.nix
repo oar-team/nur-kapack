@@ -1,4 +1,4 @@
-{ stdenv, rustPlatform, fetchgit, pkgconfig, zeromq }:
+{ lib, rustPlatform, fetchgit, pkgconfig, zeromq }:
 
 rustPlatform.buildRustPackage rec {
   pname = "oxidisched";
@@ -15,7 +15,7 @@ rustPlatform.buildRustPackage rec {
 
   cargoSha256 = "sha256:1pyrglkqs47gnk0vmggi482jvzbsrvsb2c6dky42jvhsm4km5nki";
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     homepage = https://gitlab.inria.fr/batsim/oxidisched;
     description = "Batsim-compatible schedulers mostly meant to test Batsim. Written in Rust.";
     license = licenses.lgpl3;

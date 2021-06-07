@@ -1,4 +1,4 @@
-{ stdenv, fetchFromGitHub, cmake, gfortran, python37, zeromq, openmpi}:
+{ stdenv, lib, fetchFromGitHub, cmake, gfortran, python37, zeromq, openmpi}:
 
 stdenv.mkDerivation rec {
   name =  "melissa-${version}";
@@ -15,7 +15,7 @@ stdenv.mkDerivation rec {
 
   enableParallelBuilding = false;
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     homepage = "https://melissa-sa.github.io/";
     description = "Melissa is a file avoiding, adaptive, fault tolerant and elastic framework, to run large scale sensitivity analysis on supercomputers";
     license = licenses.bsd3;

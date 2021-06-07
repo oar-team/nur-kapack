@@ -1,4 +1,4 @@
-{ stdenv, rustPlatform, fetchFromGitHub, pkgconfig, zeromq, cmake }:
+{ lib, rustPlatform, fetchFromGitHub, pkgconfig, zeromq, cmake }:
 
 rustPlatform.buildRustPackage rec {
   pname = "colmet-rs";
@@ -18,7 +18,7 @@ rustPlatform.buildRustPackage rec {
   
   cargoSha256 = "1yr0wbq6qdphmzj3jbili3isgwc0xkd06gkx0xvpinhkp6k5y7n3";
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     homepage = https://github.com/oar-team;
     description = "Monitoring processes inside cgroup";
     license = licenses.lgpl2;

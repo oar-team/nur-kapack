@@ -1,4 +1,4 @@
-{ stdenv
+{ stdenv, lib
 , debug ? false
 , optimize ? (!debug)
 }:
@@ -10,8 +10,8 @@ stdenv.mkDerivation rec {
   src = fetchTarball "https://github.com/emilk/loguru/archive/v${version}.tar.gz";
 
   cFlags = "-fPIC" +
-    stdenv.lib.optionalString debug " -g" +
-    stdenv.lib.optionalString optimize " -O2";
+    lib.optionalString debug " -g" +
+    lib.optionalString optimize " -O2";
   dontStrip = debug;
   buildPhase = ''
     $CXX -std=c++11 -o libloguru.so -shared -pthread ${cFlags} loguru.cpp
@@ -38,7 +38,7 @@ Cflags: -I$out/include
 EOF
   '';
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "A header-only C++ logging library";
     longDescription = "A lightweight and flexible C++ logging library.";
     homepage = https://github.com/emilk/loguru;

@@ -1,4 +1,4 @@
-{ stdenv, pkgs, fetchFromGitHub, python37Packages }:
+{ lib, pkgs, fetchFromGitHub, python37Packages }:
 
 python37Packages.buildPythonApplication rec {
   name = "colmet-collector-${version}";
@@ -19,7 +19,7 @@ python37Packages.buildPythonApplication rec {
   # Tests do not pass
   doCheck = false;
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "Metrics collector for Rust version of Colmet (colmet-rs)";
     homepage    = https://github.com/oar-team/colmet-collector;
     platforms   = platforms.all;

@@ -1,4 +1,4 @@
-{ stdenv, python3Packages, procset }:
+{ lib, python3Packages, procset }:
 
 python3Packages.buildPythonPackage rec {
     pname = "pybatsim";
@@ -26,7 +26,7 @@ python3Packages.buildPythonPackage rec {
 
     doCheck = false;
 
-    meta = with stdenv.lib; {
+    meta = with lib; {
       description = "Python API and Schedulers for Batsim";
       homepage = "https://gitlab.inria.fr/batsim/pybatsim";
       platforms = platforms.all;

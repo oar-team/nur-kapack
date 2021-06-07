@@ -1,4 +1,4 @@
-{ stdenv, fetchFromGitLab
+{ stdenv, lib, fetchFromGitLab
 , meson, ninja, pkgconfig
 , simgrid, intervalset, boost, rapidjson, redox, hiredis, libev, zeromq, docopt_cpp, pugixml
 , debug ? false
@@ -18,8 +18,8 @@ stdenv.mkDerivation rec {
 
   # Temporary hack. Meson is no longer able to pick up Boost automatically.
   # https://github.com/NixOS/nixpkgs/issues/86131
-  BOOST_INCLUDEDIR = "${stdenv.lib.getDev boost}/include";
-  BOOST_LIBRARYDIR = "${stdenv.lib.getLib boost}/lib";
+  BOOST_INCLUDEDIR = "${lib.getDev boost}/include";
+  BOOST_LIBRARYDIR = "${lib.getLib boost}/lib";
 
   nativeBuildInputs = [
     meson
@@ -45,7 +45,7 @@ stdenv.mkDerivation rec {
   ninjaFlags = [ "-v" ];
   enableParallelBuilding = true;
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "An infrastructure simulator that focuses on resource management techniques.";
     homepage = "https://framagit.org/batsim/batsim";
     platforms = platforms.all;
