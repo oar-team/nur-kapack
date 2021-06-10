@@ -2,6 +2,8 @@ name: Build packages
 on: [push]
 env:
   CACHIX_CACHE: capack
+  # The name defined in https://github.com/nix-community/NUR/blob/master/repos.json
+  REPO_NAME: kapack
 jobs:
   build-packages:
     name: Build Packages
@@ -46,3 +48,12 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action@v1
         with:
           files: artifacts/**/*.xml
+
+  update-nur:
+    name: Notify NUR official repository
+    runs-on: ubuntu-latest
+    needs: build-packages
+    if: success()
+    steps:
+      - name: Trigger NUR update
+        run: curl -XPOST "https://nur-update.herokuapp.com/update?repo=${REPO_NAME}"
