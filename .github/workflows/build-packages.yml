@@ -33,7 +33,7 @@ jobs:
           git config --global user.email "ci-bot@batsim.org"
           git config --global user.name "CI bot"
       - name: Create commit
-        run: git commit -m 'remove -master packages from default.nix (auto commit)'
+        run: git commit -m 'remove -master packages from default.nix (auto commit)' default.nix
       - name: Make NUR branch point on new commit
         run: git branch -f NUR HEAD
       - name: Push NUR branch
