@@ -25,6 +25,7 @@ jobs:
     needs: build-packages
     if: success() && github.ref == 'refs/heads/commit-push-nur'
     steps:
+      - uses: actions/checkout@v2
       - name: Remove -master packages from default.nix
         run: sed -i -E 's/^[[:space:]]*([0-9A-Za-z\-]+\-master[[:space:]]*=.*)/# \1 \# automatically disabled for NUR/' default.nix
       - name: Create commit
