@@ -28,6 +28,10 @@ jobs:
       - uses: actions/checkout@v2
       - name: Remove -master packages from default.nix
         run: sed -i -E 's/^[[:space:]]*([0-9A-Za-z\-]+\-master[[:space:]]*=.*)/# \1 \# automatically disabled for NUR/' default.nix
+      - name: Configure Git identity
+        run: |
+          git config --global user.email "ci-bot@batsim.org"
+          git config --global user.name "CI bot"
       - name: Create commit
         run: git commit -m 'remove -master packages from default.nix (auto commit)'
       - name: Make NUR branch point on new commit
