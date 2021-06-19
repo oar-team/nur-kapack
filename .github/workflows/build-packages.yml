@@ -26,6 +26,8 @@ jobs:
     if: success() && github.ref == 'refs/heads/commit-push-nur'
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: Configure Git identity
         run: |
           git config --global user.email "ci-bot@batsim.org"
