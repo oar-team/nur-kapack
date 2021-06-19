@@ -26,15 +26,21 @@ jobs:
     if: success() && github.ref == 'refs/heads/commit-push-nur'
     steps:
       - uses: actions/checkout@v2
-      - name: Remove -master packages from default.nix
-        run: sed -i -E 's/^[[:space:]]*([0-9A-Za-z\-]+\-master[[:space:]]*=.*)/# \1 \# automatically disabled for NUR/' default.nix
       - name: Configure Git identity
         run: |
           git config --global user.email "ci-bot@batsim.org"
           git config --global user.name "CI bot"
-      - name: Create commit
-        run: git commit -m 'remove -master packages from default.nix (auto commit)' default.nix
-      - name: Make NUR branch point on new commit
-        run: git branch -f NUR HEAD
+      - name: Revert previous autocommit on NUR
+        run: |
+          git checkout NUR
+          git revert --no-edit HEAD
+      - name: Merge commit-push-nur in NUR
+        run: |
+          git checkout NUR
+          git merge --no-ff commit-push-nur -m '(auto) merge commit-push-nur in NUR'
+      - name: Remove -master packages from default.nix
+        run: sed -i -E 's/^[[:space:]]*([0-9A-Za-z\-]+\-master[[:space:]]*=.*)/# \1 \# automatically disabled for NUR/' default.nix
+      - name: Create commit (remove -master packages from default.nix)
+        run: git commit -m '(auto) remove -master packages from default.nix' default.nix
       - name: Push NUR branch
         run: git push origin NUR
