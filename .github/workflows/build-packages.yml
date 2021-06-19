@@ -42,6 +42,11 @@ jobs:
           git merge --no-ff commit-push-nur -m '(auto) merge commit-push-nur in NUR'
       - name: Remove -master packages from default.nix
         run: sed -i -E 's/^[[:space:]]*([0-9A-Za-z\-]+\-master[[:space:]]*=.*)/# \1 \# automatically disabled for NUR/' default.nix
+      - name: Install Nix
+        run: |
+          curl -L https://nixos.org/nix/install | sh
+          source ~/.nix-profile/etc/profile.d/nix.sh
+          nix --version
       - name: Make sure that default.nix is not ill-formed
         run: nix eval --json -f ci.nix 'pkgs-to-build-with-deps'
       - name: Create commit (remove -master packages from default.nix)
