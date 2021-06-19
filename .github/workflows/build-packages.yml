@@ -53,11 +53,41 @@ jobs:
         with:
           files: artifacts/**/*.xml
 
-  update-nur:
-    name: Notify NUR official repository
+  commit-push-update-nur:
+    name: Commit/push on NUR branch, trigger NUR update
     runs-on: ubuntu-latest
     needs: build-packages
-    if: success()
+    if: success() && github.ref == 'refs/heads/master'
     steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Configure Git identity
+        run: |
+          git config --global user.email "ci-bot@batsim.org"
+          git config --global user.name "CI bot"
+      - name: Revert previous autocommit on NUR
+        run: |
+          git checkout NUR
+          git revert --no-edit HEAD
+      - name: Merge master in NUR
+        run: |
+          git checkout NUR
+          git merge --no-ff master -m '(auto) merge master in NUR'
+      - name: Remove -master packages from default.nix
+        run: sed -i -E 's/^[[:space:]]*([0-9A-Za-z\-]+\-master[[:space:]]*=.*)/# \1 \# automatically disabled for NUR/' default.nix
+      - name: Install Nix
+        run: |
+          curl -L https://nixos.org/nix/install | sh
+          source ~/.nix-profile/etc/profile.d/nix.sh
+          nix --version
+      - name: Make sure that default.nix is not ill-formed
+        run: |
+          source ~/.nix-profile/etc/profile.d/nix.sh
+          nix eval --json -f ci.nix 'pkgs-to-build-with-deps'
+      - name: Create commit (remove -master packages from default.nix)
+        run: git commit -m '(auto) remove -master packages from default.nix' default.nix
+      - name: Push NUR branch
+        run: git push origin NUR
       - name: Trigger NUR update
         run: curl -XPOST "https://nur-update.herokuapp.com/update?repo=${REPO_NAME}"
