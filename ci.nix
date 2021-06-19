@@ -3,7 +3,10 @@
 # - nix eval --json -f ci.nix 'pkgs-names-to-build'
 # - nix eval --json -f ci.nix 'pkgs-to-build-with-deps'
 let
-  nixpkgs = import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/20.09.tar.gz") {};
+  nixpkgs = import (fetchTarball {
+    url = "https://github.com/NixOS/nixpkgs/archive/21.05.tar.gz";
+    sha256 = "1ckzhh24mgz6jd1xhfgx0i9mijk6xjqxwsshnvq789xsavrmsc36";
+  }) {};
   isDerivation = nixpkgs.lib.isDerivation;
   isBuildable = p: !(p.meta.broken or false) && p.meta.license.free or true;
   isMaster = n: builtins.match "^.*-master$" n != null;
