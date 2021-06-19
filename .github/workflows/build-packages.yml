@@ -48,7 +48,9 @@ jobs:
           source ~/.nix-profile/etc/profile.d/nix.sh
           nix --version
       - name: Make sure that default.nix is not ill-formed
-        run: nix eval --json -f ci.nix 'pkgs-to-build-with-deps'
+        run: |
+          source ~/.nix-profile/etc/profile.d/nix.sh
+          nix eval --json -f ci.nix 'pkgs-to-build-with-deps'
       - name: Create commit (remove -master packages from default.nix)
         run: git commit -m '(auto) remove -master packages from default.nix' default.nix
       - name: Push NUR branch
