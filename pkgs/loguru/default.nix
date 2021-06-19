@@ -1,4 +1,4 @@
-{ stdenv, lib
+{ stdenv, lib, fetchFromGitHub
 , debug ? false
 , optimize ? (!debug)
 }:
@@ -7,7 +7,12 @@ stdenv.mkDerivation rec {
   pname = "loguru";
   version = "2.1.0";
 
-  src = fetchTarball "https://github.com/emilk/loguru/archive/v${version}.tar.gz";
+  src = fetchFromGitHub {
+    owner = "emilk";
+    repo = "loguru";
+    rev = "v${version}";
+    sha256 = "0g8j6811nm9kf3g49sq6dygh4q8w838a6p05x5hyvpk2w8kpr7nx";
+  };
 
   cFlags = "-fPIC" +
     lib.optionalString debug " -g" +
