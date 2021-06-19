@@ -48,17 +48,17 @@ rec {
   batsched-130 = pkgs.callPackage ./pkgs/batsched/batsched130.nix { inherit intervalset loguru redox debug; };
   batsched-140 = pkgs.callPackage ./pkgs/batsched/batsched140.nix { inherit intervalset loguru redox debug; };
   batsched = batsched-140;
-# batsched-master = pkgs.callPackage ./pkgs/batsched/master.nix { inherit intervalset loguru redox debug; }; # automatically disabled for NUR
+  batsched-master = pkgs.callPackage ./pkgs/batsched/master.nix { inherit intervalset loguru redox debug; };
 
   batexpe = pkgs.callPackage ./pkgs/batexpe { };
-# batexpe-master = pkgs.callPackage ./pkgs/batexpe/master.nix { inherit batexpe; }; # automatically disabled for NUR
+  batexpe-master = pkgs.callPackage ./pkgs/batexpe/master.nix { inherit batexpe; };
 
   batsim-310 = pkgs.callPackage ./pkgs/batsim/batsim310.nix { inherit intervalset redox debug; simgrid = simgrid-324; };
   batsim-400 = pkgs.callPackage ./pkgs/batsim/batsim400.nix { inherit intervalset redox debug; simgrid = simgrid-325light; };
   batsim = batsim-400;
-# batsim-master = pkgs.callPackage ./pkgs/batsim/master.nix { inherit intervalset redox debug; simgrid = simgrid-light; }; # automatically disabled for NUR
+  batsim-master = pkgs.callPackage ./pkgs/batsim/master.nix { inherit intervalset redox debug; simgrid = simgrid-light; };
   batsim-docker = pkgs.callPackage ./pkgs/batsim/batsim-docker.nix { inherit batsim; };
-# batsim-docker-master = pkgs.callPackage ./pkgs/batsim/batsim-docker.nix { batsim = batsim-master; }; # automatically disabled for NUR
+  batsim-docker-master = pkgs.callPackage ./pkgs/batsim/batsim-docker.nix { batsim = batsim-master; };
 
   batsky = pkgs.callPackage ./pkgs/batsky { };
 
@@ -90,7 +90,7 @@ rec {
 
   pybatsim-320 = pkgs.callPackage ./pkgs/pybatsim/pybatsim320.nix { inherit procset; };
   pybatsim = pybatsim-320;
-# pybatsim-master = pkgs.callPackage ./pkgs/pybatsim/master.nix { inherit pybatsim; }; # automatically disabled for NUR
+  pybatsim-master = pkgs.callPackage ./pkgs/pybatsim/master.nix { inherit pybatsim; };
 
   redox = pkgs.callPackage ./pkgs/redox { };
 
@@ -102,7 +102,7 @@ rec {
 
   rsg-030 = pkgs.callPackage ./pkgs/remote-simgrid/rsg030.nix { inherit debug ; simgrid = simgrid-326; };
   rsg = rsg-030;
-# rsg-master = pkgs.callPackage ./pkgs/remote-simgrid/master.nix { inherit rsg ; }; # automatically disabled for NUR
+  rsg-master = pkgs.callPackage ./pkgs/remote-simgrid/master.nix { inherit rsg ; };
 
   simgrid-324 = pkgs.callPackage ./pkgs/simgrid/simgrid324.nix { inherit debug; };
   simgrid-325 = pkgs.callPackage ./pkgs/simgrid/simgrid325.nix { inherit debug; };
@@ -113,8 +113,8 @@ rec {
   simgrid-327light = simgrid-327.override { minimalBindings = true; withoutBin = true; };
   simgrid = simgrid-327;
   simgrid-light = simgrid-327light;
-# simgrid-master = pkgs.callPackage ./pkgs/simgrid/master.nix { inherit simgrid; }; # automatically disabled for NUR
-# simgrid-light-master = pkgs.callPackage ./pkgs/simgrid/master.nix { simgrid = simgrid-light; }; # automatically disabled for NUR
+  simgrid-master = pkgs.callPackage ./pkgs/simgrid/master.nix { inherit simgrid; };
+  simgrid-light-master = pkgs.callPackage ./pkgs/simgrid/master.nix { simgrid = simgrid-light; };
     
   # Setting needed for nixos-19.03 and nixos-19.09
   slurm-bsc-simulator =
