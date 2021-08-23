@@ -68,6 +68,8 @@ rec {
 
   evalys = pkgs.callPackage ./pkgs/evalys { inherit procset; };
 
+  flatbuffers = pkgs.callPackage ./pkgs/flatbuffers/2.0.nix { };
+
   melissa = pkgs.callPackage ./pkgs/melissa { };
 
   go-swagger  = pkgs.callPackage ./pkgs/go-swagger { };
