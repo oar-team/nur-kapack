@@ -55,7 +55,7 @@ def generate_attributes_with_inputs(debug_str):
     return run_cmd_parse_json(f"nix eval --json --arg debug {debug_str} -f ci.nix 'pkgs-to-build-with-deps'")
 
 def pytest_generate_tests(metafunc):
-    debug_str = "true" if request.config.getoption("--debug-build") else "false"
+    debug_str = "true" if metafunc.config.getoption("--debug-build") else "false"
     if 'attribute' in metafunc.fixturenames:
         metafunc.parametrize('attribute', generate_attributes(debug_str))
     if 'graph' in metafunc.fixturenames:
