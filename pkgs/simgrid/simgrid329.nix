@@ -66,6 +66,9 @@ stdenv.mkDerivation rec {
     "-Denable_lto=${optionOnOff optimize}"
   ];
 
+  outputs = ["out"]
+  ++ optionals buildPythonBindings ["python"];
+
   makeFlags = optional debug "VERBOSE=1";
 
   # Some Perl scripts are called to generate test during build which
@@ -90,6 +93,13 @@ stdenv.mkDerivation rec {
   dontStrip = debug;
   postInstall = "" + lib.optionalString withoutBin ''
     rm -rf $out/bin
+  '' + lib.optionalString buildPythonBindings ''
+    # output file is expected to be formatted as simgrid.cpython-XY-.*.so
+    # where X is python version major and Y python version minor.
+    PYTHON_VERSION_MAJOR=$(ls lib/simgrid.cpython*.so | sed -E 'sWlib/simgrid\.cpython-([[:digit:]])([[:digit:]])-.*W\1W')
+    PYTHON_VERSION_MINOR=$(ls lib/simgrid.cpython*.so | sed -E 'sWlib/simgrid\.cpython-([[:digit:]])([[:digit:]])-.*W\2W')
+    mkdir -p $python/lib/python''${PYTHON_VERSION_MAJOR}.''${PYTHON_VERSION_MINOR}/site-packages/
+    cp lib/simgrid.cpython*.so $python/lib/python''${PYTHON_VERSION_MAJOR}.''${PYTHON_VERSION_MINOR}/site-packages/
   '';
 
   meta = {
