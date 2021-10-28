@@ -43,8 +43,6 @@ rec {
 
   haskellPackages = import ./pkgs/haskellPackages { inherit pkgs; };
 
-  # arion = pkgs.callPackage ./pkgs/arion { arion-compose = haskellPackages.arion-compose; };
-
   batsched-130 = pkgs.callPackage ./pkgs/batsched/batsched130.nix { inherit intervalset loguru redox debug; };
   batsched-140 = pkgs.callPackage ./pkgs/batsched/batsched140.nix { inherit intervalset loguru redox debug; };
   batsched = batsched-140;
