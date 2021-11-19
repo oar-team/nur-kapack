@@ -1,6 +1,6 @@
 { stdenv, lib
 , meson, ninja, pkgconfig
-, simgrid, intervalset, boost, rapidjson, redox, hiredis, libev, zeromq, docopt_cpp, pugixml
+, simgrid, intervalset, boost, rapidjson, redox, zeromq, docopt_cpp, pugixml
 , debug ? false
 }:
 
