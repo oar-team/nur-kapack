@@ -19,7 +19,10 @@ in
         defaultText = "pkgs.nur.repos.kapack.ear";
       };
 
-         database = {
+      
+      
+      database = {
+        enable = mkEnableOption "EAR (Postgresql) Database";
         host = mkOption {
           type = types.str;
           default = "localhost";
@@ -31,7 +34,7 @@ in
         passwordFile = mkOption {
         type = types.nullOr types.path;
         default = null;
-        example = "/run/keys/oar-dbpassword";
+        example = "/run/keys/ear-dbpassword";
         description = ''
           A file containing the usernames/passwords for database, content example:
           DBUser=ear_daemon
@@ -101,12 +104,9 @@ in
     };
     ##################
     # Database Manager section
-
-
-
     
-    environment.etc."ear/ear-db.sql" =  mkIf cfg.db_manager.enable { mode = "0666"; source = ./ear-db.sql; }; 
-    services.postgresql = mkIf cfg.db_manager.enable {
+    environment.etc."ear/ear-db.sql" =  mkIf cfg.database.enable { mode = "0666"; source = ./ear-db.sql; }; 
+    services.postgresql = mkIf cfg.database.enable {
       #TODO TOCOMPLETE (UNSAFE)
       enable = true;
       enableTCPIP = true;
@@ -119,8 +119,7 @@ in
       '';
     };
 
-
-    systemd.services.eardb-init = mkIf cfg.db_manager.enable {
+    systemd.services.eardb-init = mkIf cfg.database.enable {
       requires = [ "postgresql.service" ];
       after = [ "postgresql.service" ];
       description = "EAR DB Manager initialization";
@@ -162,11 +161,62 @@ in
       restartIfChanged = false;
       environment.EAR_ETC = "/etc";
       serviceConfig = {
-        ExecStart = "${cfg.package}/bin/ear";
+        ExecStart = "${cfg.package}/bin/eardbd";
         KillMode = "process";
         Restart = "on-failure";
       };
+       preStart = ''
+         # Backwards compatibility
+         if [ ! -d /var/lib/ear ]; then
+           mkdir -p /var/lib/ear
+           chmod ugo +rwx  /var/lib/ear
+        fi
+       '';
     };  
+
+    ##################
+    # Global Manager section
     
+    systemd.services.eargmd = mkIf (cfg.global_manager.enable) {
+      wantedBy = [ "multi-user.target" ];
+      after = [ "network.target"];
+      description ="EARGMD - EAR Global Manager";
+      environment.EAR_ETC = "/etc";
+      serviceConfig = {
+        ExecStart = "${cfg.package}/bin/eargmd";
+        KillMode = "process";
+        Restart = "on-failure";
+      };
+      preStart = ''
+        # Backwards compatibility
+        if [ ! -d /var/lib/ear ]; then
+          mkdir -p /var/lib/ear
+          chmod ugo +rwx  /var/lib/ear
+        fi
+       '';
+    }; 
+
+    ##################
+    # Global Manager section
+    
+    systemd.services.eard = mkIf (cfg.node_manager.enable) {
+      wantedBy = [ "multi-user.target" ];
+      after = [ "network.target"];
+      description ="EARD - Energy Aware Runtime node daemon";
+      environment.EAR_ETC = "/etc";
+      path = [ pkgs.kmod ]; 
+      serviceConfig = {
+        ExecStart = "${cfg.package}/bin/eard 1";
+        KillMode = "process";
+        Restart = "on-failure";
+      };
+      preStart = ''
+        # Backwards compatibility
+        if [ ! -d /var/lib/ear ]; then
+          mkdir -p /var/lib/ear
+          chmod ugo +rwx  /var/lib/ear
+        fi
+       '';
+    }; 
   };
 }

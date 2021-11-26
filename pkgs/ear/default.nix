@@ -32,7 +32,7 @@ stdenv.mkDerivation rec {
   configureFlags = [
     "CC=${stdenv.cc}/bin/gcc"
     "--with-gsl=${gsl.out}"
-    "--with-slurm=slurm" ]
+    "--with-slurm=slurm"]# "CC_FLAGS=-DSHOW_DEBUGS"]
     ++ [(if useMysql then "--with-mysql=mysql" else "--with-pgsql=${postgresql.out}")]
     ++ (if useAvx512 then [] else ["--disable-avx512"])
     ++ (if cudaSupport then ["--with-cuda=${cudatoolkit.out}"] else []);

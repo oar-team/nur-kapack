@@ -80,9 +80,9 @@ EARGMPowerCapResumeAction=no_action
 #---------------------------------------------------------------------------------------------------
 # Common configuration
 #---------------------------------------------------------------------------------------------------
-TmpDir=@localstatedir@
-EtcDir=@sysconfdir@
-InstDir=@prefix@
+TmpDir=/var/lib/ear
+EtcDir=/etc/ear
+InstDir=${pkgs.nur.repos.kapack.ear};
 # Network extension (using another network instead of the local one). If compute nodes must be accessed from login nodes with a network different than default, and can be accesed using a expension, uncommmet next line and define 'netext' accordingly. 
 # NetworkExtension=netext
 
@@ -102,7 +102,7 @@ powercap_plugin=inm.so
 #---------------------------------------------------------------------------------------------------
 # Authorized users,accounts and groups are allowed to change policies, thresholds, frequencies etc,
 # they are supposed to be admins, all special name is supported
-AuthorizedUsers=usr1,usr2
+AuthorizedUsers=user1,user2
 AuthorizedAccounts=acc1,acc2,acc3
 AuthorizedGroups=grp1,grp2
 
@@ -116,7 +116,7 @@ AuthorizedGroups=grp1,grp2
 # go beyond that value, regardless of the free power available cluster-wide.
 # At least a default tag is mandatory to be included in this file for a cluster to work properly.
 Tag=6148 default=yes max_avx512=2.2 max_avx2=2.6 max_power=500 min_power=50 error_power=600 coeffs=coeffs.default powercap=0
-Tag=6126 max_avx512=2.3 max_avx2=2.9 ceffs=coeffs.6126.default max_power=600 error_power=700 powercap=0
+#Tag=6126 max_avx512=2.3 max_avx2=2.9 ceffs=coeffs.6126.default max_power=600 error_power=700 powercap=0
 
 #---------------------------------------------------------------------------------------------------
 ## Power policies
@@ -162,12 +162,12 @@ EnergyTag=memory-intensive pstate=4 users=usr1,usr2 groups=grp1,grp2 accounts=ac
 #
 # In the following example the nodes are clustered in two different islands, but the Island 1 have
 # two types of EARDBDs configurations. 
-Island=0 Nodes=node10[01-80] DBIP=node1081 DBSECIP=node1082 
+Island=0 Nodes=node[1-2] DBIP=server
 
 # These nodes are in island0 using different DB connections and with a different architecture
-Island=0 Nodes=node11[01-80] DBIP=node1084 DBSECIP=node1085 tag=6126 
+#Island=0 Nodes=node11[01-80] DBIP=node1084 DBSECIP=node1085 tag=6126 
 # These nodes are is island0 and will use default values for DB connection (line 0 for island0) and default tag
-Island=0 Nodes=node12[01-80]
+#Island=0 Nodes=node12[01-80]
 
 
 # Will use default tag 
