@@ -19,6 +19,6 @@ stdenv.mkDerivation rec {
     homepage = "https://melissa-sa.github.io/";
     description = "Melissa is a file avoiding, adaptive, fault tolerant and elastic framework, to run large scale sensitivity analysis on supercomputers";
     license = licenses.bsd3;
-    platforms = with platforms; [ x86_64 aarch64 i686 ];
+    platforms = with platforms; x86_64 ++ aarch64 ++ i686;
   };
 }
