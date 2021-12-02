@@ -1,10 +1,8 @@
 # If called without explicitly setting the 'pkgs' arg, a pinned nixpkgs version is used by default.
 { pkgs ? import (fetchTarball {
-    url = "https://github.com/NixOS/nixpkgs/archive/21.05.tar.gz";
-    sha256 = "1ckzhh24mgz6jd1xhfgx0i9mijk6xjqxwsshnvq789xsavrmsc36";
-  }) {}
-, debug ? false
-}:
+  url = "https://github.com/NixOS/nixpkgs/archive/21.05.tar.gz";
+  sha256 = "1ckzhh24mgz6jd1xhfgx0i9mijk6xjqxwsshnvq789xsavrmsc36";
+}) { }, debug ? false }:
 
 rec {
   # The `lib`, `modules`, and `overlay` names are special
@@ -15,8 +13,10 @@ rec {
 
   glibc-batsky = pkgs.glibc.overrideAttrs (attrs: {
     meta.broken = true;
-    patches = attrs.patches ++ [ ./pkgs/glibc-batsky/clock_gettime.patch
-      ./pkgs/glibc-batsky/gettimeofday.patch ];
+    patches = attrs.patches ++ [
+      ./pkgs/glibc-batsky/clock_gettime.patch
+      ./pkgs/glibc-batsky/gettimeofday.patch
+    ];
     postConfigure = ''
       export NIX_CFLAGS_LINK=
       export NIX_LDFLAGS_BEFORE=
@@ -43,19 +43,34 @@ rec {
 
   haskellPackages = import ./pkgs/haskellPackages { inherit pkgs; };
 
-  batsched-130 = pkgs.callPackage ./pkgs/batsched/batsched130.nix { inherit intervalset loguru redox debug; };
-  batsched-140 = pkgs.callPackage ./pkgs/batsched/batsched140.nix { inherit intervalset loguru redox debug; };
+  batsched-130 = pkgs.callPackage ./pkgs/batsched/batsched130.nix {
+    inherit intervalset loguru redox debug;
+  };
+  batsched-140 = pkgs.callPackage ./pkgs/batsched/batsched140.nix {
+    inherit intervalset loguru redox debug;
+  };
   batsched = batsched-140;
 
   batexpe = pkgs.callPackage ./pkgs/batexpe { };
 
-  batprotocol-cpp = pkgs.callPackage ./pkgs/batprotocol/cpp.nix { inherit flatbuffers debug; };
+  batprotocol-cpp =
+    pkgs.callPackage ./pkgs/batprotocol/cpp.nix { inherit flatbuffers debug; };
 
-  batsim-310 = pkgs.callPackage ./pkgs/batsim/batsim310.nix { inherit intervalset redox debug; simgrid = simgrid-324; };
-  batsim-400 = pkgs.callPackage ./pkgs/batsim/batsim400.nix { inherit intervalset redox debug; simgrid = simgrid-325light; };
-  batsim-410 = pkgs.callPackage ./pkgs/batsim/batsim410.nix { inherit intervalset redox debug; simgrid = simgrid-329light; };
+  batsim-310 = pkgs.callPackage ./pkgs/batsim/batsim310.nix {
+    inherit intervalset redox debug;
+    simgrid = simgrid-324;
+  };
+  batsim-400 = pkgs.callPackage ./pkgs/batsim/batsim400.nix {
+    inherit intervalset redox debug;
+    simgrid = simgrid-325light;
+  };
+  batsim-410 = pkgs.callPackage ./pkgs/batsim/batsim410.nix {
+    inherit intervalset redox debug;
+    simgrid = simgrid-329light;
+  };
   batsim = batsim-410;
-  batsim-docker = pkgs.callPackage ./pkgs/batsim/batsim-docker.nix { inherit batsim; };
+  batsim-docker =
+    pkgs.callPackage ./pkgs/batsim/batsim-docker.nix { inherit batsim; };
 
   batsky = pkgs.callPackage ./pkgs/batsky { };
 
@@ -73,7 +88,7 @@ rec {
 
   melissa = pkgs.callPackage ./pkgs/melissa { };
 
-  go-swagger  = pkgs.callPackage ./pkgs/go-swagger { };
+  go-swagger = pkgs.callPackage ./pkgs/go-swagger { };
 
   gcovr = pkgs.callPackage ./pkgs/gcovr/csv.nix { };
 
@@ -87,7 +102,8 @@ rec {
 
   oxidisched = pkgs.callPackage ./pkgs/oxidisched { };
 
-  pybatsim-320 = pkgs.callPackage ./pkgs/pybatsim/pybatsim320.nix { inherit procset; };
+  pybatsim-320 =
+    pkgs.callPackage ./pkgs/pybatsim/pybatsim320.nix { inherit procset; };
   pybatsim = pybatsim-320;
 
   redox = pkgs.callPackage ./pkgs/redox { };
@@ -95,9 +111,8 @@ rec {
   remote_pdb = pkgs.callPackage ./pkgs/remote-pdb { };
 
   rt-tests = pkgs.callPackage ./pkgs/rt-tests { };
-  
+
   cigri = pkgs.callPackage ./pkgs/cigri { };
-	
 
   oar = pkgs.callPackage ./pkgs/oar { inherit procset pybatsim remote_pdb; };
 
@@ -105,34 +120,62 @@ rec {
 
   oar3 = oar;
 
-  rsg-030 = pkgs.callPackage ./pkgs/remote-simgrid/rsg030.nix { inherit debug ; simgrid = simgrid-326; };
+  rsg-030 = pkgs.callPackage ./pkgs/remote-simgrid/rsg030.nix {
+    inherit debug;
+    simgrid = simgrid-326;
+  };
   rsg = rsg-030;
 
-  simgrid-324 = pkgs.callPackage ./pkgs/simgrid/simgrid324.nix { inherit debug; };
-  simgrid-325 = pkgs.callPackage ./pkgs/simgrid/simgrid325.nix { inherit debug; };
-  simgrid-326 = pkgs.callPackage ./pkgs/simgrid/simgrid326.nix { inherit debug; };
-  simgrid-327 = pkgs.callPackage ./pkgs/simgrid/simgrid327.nix { inherit debug; };
-  simgrid-328 = pkgs.callPackage ./pkgs/simgrid/simgrid328.nix { inherit debug; };
-  simgrid-329 = pkgs.callPackage ./pkgs/simgrid/simgrid329.nix { inherit debug; };
-  simgrid-325light = simgrid-325.override { minimalBindings = true; withoutBin = true; };
-  simgrid-326light = simgrid-326.override { minimalBindings = true; withoutBin = true; };
-  simgrid-327light = simgrid-327.override { minimalBindings = true; withoutBin = true; };
-  simgrid-328light = simgrid-328.override { minimalBindings = true; withoutBin = true; };
-  simgrid-329light = simgrid-329.override { minimalBindings = true; withoutBin = true; };
+  simgrid-324 =
+    pkgs.callPackage ./pkgs/simgrid/simgrid324.nix { inherit debug; };
+  simgrid-325 =
+    pkgs.callPackage ./pkgs/simgrid/simgrid325.nix { inherit debug; };
+  simgrid-326 =
+    pkgs.callPackage ./pkgs/simgrid/simgrid326.nix { inherit debug; };
+  simgrid-327 =
+    pkgs.callPackage ./pkgs/simgrid/simgrid327.nix { inherit debug; };
+  simgrid-328 =
+    pkgs.callPackage ./pkgs/simgrid/simgrid328.nix { inherit debug; };
+  simgrid-329 =
+    pkgs.callPackage ./pkgs/simgrid/simgrid329.nix { inherit debug; };
+  simgrid-325light = simgrid-325.override {
+    minimalBindings = true;
+    withoutBin = true;
+  };
+  simgrid-326light = simgrid-326.override {
+    minimalBindings = true;
+    withoutBin = true;
+  };
+  simgrid-327light = simgrid-327.override {
+    minimalBindings = true;
+    withoutBin = true;
+  };
+  simgrid-328light = simgrid-328.override {
+    minimalBindings = true;
+    withoutBin = true;
+  };
+  simgrid-329light = simgrid-329.override {
+    minimalBindings = true;
+    withoutBin = true;
+  };
   simgrid = simgrid-329;
   simgrid-light = simgrid-329light;
 
   # Setting needed for nixos-19.03 and nixos-19.09
-  slurm-bsc-simulator =
-    if pkgs ? libmysql
-    then pkgs.callPackage ./pkgs/slurm-simulator { libmysqlclient = pkgs.libmysql; }
-    else pkgs.callPackage ./pkgs/slurm-simulator { };
+  slurm-bsc-simulator = if pkgs ? libmysql then
+    pkgs.callPackage ./pkgs/slurm-simulator { libmysqlclient = pkgs.libmysql; }
+  else
+    pkgs.callPackage ./pkgs/slurm-simulator { };
   slurm-bsc-simulator-v17 = slurm-bsc-simulator;
 
   #slurm-bsc-simulator-v14 = slurm-bsc-simulator.override { version="14"; };
 
   slurm-multiple-slurmd = pkgs.slurm.overrideAttrs (oldAttrs: {
-    configureFlags = oldAttrs.configureFlags ++ ["--enable-multiple-slurmd" "--enable-silent-rules"];});
+    configureFlags = oldAttrs.configureFlags
+      ++ [ "--enable-multiple-slurmd" "--enable-silent-rules" ];
+    meta.platforms = pkgs.lib.lists.intersectLists pkgs.rdma-core.meta.platforms
+      pkgs.ghc.meta.platforms;
+  });
 
   slurm-front-end = pkgs.slurm.overrideAttrs (oldAttrs: {
     configureFlags = [
@@ -142,6 +185,8 @@ rec {
       "--sysconfdir=/etc/slurm"
       "--enable-silent-rules"
     ];
+    meta.platforms = pkgs.lib.lists.intersectLists pkgs.rdma-core.meta.platforms
+      pkgs.ghc.meta.platforms;
   });
 
   # bs-slurm = pkgs.replaceDependency {

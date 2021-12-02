@@ -1,5 +1,5 @@
 { mkDerivation, lib, aeson, aeson-pretty, async, base, bytestring
-, directory, fetchgit, hspec, lens, lens-aeson
+, directory, fetchgit, ghc, hspec, lens, lens-aeson
 , optparse-applicative, process, protolude, QuickCheck, stdenv
 , temporary, text, unix
 }:
@@ -31,4 +31,6 @@ mkDerivation {
   homepage = "https://github.com/hercules-ci/arion#readme";
   description = "Run docker-compose with help from Nix/NixOS";
   license = lib.licenses.asl20;
+  # Somehow the mkDerivation for Haskell does not allow a list of platforms...
+  platforms = ghc.meta.platforms;
 }

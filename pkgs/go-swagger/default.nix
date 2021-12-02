@@ -17,7 +17,8 @@ buildGoPackage rec {
 
   goDeps = ./deps.nix;
   
-  buildFlagsArray = ''
+  # buildFlagsArray = ''
+  ldflags = ''
     -ldflags=-X github.com/go-swagger/go-swagger/cmd/swagger/commands/version.Version=${version}
   '';
 
