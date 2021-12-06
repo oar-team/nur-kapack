@@ -12,7 +12,7 @@ def run_cmd_handle_failure(cmd, input=None, do_print=False):
     out, err = p.communicate(input=input)
     if do_print:
         print(f"cmd: {cmd}")
-        #if input: print(f"stdin:\n--- BEGIN OF STDIN LOG ---\n{input}\n--- END OF STDIN LOG---")
+        if input: print(f"stdin:\n--- BEGIN OF STDIN LOG ---\n{input}\n--- END OF STDIN LOG---")
         if out: print(f"stdout:\n--- BEGIN OF STDOUT LOG ---\n{out}\n--- END OF STDOUT LOG---")
         if err: print(f"stderr:\n--- BEGIN OF STDERR LOG ---\n{err}\n--- END OF STDERR LOG---")
     if p.returncode != 0:
