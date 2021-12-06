@@ -18,6 +18,9 @@ jobs:
           curl -L https://nixos.org/nix/install | sh
           source ~/.nix-profile/etc/profile.d/nix.sh
           nix --version
+          echo 'experimental-features = nix-command' >> ~/.config/nix/nix.conf
+          cat ~/.config/nix/nix.conf
+
       - name: Set up cachix
         run: |
           source ~/.nix-profile/etc/profile.d/nix.sh
@@ -25,6 +28,7 @@ jobs:
           echo 'experimental-features = nix-command' > ~/.config/nix/nix.conf
           nix-env -iA cachix -f https://cachix.org/api/v1/install
           cachix --version
+          cachix use ${CACHIX_CACHE}
       - uses: actions/checkout@v2
       - name: Build packages (release)
         env:
@@ -32,8 +36,6 @@ jobs:
         run: |
           source ~/.nix-profile/etc/profile.d/nix.sh
           mkdir -p ~/.config/nix/
-          echo 'experimental-features = nix-command' > ~/.config/nix/nix.conf
-          cachix use ${CACHIX_CACHE}
           nix shell -f https://github.com/NixOS/nixpkgs/archive/20.09.tar.gz python3Packages.pytest --command pytest -ra -v -s --cachix-name=${CACHIX_CACHE} --push-deps-on-cachix --push-on-cachix --junit-xml pytest.xml
       - name: Build packages (debug)
         env:
@@ -41,8 +43,6 @@ jobs:
         run: |
           source ~/.nix-profile/etc/profile.d/nix.sh
           mkdir -p ~/.config/nix/
-          echo 'experimental-features = nix-command' > ~/.config/nix/nix.conf
-          cachix use ${CACHIX_CACHE}
           nix shell -f https://github.com/NixOS/nixpkgs/archive/20.09.tar.gz python3Packages.pytest --command pytest -ra -v -s --cachix-name=${CACHIX_CACHE} --push-deps-on-cachix --push-on-cachix --debug-build --junit-xml pytest.xml
       - name: Upload test results
         if: always()
