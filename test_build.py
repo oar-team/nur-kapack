@@ -29,7 +29,7 @@ def test_build(request, attribute, graph):
         run_cmd_handle_failure(f"nix-shell -A {attribute} --arg debug {debug_str} --command '{echo_cmd}'")
 
         input_paths = '\n'.join(graph[attribute]["inputs"])
-        run_cmd_handle_failure(f"cachix push {cachix_name}", input=input_paths)
+        run_cmd_handle_failure(f"cachix push {cachix_name}", input=input_paths, do_print=True)
 
     # build the package
     run_cmd_handle_failure(f"nix-build -A {attribute} --arg debug {debug_str}", do_print=True)
@@ -37,5 +37,5 @@ def test_build(request, attribute, graph):
     # push the package to cachix
     if request.config.getoption("--push-on-cachix"):
         derivation = graph[attribute]["derivation"]
-        run_cmd_handle_failure(f"cachix push {cachix_name}", input=derivation)
+        run_cmd_handle_failure(f"cachix push {cachix_name}", input=derivation, do_print=True)
 
