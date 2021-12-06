@@ -18,6 +18,7 @@ jobs:
           curl -L https://nixos.org/nix/install | sh
           source ~/.nix-profile/etc/profile.d/nix.sh
           nix --version
+          mkdir -p ~/.config/nix/
           echo 'experimental-features = nix-command' >> ~/.config/nix/nix.conf
           cat ~/.config/nix/nix.conf
 
