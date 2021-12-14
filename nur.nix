@@ -120,11 +120,11 @@ rec {
   simgrid-327 = pkgs.callPackage ./pkgs/simgrid/simgrid327.nix { inherit debug; };
   simgrid-328 = pkgs.callPackage ./pkgs/simgrid/simgrid328.nix { inherit debug; };
   simgrid-329 = pkgs.callPackage ./pkgs/simgrid/simgrid329.nix { inherit debug; };
-  simgrid-325light = simgrid-325.override { minimalBindings = true; withoutBin = true; };
-  simgrid-326light = simgrid-326.override { minimalBindings = true; withoutBin = true; };
-  simgrid-327light = simgrid-327.override { minimalBindings = true; withoutBin = true; };
-  simgrid-328light = simgrid-328.override { minimalBindings = true; withoutBin = true; };
-  simgrid-329light = simgrid-329.override { minimalBindings = true; withoutBin = true; };
+  simgrid-325light = simgrid-325.override { minimalBindings = true; withoutBin = true; withoutBoostPropagation = true; };
+  simgrid-326light = simgrid-326.override { minimalBindings = true; withoutBin = true; withoutBoostPropagation = true; };
+  simgrid-327light = simgrid-327.override { minimalBindings = true; withoutBin = true; withoutBoostPropagation = true; };
+  simgrid-328light = simgrid-328.override { minimalBindings = true; withoutBin = true; withoutBoostPropagation = true; };
+  simgrid-329light = simgrid-329.override { minimalBindings = true; withoutBin = true; withoutBoostPropagation = true; };
   simgrid = simgrid-329;
   simgrid-light = simgrid-329light;
 
