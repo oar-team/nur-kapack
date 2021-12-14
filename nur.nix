@@ -43,8 +43,8 @@ rec {
 
   haskellPackages = import ./pkgs/haskellPackages { inherit pkgs; };
 
-  batsched-130 = pkgs.callPackage ./pkgs/batsched/batsched130.nix { inherit intervalset loguru redox debug; };
-  batsched-140 = pkgs.callPackage ./pkgs/batsched/batsched140.nix { inherit intervalset loguru redox debug; };
+  batsched-130 = pkgs.callPackage ./pkgs/batsched/batsched130.nix { inherit loguru redox debug; intervalset = intervalsetlight; };
+  batsched-140 = pkgs.callPackage ./pkgs/batsched/batsched140.nix { inherit loguru redox debug; intervalset = intervalsetlight; };
   batsched = batsched-140;
 
   batexpe = pkgs.callPackage ./pkgs/batexpe { };
