@@ -51,9 +51,9 @@ rec {
 
   batprotocol-cpp = pkgs.callPackage ./pkgs/batprotocol/cpp.nix { inherit flatbuffers debug; };
 
-  batsim-310 = pkgs.callPackage ./pkgs/batsim/batsim310.nix { inherit intervalset redox debug; simgrid = simgrid-324; };
-  batsim-400 = pkgs.callPackage ./pkgs/batsim/batsim400.nix { inherit intervalset redox debug; simgrid = simgrid-325light; };
-  batsim-410 = pkgs.callPackage ./pkgs/batsim/batsim410.nix { inherit intervalset redox debug; simgrid = simgrid-329light; };
+  batsim-310 = pkgs.callPackage ./pkgs/batsim/batsim310.nix { inherit redox debug; simgrid = simgrid-324; intervalset = intervalsetlight; };
+  batsim-400 = pkgs.callPackage ./pkgs/batsim/batsim400.nix { inherit redox debug; simgrid = simgrid-325light; intervalset = intervalsetlight; };
+  batsim-410 = pkgs.callPackage ./pkgs/batsim/batsim410.nix { inherit redox debug; simgrid = simgrid-329light; intervalset = intervalsetlight; };
   batsim = batsim-410;
   batsim-docker = pkgs.callPackage ./pkgs/batsim/batsim-docker.nix { inherit batsim; };
 
@@ -84,6 +84,7 @@ rec {
   gocovmerge = pkgs.callPackage ./pkgs/gocovmerge { };
 
   intervalset = pkgs.callPackage ./pkgs/intervalset { };
+  intervalsetlight = pkgs.callPackage ./pkgs/intervalset { withoutBoostPropagation = true; };
 
   kube-batch = pkgs.callPackage ./pkgs/kube-batch { };
 
