@@ -82,7 +82,8 @@ rec {
   oxidisched = pkgs.callPackage ./pkgs/oxidisched { };
 
   pybatsim-320 = pkgs.callPackage ./pkgs/pybatsim/pybatsim320.nix { inherit procset; };
-  pybatsim = pybatsim-320;
+  pybatsim-321 = pkgs.callPackage ./pkgs/pybatsim/pybatsim321.nix { inherit procset; };
+  pybatsim = pybatsim-321;
 
   redox = pkgs.callPackage ./pkgs/redox { };
 
