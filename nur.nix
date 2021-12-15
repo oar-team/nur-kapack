@@ -102,9 +102,8 @@ rec {
   remote_pdb = pkgs.callPackage ./pkgs/remote-pdb { };
 
   rt-tests = pkgs.callPackage ./pkgs/rt-tests { };
-  
+
   cigri = pkgs.callPackage ./pkgs/cigri { };
-	
 
   oar = pkgs.callPackage ./pkgs/oar { inherit procset pybatsim remote_pdb; };
 
