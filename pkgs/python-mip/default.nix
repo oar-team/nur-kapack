@@ -1,15 +1,12 @@
-{ lib, python3Packages, git, fetchgit }:
-# setuptools_scm is a pain: https://github.com/NixOS/nixpkgs/issues/41136
+{ lib, python3Packages }:
+
 python3Packages.buildPythonPackage rec {
-  name = "python-mip";
+  pname = "mip";
   version = "1.13.0";
-  src = fetchgit {
-    url = "https://github.com/coin-or/python-mip";
-    rev = "8a6b983df9bbe53a1e06d30689ed9ca278a0d7d8";
-    sha256 = "sha256-hIyxkBPibTZhnZUAIVOqv/sjuixAgA6lnqhOztsUD/I";
-    leaveDotGit = true;
+  src = python3Packages.fetchPypi {
+    inherit pname version;
+    sha256 = "sha256-siyz+tkSaaXxOdd/wTg55XEy2QucaX7SeRz3uxT7zHo";
   };
-  nativeBuildInputs = [ git ];
   propagatedBuildInputs = with python3Packages; [ cffi setuptools_scm ];
   doCheck = false;
 
