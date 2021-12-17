@@ -62,6 +62,8 @@ rec {
 
   melissa = pkgs.callPackage ./pkgs/melissa { };
 
+  melissa-heat-pde = pkgs.callPackage ./pkgs/melissa-heat-pde { inherit melissa; };
+
   go-swagger  = pkgs.callPackage ./pkgs/go-swagger { };
 
   gcovr = pkgs.callPackage ./pkgs/gcovr/csv.nix { };
