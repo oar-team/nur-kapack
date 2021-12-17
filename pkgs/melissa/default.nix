@@ -10,9 +10,8 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-IiJadcplNdy4o1xK9LXvD0rvNrWYJKFgYg8o7KDHlNM";
   };
 
-  #buildInputs = [ cmake gfortran python37 openmpi zeromq pkg-config libsodium ];
-  propagatedBuildInputs = [ cmake gfortran python37 openmpi zeromq pkg-config libsodium pandoc ];
-  #propagatedBuildInputs = [ pandoc ];
+  buildInputs = [ cmake gfortran python37 openmpi zeromq pkg-config libsodium ];
+  propagatedBuildInputs = [ pandoc ];
 
   cmakeFlags = [ "-DCMAKE_BUILD_TYPE=Release ${src}" ];
   enableParallelBuilding = false;
