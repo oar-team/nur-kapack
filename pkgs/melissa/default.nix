@@ -27,6 +27,7 @@ stdenv.mkDerivation rec {
 
   postInstall = ''
     substituteInPlace $out/bin/melissa-launcher --replace "python3" "${python37}/bin/python3"
+    patchShebangs $out
   '';
   
   meta = with lib; {
