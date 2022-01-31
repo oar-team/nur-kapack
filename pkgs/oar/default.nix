@@ -45,7 +45,7 @@ python3Packages.buildPythonPackage rec {
   '';
 
   meta = {
-    broken = true;
+    #broken = true;
     homepage = "https://github.com/oar-team/oar3";
     description = "The OAR Resources and Tasks Management System";
     license = lib.licenses.lgpl3;
