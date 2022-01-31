@@ -8,8 +8,8 @@ python3Packages.buildPythonPackage rec {
   src = fetchFromGitHub {
     owner = "oar-team";
     repo = "oar3";
-    rev = "2a478a3407246643ad8e192212cb97ff78ac9c28";
-    sha256 = "sha256-th4B35vhfT1jpj5cIF2q3KvqPW4MooQpJoWZHsmoKLA=";
+    rev = "6fa679652f200cbebad709f9ffd7d4e15e8ecf45";
+    sha256 = "sha256-nbdymJxTHSRcpx6KNCPDt4K/VeYa5GrC+7gGw8lSljc=";
   };
 
   nativeBuildInputs = [ poetry ];
@@ -45,7 +45,7 @@ python3Packages.buildPythonPackage rec {
   '';
 
   meta = {
-    #broken = true;
+    broken = true;
     homepage = "https://github.com/oar-team/oar3";
     description = "The OAR Resources and Tasks Management System";
     license = lib.licenses.lgpl3;

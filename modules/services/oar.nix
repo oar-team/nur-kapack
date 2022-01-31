@@ -532,6 +532,7 @@ in
         enable = true;
         user = "oar";
         group = "oar";
+
         virtualHosts.default = {
           #TODO root = "${pkgs.nix.doc}/share/doc/nix/manual";
           extraConfig =
@@ -559,11 +560,23 @@ in
                   error_page 404 = @oarapi;
                 }
 
-                location ~ ^/api {
-                  rewrite ^/api/?(.*)$ /$1 break; 
+                location @api {
+                  rewrite ^/api-priv/?(.*)$ /$1 break;
+                  rewrite ^/api/?(.*)$ /$1 break;
                   proxy_pass http://127.0.0.1:8080;
                   proxy_set_header Host $host;
+                  proxy_set_header X-Remote-Ident $remote_user;
                   proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                }
+
+                location ~ ^/api-priv {
+                  auth_basic "OAR API Authentication";
+                  auth_basic_user_file /etc/oar/api-users;
+                  error_page 404 = @api;
+                }
+                
+                location ~ ^/api {
+                  error_page 404 = @api;
                 }
               ''
               (optionalString cfg.web.monika.enable ''
