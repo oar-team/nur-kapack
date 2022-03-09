@@ -4,6 +4,8 @@ with lib;
 let
   cfg = config.services.ear;
   pgSuperUser = config.services.postgresql.superUser;
+  useMysql = cfg.database.type == "mysql";
+  usePostgresql = cfg.database.type == "postgres";
   inherit (import ./ear-conf.nix { pkgs=pkgs; lib=lib; cfg=cfg;} ) earBaseConf;
 in
 {
@@ -12,20 +14,27 @@ in
   meta.maintainers = [ maintainers.augu5te ];
 
   options = {
-  services.ear = {
-     package = mkOption {
+    services.ear = {
+      
+      package = mkOption {
         type = types.package;
         default = pkgs.nur.repos.kapack.ear;
         defaultText = "pkgs.nur.repos.kapack.ear";
       };
-
-      
       
       database = {
-        enable = mkEnableOption "EAR (Postgresql) Database";
+        enable = mkEnableOption "EAR Database";
+        
+        type = mkOption {
+          type = types.enum [ "mysql" "postgres" ];
+          example = "mysql";
+          default = "mysql";
+          description = "Database engine to use.";
+        };
+                
         host = mkOption {
           type = types.str;
-          default = "localhost";
+          default = "eardb";
           description = ''
             Host of the postgresql server. 
           '';
@@ -51,7 +60,31 @@ in
           description = "Name of the postgresql database";
         };
       };
-       
+      
+      eargmHost = mkOption {
+        type = types.str;
+          default = "eargm";
+          description = "EAR Global Manager host";
+        };
+
+      energyPlugin = mkOption {
+          type = types.str;
+          default = "energy_rapl.so";
+          description = "Energy plugin";
+      };
+      
+      energyModel = mkOption {
+          type = types.str;
+          default = "avx512_model.so";
+          description = "Energy model";
+      };
+      
+      powercapPlugin = mkOption {
+          type = types.str;
+          default = "inm.so";
+          description = "Powercap plugin";
+      };
+      
       extraConfig = mkOption {
         type = types.attrs;
         default = {};
@@ -62,8 +95,8 @@ in
           Extra configuration options that will replace default.
         '';
       };
-      node_manager = {
-        enable = mkEnableOption "EAR Node Manager (EARD)";
+      daemon = {
+        enable = mkEnableOption "EAR Daemon (EARD)";
       };
 
       global_manager = {
@@ -76,15 +109,20 @@ in
     };
   };
   ###### implementation!!
-  config =  mkIf ( cfg.node_manager.enable ||
+  config =  mkIf ( cfg.daemon.enable ||
                    cfg.global_manager.enable ||
-                   cfg.db_manager.enable ) {
+                   cfg.db_manager.enable ||
+                   cfg.database.enable) {
     
-    environment.etc."ear/ear-base.conf" = { mode = "0600"; source = earBaseConf; };
-
+    environment.etc =  mkMerge [
+      { "ear/ear-base.conf" = { mode = "0600"; source = earBaseConf; };}
       
+      (mkIf cfg.database.enable {
+        "ear/ear-db.sql" = { mode = "0666"; source = ./ear-db.sql; };
+      })
+    ];
+    
     environment.systemPackages =  [ pkgs.nur.repos.kapack.ear ];
-    environment.variables.POY = "/etc";
     environment.variables.EAR_ETC = "/etc";
     environment.variables.EAR_TMP = "/var/lib/ear";
     
@@ -102,11 +140,64 @@ in
         cat /etc/ear/ear-base.conf >> /etc/ear/ear.conf
       '';
     };
-    ##################
+
+    ##########################
     # Database Manager section
+
+    ##########################
+    # Database w/ Mysql section
+
+    services.mysql =  optionalAttrs (useMysql && cfg.database.enable) {
+      enable = mkDefault true;
+      package = mkDefault pkgs.mariadb;
+    };
     
-    environment.etc."ear/ear-db.sql" =  mkIf cfg.database.enable { mode = "0666"; source = ./ear-db.sql; }; 
-    services.postgresql = mkIf cfg.database.enable {
+    systemd.services.eardb-mysql-init = optionalAttrs (useMysql && cfg.database.enable) {
+      requires = [ "mysql.service" ];
+      after = [ "mysql.service" ];
+      description = "EAR DB Manager initialization";
+      path = [ pkgs.mariadb config.services.mysql.package ];
+      wantedBy = [ "multi-user.target" ];
+      serviceConfig.Type = "oneshot";
+      
+      script = ''
+        source ${cfg.database.passwordFile}
+        mkdir -p /var/lib/ear
+        if [ ! -f /var/lib/ear/db-created ]; then
+            echo "Create EAR DB"
+            mysql -u root -e "CREATE DATABASE IF NOT EXISTS ${cfg.database.dbname}"
+            echo "Create EAR DB tables"
+
+            mysql -u root -D ${cfg.database.dbname} < /etc/ear/ear-db.sql
+            echo "Set DB's users, their grant an misc"
+
+            mysql -u root -D ${cfg.database.dbname} <<EOF
+        CREATE USER '$DBUser'@'%' IDENTIFIED VIA mysql_native_password USING PASSWORD("$DBPassw");
+        GRANT SELECT, INSERT ON ${cfg.database.dbname}.* TO '$DBUser'@'%';
+        CREATE USER '$DBUser'@'localhost' IDENTIFIED VIA mysql_native_password USING PASSWORD("$DBPassw");
+        GRANT SELECT, INSERT ON ${cfg.database.dbname}.* TO '$DBUser'@'localhost';
+        CREATE USER '$DBCommandsUser'@'%' IDENTIFIED VIA mysql_native_password USING PASSWORD("$DBCommandsPassw");
+        GRANT SELECT ON ${cfg.database.dbname}.* TO '$DBCommandsUser'@'%';
+        ALTER USER '$DBCommandsUser'@'%' WITH MAX_USER_CONNECTIONS 20;
+        FLUSH PRIVILEGES;
+        EOF
+            touch /var/lib/ear/db-created
+        fi
+      '';
+    };
+
+    #         GRANT SELECT, INSERT ON ${cfg.database.dbname}.* TO '$DBUser'@'localhost';
+    # ALTER USER root@localhost IDENTIFIED VIA mysql_native_password USING PASSWORD("verysecret");
+    # CREATE USER '$DBUser'@'%' IDENTIFIED BY '$DBPassw';
+    
+    ##########################
+    # Database w/ Postgresql section
+    
+    #environment.etc = optionalAttrs (usePostgresql && cfg.database.enable) {
+    #  "ear/ear-db.sql" = { mode = "0666"; source = ./ear-db.sql; };
+    #};
+    
+    services.postgresql = optionalAttrs (usePostgresql && cfg.database.enable) {
       #TODO TOCOMPLETE (UNSAFE)
       enable = true;
       enableTCPIP = true;
@@ -119,7 +210,7 @@ in
       '';
     };
 
-    systemd.services.eardb-init = mkIf cfg.database.enable {
+    systemd.services.eardb-pg-init = optionalAttrs (usePostgresql && cfg.database.enable) {
       requires = [ "postgresql.service" ];
       after = [ "postgresql.service" ];
       description = "EAR DB Manager initialization";
@@ -197,12 +288,12 @@ in
     }; 
 
     ##################
-    # Global Manager section
-    
-    systemd.services.eard = mkIf (cfg.node_manager.enable) {
+    # Daemon section
+    boot.kernelModules = mkIf (cfg.daemon.enable) [ "msr" "cpufreq_userspace" ];
+    systemd.services.eard = mkIf (cfg.daemon.enable) {
       wantedBy = [ "multi-user.target" ];
       after = [ "network.target"];
-      description ="EARD - Energy Aware Runtime node daemon";
+      description ="EARD - Energy Aware Runtime Daemon";
       environment.EAR_ETC = "/etc";
       path = [ pkgs.kmod ]; 
       serviceConfig = {
@@ -211,6 +302,10 @@ in
         Restart = "on-failure";
       };
       preStart = ''
+        if [ -f /sys/devices/system/cpu/intel_pstate/status ]; then
+          # needed to switch to intel_cpufreq
+          echo passive > /sys/devices/system/cpu/intel_pstate/status
+        fi
         # Backwards compatibility
         if [ ! -d /var/lib/ear ]; then
           mkdir -p /var/lib/ear

@@ -1,17 +1,17 @@
-{ config, stdenv, lib, fetchgit, autoreconfHook, gsl, postgresql, libmysqlclient, slurm, openmpi, useMysql ? false, useAvx512 ? config.useAvx512 or false, cudaSupport ? config.cudaSupport or false, cudatoolkit }:
+{ config, stdenv, lib, fetchgit, autoreconfHook, gsl, postgresql, libmysqlclient, slurm, openmpi, useMysql ? true, useAvx512 ? config.useAvx512 or false, cudaSupport ? config.cudaSupport or false, cudatoolkit }:
 
 stdenv.mkDerivation rec {
   name =  "ear-${version}";
   version = "4.0.5";
   
-  src = fetchgit {
-     url = "https://gitlab.bsc.es/ear_team/ear.git";
-     rev = "d7e206ab289efdbb25a00b408dea748536faeef2";
-     sha256 = "sha256-ff/NdZ3jvHGxO4v92+KpzDpHhWcZKVmwuBLs/oZyl5I=";
-  };
+  # src = fetchgit {
+  #    url = "https://gitlab.bsc.es/ear_team/ear.git";
+  #    rev = "d7e206ab289efdbb25a00b408dea748536faeef2";
+  #    sha256 = "sha256-ff/NdZ3jvHGxO4v92+KpzDpHhWcZKVmwuBLs/oZyl5I=";
+  # };
 
   #src = /home/orichard/ear;
-  #src = /home/auguste/dev/ear;
+  src = /home/auguste/dev/ear;
   
   nativeBuildInputs = [ autoreconfHook ];
   

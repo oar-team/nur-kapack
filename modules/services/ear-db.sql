@@ -10,11 +10,11 @@ CREATE TABLE IF NOT EXISTS Learning_applications (job_id INT  NOT NULL, step_id 
 CREATE TABLE IF NOT EXISTS Learning_jobs (id INT  NOT NULL,step_id INT  NOT NULL, user_id VARCHAR(256),app_id VARCHAR(256),start_time INT NOT NULL,end_time INT NOT NULL,start_mpi_time INT NOT NULL,end_mpi_time INT NOT NULL,policy VARCHAR(256) NOT NULL,threshold FLOAT NOT NULL,procs INT  NOT NULL,job_type SMALLINT  NOT NULL,def_f INT , user_acc VARCHAR(256) NOT NULL, user_group VARCHAR(256), e_tag VARCHAR(256), PRIMARY KEY(id, step_id));
 CREATE TABLE IF NOT EXISTS Periodic_aggregations (id SERIAL NOT NULL,start_time INT,end_time INT,DC_energy INT , eardbd_host VARCHAR(64), PRIMARY KEY(id));
 CREATE TABLE IF NOT EXISTS Learning_signatures (id SERIAL NOT NULL,DC_power FLOAT,DRAM_power FLOAT,PCK_power FLOAT,EDP FLOAT,GBS FLOAT,TPI FLOAT,CPI FLOAT,Gflops FLOAT,time FLOAT,FLOPS1 BIGINT ,FLOPS2 BIGINT ,FLOPS3 BIGINT ,FLOPS4 BIGINT ,FLOPS5 BIGINT ,FLOPS6 BIGINT ,FLOPS7 BIGINT ,FLOPS8 BIGINT ,instructions BIGINT , cycles BIGINT ,avg_f INT ,def_f INT , PRIMARY KEY (id));
-CREATE OR REPLACE FUNCTION update_time_column() 
-RETURNS TRIGGER AS $$
-BEGIN
-NEW.time = now(); 
-RETURN NEW;
-END;
-$$ language 'plpgsql';
-CREATE TRIGGER update_table_timestamp BEFORE UPDATE ON global_energy FOR EACH ROW EXECUTE PROCEDURE update_time_column();
+-- CREATE OR REPLACE FUNCTION update_time_column() 
+-- RETURNS TRIGGER AS $$
+-- BEGIN
+-- NEW.time = now(); 
+-- RETURN NEW;
+-- END;
+-- $$ language 'plpgsql';
+-- CREATE TRIGGER update_table_timestamp BEFORE UPDATE ON global_energy FOR EACH ROW EXECUTE PROCEDURE update_time_column();
