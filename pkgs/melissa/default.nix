@@ -1,4 +1,4 @@
-{ stdenv, lib, fetchgit, cmake, pkg-config, gfortran, python37, zeromq, openmpi, libsodium, pandoc }:
+{ stdenv, lib, fetchgit, bash, cmake, pkg-config, gfortran, python37, zeromq, openmpi, libsodium, pandoc }:
 
 stdenv.mkDerivation rec {
   name =  "melissa-${version}";
@@ -27,6 +27,8 @@ stdenv.mkDerivation rec {
 
   postInstall = ''
     substituteInPlace $out/bin/melissa-launcher --replace "python3" "${python37}/bin/python3"
+    substituteInPlace $out/share/melissa/melissa/launcher/job_management.py --replace "/bin/sh" "${bash}/bin/sh"
+    substituteInPlace $out/share/melissa/melissa/scheduler/slurm.py --replace "/bin/sh" "${bash}/bin/sh"
     patchShebangs $out
   '';
   
