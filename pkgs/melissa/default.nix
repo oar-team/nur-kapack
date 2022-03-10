@@ -1,4 +1,4 @@
-{ stdenv, lib, fetchgit, bash, cmake, pkg-config, gfortran, python37, zeromq, openmpi, libsodium, pandoc }:
+{ stdenv, lib, fetchgit, bash, cmake, pkg-config, gfortran, python37, zeromq, openmpi, libsodium, pandoc, ghc }:
 
 stdenv.mkDerivation rec {
   name =  "melissa-${version}";
@@ -36,7 +36,7 @@ stdenv.mkDerivation rec {
     homepage = "https://melissa-sa.github.io/";
     description = "Melissa is a file avoiding, adaptive, fault tolerant and elastic framework, to run large scale sensitivity analysis on supercomputers";
     license = licenses.bsd3;
-    #platforms = ghc.meta.platforms;
-    platforms = platforms.linux;
+    platforms = ghc.meta.platforms;
+    #platforms = platforms.linux;
   };
 }
