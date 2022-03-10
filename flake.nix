@@ -28,5 +28,6 @@
         nixosModules =
           builtins.mapAttrs (name: path: import path) (import ./modules);
         overlay = import ./overlay.nix;
+        overlays = import ./overlays/default.nix;
       };
 }
