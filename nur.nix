@@ -64,6 +64,8 @@ rec {
 
   melissa = pkgs.callPackage ./pkgs/melissa { };
 
+  npb =  pkgs.callPackage ./pkgs/npb { };
+  
   go-swagger  = pkgs.callPackage ./pkgs/go-swagger { };
 
   gcovr = pkgs.callPackage ./pkgs/gcovr/csv.nix { };
