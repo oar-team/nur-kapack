@@ -1,12 +1,12 @@
-{stdenv, lib, melissa, cmake, gfortran, openmpi, python37 }:
+{stdenv, lib, melissa, cmake, gfortran, openmpi, python3 }:
 
 stdenv.mkDerivation rec {
-    name = "heat-pde";
-    version = "0.0.0";
+    pname = "heat-pde";
+    version = melissa.version;
 
     src = "${melissa}/share/melissa/examples/heat-pde";
 
-    buildInputs = [ melissa cmake gfortran openmpi python37 ];
+    buildInputs = [ melissa cmake gfortran openmpi python3 ];
 
     postInstall = ''
         mkdir -p $out
@@ -18,5 +18,6 @@ stdenv.mkDerivation rec {
         homepage = "https://melissa-sa.github.io/";
         description = "Melissa framework example - heat equation";
         platforms = platforms.linux;
+	broken = false;
     };
 }
