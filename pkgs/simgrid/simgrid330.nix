@@ -1,6 +1,6 @@
 { stdenv, lib, fetchFromGitLab, cmake, perl, python3, boost
 , fortranSupport ? false, gfortran
-, buildDocumentation ? false, transfig, ghostscript, doxygen
+, buildDocumentation ? false, fig2dev, ghostscript, doxygen
 , buildJavaBindings ? false, openjdk
 , buildPythonBindings ? true, python3Packages
 , modelCheckingSupport ? false, libunwind, libevent, elfutils # Inside elfutils: libelf and libdw
@@ -36,7 +36,7 @@ stdenv.mkDerivation rec {
     ++ optionals fortranSupport [ gfortran ]
     ++ optionals buildJavaBindings [ openjdk ]
     ++ optionals buildPythonBindings [ python3Packages.pybind11 ]
-    ++ optionals buildDocumentation [ transfig ghostscript doxygen ]
+    ++ optionals buildDocumentation [ fig2dev ghostscript doxygen ]
     ++ optionals modelCheckingSupport [ libunwind libevent elfutils ];
 
   outputs = [ "out" ]
@@ -117,5 +117,6 @@ stdenv.mkDerivation rec {
     license = licenses.lgpl2Plus;
     maintainers = with maintainers; [ mickours mpoquet ];
     platforms = platforms.all;
+    broken = stdenv.isDarwin;
   };
 }
