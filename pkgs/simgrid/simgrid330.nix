@@ -93,6 +93,8 @@ stdenv.mkDerivation rec {
     # remove bin from output if requested.
     # having a specific bin output would be cleaner but it does not work currently (circular references)
     rm -rf $out/bin
+    rm -f $out/lib/simgrid/smpimain
+    rm -f $out/lib/simgrid/smpireplaymain
   '' + lib.optionalString buildPythonBindings ''
     # manually install the python binding if requested.
     mkdir -p $python/lib/python${lib.versions.majorMinor python3.version}/site-packages/
