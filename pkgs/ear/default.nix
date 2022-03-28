@@ -4,14 +4,11 @@ stdenv.mkDerivation rec {
   name =  "ear-${version}";
   version = "4.0.5";
   
-  # src = fetchgit {
-  #    url = "https://gitlab.bsc.es/ear_team/ear.git";
-  #    rev = "d7e206ab289efdbb25a00b408dea748536faeef2";
-  #    sha256 = "sha256-ff/NdZ3jvHGxO4v92+KpzDpHhWcZKVmwuBLs/oZyl5I=";
-  # };
-
-  #src = /home/orichard/ear;
-  src = /home/auguste/dev/ear;
+  src = fetchgit {
+     url = "https://gitlab.inria.fr/nixos-compose/regale/ear.git";
+     rev = "85105f441c7080b615e0f2377b1d22ca3a9cf51a";
+     sha256 = "sha256-vqHPt1O+va3vjssEcITTmbWyzZeBzP6G3VsLb4UPBhA=";
+  };
   
   nativeBuildInputs = [ autoreconfHook ];
   
@@ -32,10 +29,11 @@ stdenv.mkDerivation rec {
 
   configureFlags = [
     "CC=${stdenv.cc}/bin/gcc"
-    "CC_FLAGS=-lm"
+    "CC_FLAGS=-lm" # "CC_FLAGS=-DSHOW_DEBUGS"]
+    "MPI_VERSION=ompi"
     "DB_DIR=/only_as_build_dep"
     "--with-gsl=${gsl.out}"
-    "--with-slurm=slurm"]# "CC_FLAGS=-DSHOW_DEBUGS"]
+    "--with-slurm=slurm"]
     ++ [(if useMysql then "--with-mysql=${libmysqlclient.out}" else "--with-pgsql=${postgresql.out}")]
     ++ (if useAvx512 then [] else ["--disable-avx512"])
     ++ (if cudaSupport then ["--with-cuda=${cudatoolkit.out}"] else []);
