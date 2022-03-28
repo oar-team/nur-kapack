@@ -22,6 +22,16 @@ DBPort= ${if useMysql then "3306" else "5432"}
 NodeDaemonPort=50001
 # Frequency at wich the periodic metrics are reported: In seconds
 NodeDaemonPowermonFreq=60
+# Enables the use of the database.
+NodeUseDB=1
+# Inserts data to MySQL by sending that data to the EARDBD (1) or directly (0).
+NodeUseEARDBD=1
+# The verbosity level [0..4]
+NodeDaemonVerbose=4
+
+# When set to 1, the output is saved in '$EAR_TMP'/eard.log (common configuration) as a log file.Otherwsie, stderr is used.
+NodeUseLog=1
+
 #---------------------------------------------------------------------------------------------------
 # EAR Database Manager (EARDBD): Update that section to change EARDBD configuration
 #---------------------------------------------------------------------------------------------------
@@ -33,6 +43,7 @@ DBDaemonAggregationTime=60
 DBDaemonInsertionTime=30
 # Memory size expressed in MB per process (server and/or mirror) to cache the values.
 DBDaemonMemorySize=120
+
 #---------------------------------------------------------------------------------------------------
 # EAR Library (EARL)
 #---------------------------------------------------------------------------------------------------
@@ -46,7 +57,7 @@ EARGMHost=${cfg.eargmHost}
 # when EARDBD is running
 EARGMUseAggregated=1
 # Period T1 and T2 are specified in seconds T1 (ex. must be less than T2, ex. 10min and 1 month)
-EARGMPeriodT1=90
+EARGMPeriodT1=60
 EARGMPeriodT2=259200
 # '-' are Joules, 'K' KiloJoules and 'M' MegaJoules.
 EARGMUnits=K
@@ -77,6 +88,8 @@ EARGMPowerCapResumeLimit=40
 # Format for action is: command_name current_power current_limit total_idle_nodes total_idle_power 
 EARGMPowerCapResumeAction=no_action
 
+EARGMVerbose=4
+
 #---------------------------------------------------------------------------------------------------
 # Common configuration
 #---------------------------------------------------------------------------------------------------
@@ -86,6 +99,9 @@ InstDir=${pkgs.nur.repos.kapack.ear}
 # Network extension (using another network instead of the local one). If compute nodes must be accessed from login nodes with a network different than default, and can be accesed using a expension, uncommmet next line and define 'netext' accordingly. 
 # NetworkExtension=netext
 
+# Default verbose level
+Verbose=4
+
 #---------------------------------------------------------------------------------------------------
 # Plugin configuration. These values are used for the whole cluster except a specific configuration is
 # explicitly applied to one tag. They are mandatory since they are used by default 
@@ -93,9 +109,9 @@ InstDir=${pkgs.nur.repos.kapack.ear}
 ## Energy readings sources: List of plugins available at $EAR_INSTALL_PATH/lib/plugins/energy
 energy_plugin=${cfg.energyPlugin}
 ## Energy models: List of plugins available at $EAR_INSTALL_PATH/lib/plugins/models
-energy_model=${cfg.energyPlugin}
+energy_model=${cfg.energyModel}
 ## Powercap plugins: List of plugins available at $EAR_INSTALL_PATH/lib/plugins/powercap
-powercap_plugin=${cfg.energyPlugin}
+powercap_plugin=${cfg.powercapPlugin}
 
 #---------------------------------------------------------------------------------------------------
 # Authorized Users
@@ -115,7 +131,7 @@ powercap_plugin=${cfg.energyPlugin}
 # monitoring the cluster's powercap, max_powercap can be used to ensure that a node's power will never
 # go beyond that value, regardless of the free power available cluster-wide.
 # At least a default tag is mandatory to be included in this file for a cluster to work properly.
-#Tag=6148 default=yes max_avx512=2.2 max_avx2=2.6 max_power=500 min_power=50 error_power=600 coeffs=coeffs.default powercap=0
+Tag=foo default=yes max_avx512=2.1 max_avx2=2.1 max_power=500 min_power=1 error_power=600 coeffs=coeffs.default powercap=0
 #Tag=6126 max_avx512=2.3 max_avx2=2.9 ceffs=coeffs.6126.default max_power=600 error_power=700 powercap=0
 
 #---------------------------------------------------------------------------------------------------
@@ -123,18 +139,17 @@ powercap_plugin=${cfg.energyPlugin}
 ## ---------------------------------------------------------------------------------------------------
 #
 ## policy names must be exactly file names for policies installed in the system
-DefaultPowerPolicy=min_time
-Policy=monitoring Settings=0 DefaultFreq=2.4 Privileged=0
-Policy=min_time Settings=0.7 DefaultFreq=2.0 Privileged=0
-Policy=min_energy Settings=0.05 DefaultFreq=2.4 Privileged=1
+DefaultPowerPolicy=monitoring
+#Policy=monitoring Settings=0 DefaultFreq=2.1 Privileged=0
+#Policy=min_time Settings=0.7 DefaultFreq=2.0 Privileged=0
+#Policy=min_energy Settings=0.05 DefaultFreq=2.4 Privileged=1
 
 # For homogeneous systems, default frequencies can be easily specified using freqs, for heterogeneous systems it is preferred to use pstates or use tags 
 
 # Example with pstates (lower pstates corresponds with higher frequencies). Pstate=1 is nominal and 0 is turbo
-#Policy=monitoring Settings=0 DefaultPstate=1 Privileged=0
-#Policy=min_time Settings=0.7 DefaultPstate=4 Privileged=0
-#Policy=min_energy Settings=0.05 DefaultPstate=1 Privileged=1
-
+Policy=monitoring Settings=0 DefaultPstate=1 Privileged=0
+Policy=min_time Settings=0.7 DefaultPstate=4 Privileged=0
+Policy=min_energy Settings=0.05 DefaultPstate=1 Privileged=0
 
 #Example with tags
 #Policy=monitoring Settings=0 DefaultFreq=2.6 Privileged=0 tag=6126

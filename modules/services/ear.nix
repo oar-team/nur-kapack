@@ -151,7 +151,11 @@ in
       enable = mkDefault true;
       package = mkDefault pkgs.mariadb;
     };
-    
+
+
+    # TODO: use edb_create to db_create and index setting (note: as we use maria.db user creation must use:
+    # CREATE USER '$DBCommandsUser'@'%' IDENTIFIED VIA mysql_native_password USING PASSWORD("$DBCommandsPassw");
+    # need to patac edb_create.c
     systemd.services.eardb-mysql-init = optionalAttrs (useMysql && cfg.database.enable) {
       requires = [ "mysql.service" ];
       after = [ "mysql.service" ];
@@ -174,8 +178,6 @@ in
             mysql -u root -D ${cfg.database.dbname} <<EOF
         CREATE USER '$DBUser'@'%' IDENTIFIED VIA mysql_native_password USING PASSWORD("$DBPassw");
         GRANT SELECT, INSERT ON ${cfg.database.dbname}.* TO '$DBUser'@'%';
-        CREATE USER '$DBUser'@'localhost' IDENTIFIED VIA mysql_native_password USING PASSWORD("$DBPassw");
-        GRANT SELECT, INSERT ON ${cfg.database.dbname}.* TO '$DBUser'@'localhost';
         CREATE USER '$DBCommandsUser'@'%' IDENTIFIED VIA mysql_native_password USING PASSWORD("$DBCommandsPassw");
         GRANT SELECT ON ${cfg.database.dbname}.* TO '$DBCommandsUser'@'%';
         ALTER USER '$DBCommandsUser'@'%' WITH MAX_USER_CONNECTIONS 20;
@@ -186,6 +188,11 @@ in
       '';
     };
 
+    # CREATE USER '$DBUser'@'localhost' IDENTIFIED VIA mysql_native_password USING PASSWORD("$DBPassw");
+    # GRANT SELECT, INSERT ON ${cfg.database.dbname}.* TO '$DBUser'@'localhost';
+
+    #
+    
     #         GRANT SELECT, INSERT ON ${cfg.database.dbname}.* TO '$DBUser'@'localhost';
     # ALTER USER root@localhost IDENTIFIED VIA mysql_native_password USING PASSWORD("verysecret");
     # CREATE USER '$DBUser'@'%' IDENTIFIED BY '$DBPassw';
