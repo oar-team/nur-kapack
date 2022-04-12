@@ -16,7 +16,7 @@ stdenv.mkDerivation rec {
      rev = "85105f441c7080b615e0f2377b1d22ca3a9cf51a";
      sha256 = "sha256-vqHPt1O+va3vjssEcITTmbWyzZeBzP6G3VsLb4UPBhA=";
   };
-  
+
   nativeBuildInputs = [ autoreconfHook ];
   
   buildInputs = [ gsl openmpi which ] ++ [(if useMysql then libmysqlclient else postgresql)] ++ lib.optional cudaSupport cudatoolkit ++ lib.optional useSlurm slurm;
@@ -57,7 +57,7 @@ stdenv.mkDerivation rec {
     cd -
   '';
 
-  postInstall = "cp etc/examples/prolog_epilog/ejob $out/bin/";
+  postInstall = "cp etc/examples/prolog_epilog/ejob etc/examples/prolog_epilog/oar-ejob $out/bin/";
   
   meta = with lib; {
     homepage = "https://gitlab.bsc.es/ear_team/ear";
