@@ -8,8 +8,8 @@ stdenv.mkDerivation rec {
     domain = "gitlab.inria.fr";
     owner = "melissa";
     repo = "melissa";
-    rev = "e6d09dbb4785e074ed91ad3b46d5a1576aed7b2f";
-    sha256 = "sha256-IiJadcplNdy4o1xK9LXvD0rvNrWYJKFgYg8o7KDHlNM";
+    rev = "v${version}";
+    sha256 = "sha256-YVT4kmzHrBwpE8VhPItL/O3qb7N/5pnWpmSBhDh0q38=";
   };
 
   buildInputs = [ cmake gfortran python3 openmpi zeromq pkg-config libsodium ];
