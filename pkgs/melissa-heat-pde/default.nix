@@ -15,9 +15,9 @@ stdenv.mkDerivation rec {
     '';
 
     meta = with lib; {
-        homepage = "https://melissa-sa.github.io/";
-        description = "Melissa framework example - heat equation";
-        platforms = platforms.linux;
-	broken = false;
+      homepage = "https://melissa-sa.github.io/";
+      description = "Melissa framework example - heat equation";
+      platforms = platforms.linux;
+	  broken = false;
     };
 }
