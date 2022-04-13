@@ -13,9 +13,7 @@ stdenv.mkDerivation rec {
   };
 
   buildInputs = [ cmake gfortran python3 openmpi zeromq pkg-config libsodium ];
-  #propagatedBuildInputs = [ pandoc ];
 
-  #cmakeFlags = [ "-DCMAKE_BUILD_TYPE=Release ${src}" ];
   cmakeBuildType = "Release";
   enableParallelBuilding = false;
   dontUseCmakeBuildDir = true;
