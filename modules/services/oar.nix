@@ -144,8 +144,14 @@ in
       oarHomeDir = mkOption {
         type = types.str;
         default = "/var/lib/oar";
-        description = "Home for oar user ";
+        description = "Home for oar user";
       };
+
+      # cpusetBasePath = mkOption {
+      #   type = types.str;
+      #   default = "/dev/oar_cgroups_links/cpuset";
+      #   description = "Cpuset base path for job processes";
+      # };
 
       database = {
         host = mkOption {
@@ -182,6 +188,21 @@ in
           default = "oar";
           description = "Name of the postgresql database";
         };
+
+        initPath = mkOption {
+          type = types.listOf types.package;
+          default = [ ];
+          description = "List of Package made available for postInitCommands";
+        };
+
+        postInitCommands = mkOption {
+          default = "";
+          example = "touch /etc/foo";
+          type = types.lines;
+          description = ''
+          Shell commands to be executed just after OAR DB initialization.
+          ''; 
+        };
       };
 
       extraConfig = mkOption {
@@ -213,6 +234,14 @@ in
             description = "Extra command called once after registration";
           };
         };
+        # job_notifier = {
+        #   enable = mkEnableOption "Job start/end notifier";
+        #   command = mkOption {
+        #     type = types.str;
+        #     default = "";
+        #     description = "Command to call (first arg START|END, second job_id)";
+        #   };
+        # };
       };
 
       server = {
@@ -426,7 +455,6 @@ in
         wantedBy = [ "multi-user.target" ];
         after = [ "network.target" ];
         stopIfChanged = false;
-        path = [ pkgs.openssh ];
         preStart = ''
           # Make sure we don't write to stdout, since in case of
           # socket activation, it goes to the remote side (#19589).
@@ -436,7 +464,7 @@ in
           fi
         '';
         serviceConfig = {
-          ExecStart = " ${pkgs.openssh}/bin/sshd -f ${oarSshdConf}";
+          ExecStart = "${pkgs.openssh}/bin/sshd -f ${oarSshdConf}";
           KillMode = "process";
           Restart = "always";
           Type = "simple";
@@ -457,6 +485,33 @@ in
         ];
       };
 
+      #### 
+      # systemd.services.oar-node-job-notifier = mkIf (cfg.node.job_notifier.enable) {
+      #   wantedBy = [ "multi-user.target" ];
+      #   after = [ "network.target" "oar-user-init" "oar-conf-init" "oar-node" ];
+      #    path = [ pkgs.inotify-tools ];
+      #    script = ''
+      #       source /etc/oar/oar.conf
+      #       cpuset_path=${cfg.cpusetBasePath}$CPUSET_PATH
+      
+      #       # TODO prepare_cpuset_nixos.pl|py
+             
+      #       ${pkgs.inotify-tools}/bin/inotifywait -q -m -e create -e delete --format '%:e %f' \
+      #           $cpuset_path | \
+      #       while read events; do
+      #       echo $events $CPUSET_PATH >> /tmp/yop
+      #       done
+      #       # ${cfg.node.job_notifier.command}
+      #     '';
+      #    serviceConfig = {
+      #      User = "oar";
+      #      Group = "oar";
+      #      KillMode = "process";
+      #      Type = "simple";
+      #      Restart = "always";
+      #    };
+      # };
+
       ################
       # Server Section
       systemd.services.oar-server = mkIf (cfg.server.enable) {
@@ -471,6 +526,7 @@ in
           ExecStart = "${cfg.package}/bin/oar-almighty";
           KillMode = "process";
           Restart = "on-failure";
+          RestartSec = "1s";
         };
       };
 
@@ -491,11 +547,11 @@ in
 
       #networking.firewall.allowedTCPPorts = mkIf cfg.dbserver.enable [5432];
 
-      systemd.services.oardb-init = mkIf cfg.dbserver.enable {
+      systemd.services.oar-db-init = mkIf cfg.dbserver.enable {
         requires = [ "postgresql.service" ];
         after = [ "postgresql.service" ];
         description = "OARD DB initialization";
-        path = [ config.services.postgresql.package ];
+        path = [ config.services.postgresql.package ] ++ cfg.database.initPath;
         wantedBy = [ "multi-user.target" ];
         serviceConfig.Type = "oneshot";
 
@@ -519,7 +575,9 @@ in
             PGPASSWORD=$DB_BASE_PASSWD ${pkgs.postgresql}/bin/psql -U $DB_BASE_LOGIN \
               -c "GRANT SELECT ON ALL TABLES IN SCHEMA public TO $DB_BASE_LOGIN_RO;" \
               -h localhost ${cfg.database.dbname}
-              
+            
+            ${cfg.database.postInitCommands}
+
             touch /var/lib/oar/db-created
           fi
         '';
