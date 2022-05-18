@@ -3,15 +3,15 @@
 # TODO test cudasupport
 # TODO test/finish Postgresql
 # TODO test/finish Slurm
-# TODO test/add debug
+# TODO test/add debug (test generic approach)
 # TODO torque/PBS
-
+# TODO remove workaround for "stack smashing detected" 
 stdenv.mkDerivation rec {
   pname =  "ear";
   version = "4.1.0";
 
   # WARNNING: repo below refers to a public version it's not suitable to be use with OAR
-  src = fetchgit {
+  src1 = fetchgit {
      url = "https://gitlab.inria.fr/nixos-compose/regale/ear.git";
      rev = "85105f441c7080b615e0f2377b1d22ca3a9cf51a";
      sha256 = "sha256-vqHPt1O+va3vjssEcITTmbWyzZeBzP6G3VsLb4UPBhA=";
@@ -32,6 +32,9 @@ stdenv.mkDerivation rec {
     ln -s ${lib.getDev slurm}/include slurm
   '' else "");
 
+  # 2022-05-17: workaround for "stack smashing detected" 
+  NIX_CFLAGS_COMPILE = "-fno-stack-protector";
+  
   configureFlags = [
     "CC=${stdenv.cc}/bin/gcc"
     "CC_FLAGS=-lm" # "CC_FLAGS=-DSHOW_DEBUGS"]
