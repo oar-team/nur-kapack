@@ -34,7 +34,7 @@ rec {
 
   haskellPackages = import ./pkgs/haskellPackages { inherit pkgs; };
 
-  batsched-130 = pkgs.callPackage ./pkgs/batsched/batsched130.nix { inherit loguru redox debug; intervalset = intervalsetlight; };
+  batsched-130 = pkgs-2109.callPackage ./pkgs/batsched/batsched130.nix { inherit debug; loguru = loguru-oldnixpkgs; intervalset = intervalsetlight; redox = redox-oldnixpkgs; };
   batsched-140 = pkgs.callPackage ./pkgs/batsched/batsched140.nix { inherit loguru redox debug; intervalset = intervalsetlight; };
   batsched = batsched-140;
 
@@ -82,6 +82,7 @@ rec {
 
   kube-batch = pkgs.callPackage ./pkgs/kube-batch { };
 
+  loguru-oldnixpkgs = pkgs-2109.callPackage ./pkgs/loguru { inherit debug; };
   loguru = pkgs.callPackage ./pkgs/loguru { inherit debug; };
 
   procset = pkgs.callPackage ./pkgs/procset { };
@@ -98,6 +99,7 @@ rec {
 
   python-mip = pkgs.callPackage ./pkgs/python-mip { };
 
+  redox-oldnixpkgs = pkgs-2109.callPackage ./pkgs/redox { };
   redox = pkgs.callPackage ./pkgs/redox { };
 
   remote_pdb = pkgs.callPackage ./pkgs/remote-pdb { };
