@@ -3,12 +3,12 @@
 python3Packages.buildPythonApplication rec {
   pname = "batsky";
   version = "0.1.0";
-  
+
   #src = fetchgit {
   #  url = /home/auguste/dev/batsky;
   #  sha256 = "17lakcbdfpwi6d8648cb7x6hmm0vylry2336zb901fl04h7d5l75";
   #  rev = "d18cac7666fdea9d07383fca2097dc06c6c079b5";
-    
+
   #};
   src = fetchFromGitHub {
     owner = "oar-team";
