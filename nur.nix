@@ -42,7 +42,7 @@ rec {
 
   batprotocol-cpp = pkgs.callPackage ./pkgs/batprotocol/cpp.nix { inherit flatbuffers debug; };
 
-  batsim-310 = pkgs.callPackage ./pkgs/batsim/batsim310.nix { inherit redox debug; simgrid = simgrid-324; intervalset = intervalsetlight; };
+  batsim-310 = pkgs-2109.callPackage ./pkgs/batsim/batsim310.nix { inherit debug; simgrid = simgrid-324; intervalset = intervalsetlight; redox = redox-oldnixpkgs; };
   batsim-400 = pkgs.callPackage ./pkgs/batsim/batsim400.nix { inherit redox debug; simgrid = simgrid-325light; intervalset = intervalsetlight; };
   batsim-410 = pkgs.callPackage ./pkgs/batsim/batsim410.nix { inherit redox debug; simgrid = simgrid-331light; intervalset = intervalsetlight; };
   batsim = batsim-410;
