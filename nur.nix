@@ -3,6 +3,10 @@
     url = "https://github.com/NixOS/nixpkgs/archive/22.05.tar.gz";
     sha256 = "0d643wp3l77hv2pmg2fi7vyxn4rwy0iyr8djcw1h5x72315ck9ik";
   }) {}
+, pkgs-2109 ? import (fetchTarball {
+    url = "https://github.com/NixOS/nixpkgs/archive/21.11.tar.gz";
+    sha256 = "162dywda2dvfj1248afxc45kcrg83appjd0nmdb541hl7rnncf02";
+  }) {}
 , debug ? false
 }:
 
@@ -111,9 +115,10 @@ rec {
   rsg-030 = pkgs.callPackage ./pkgs/remote-simgrid/rsg030.nix { inherit debug ; simgrid = simgrid-326; };
   rsg = rsg-030;
 
-  simgrid-324 = pkgs.callPackage ./pkgs/simgrid/simgrid324.nix { inherit debug; };
-  simgrid-325 = pkgs.callPackage ./pkgs/simgrid/simgrid325.nix { inherit debug; };
-  simgrid-326 = pkgs.callPackage ./pkgs/simgrid/simgrid326.nix { inherit debug; };
+  # simgrid-3(24->26) compiles with glibc from nixpkgs-21.09 but not with more recent nixpkgs versions
+  simgrid-324 = pkgs-2109.callPackage ./pkgs/simgrid/simgrid324.nix { inherit debug; };
+  simgrid-325 = pkgs-2109.callPackage ./pkgs/simgrid/simgrid325.nix { inherit debug; };
+  simgrid-326 = pkgs-2109.callPackage ./pkgs/simgrid/simgrid326.nix { inherit debug; };
   simgrid-327 = pkgs.callPackage ./pkgs/simgrid/simgrid327.nix { inherit debug; };
   simgrid-328 = pkgs.callPackage ./pkgs/simgrid/simgrid328.nix { inherit debug; };
   simgrid-329 = pkgs.callPackage ./pkgs/simgrid/simgrid329.nix { inherit debug; };
