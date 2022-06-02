@@ -1,5 +1,9 @@
 # If called without explicitly setting the 'pkgs' arg, a pinned nixpkgs version is used by default.
 { pkgs ? import (fetchTarball {
+    url = "https://github.com/NixOS/nixpkgs/archive/22.05.tar.gz";
+    sha256 = "0d643wp3l77hv2pmg2fi7vyxn4rwy0iyr8djcw1h5x72315ck9ik";
+  }) {}
+, pkgs-2109 ? import (fetchTarball {
     url = "https://github.com/NixOS/nixpkgs/archive/21.11.tar.gz";
     sha256 = "162dywda2dvfj1248afxc45kcrg83appjd0nmdb541hl7rnncf02";
   }) {}
@@ -30,7 +34,7 @@ rec {
 
   haskellPackages = import ./pkgs/haskellPackages { inherit pkgs; };
 
-  batsched-130 = pkgs.callPackage ./pkgs/batsched/batsched130.nix { inherit loguru redox debug; intervalset = intervalsetlight; };
+  batsched-130 = pkgs-2109.callPackage ./pkgs/batsched/batsched130.nix { inherit debug; loguru = loguru-oldnixpkgs; intervalset = intervalsetlight; redox = redox-oldnixpkgs; };
   batsched-140 = pkgs.callPackage ./pkgs/batsched/batsched140.nix { inherit loguru redox debug; intervalset = intervalsetlight; };
   batsched = batsched-140;
 
@@ -38,7 +42,7 @@ rec {
 
   batprotocol-cpp = pkgs.callPackage ./pkgs/batprotocol/cpp.nix { inherit flatbuffers debug; };
 
-  batsim-310 = pkgs.callPackage ./pkgs/batsim/batsim310.nix { inherit redox debug; simgrid = simgrid-324; intervalset = intervalsetlight; };
+  batsim-310 = pkgs-2109.callPackage ./pkgs/batsim/batsim310.nix { inherit debug; simgrid = simgrid-324; intervalset = intervalsetlight; redox = redox-oldnixpkgs; };
   batsim-400 = pkgs.callPackage ./pkgs/batsim/batsim400.nix { inherit redox debug; simgrid = simgrid-325light; intervalset = intervalsetlight; };
   batsim-410 = pkgs.callPackage ./pkgs/batsim/batsim410.nix { inherit redox debug; simgrid = simgrid-331light; intervalset = intervalsetlight; };
   batsim = batsim-410;
@@ -69,8 +73,6 @@ rec {
 
   go-swagger  = pkgs.callPackage ./pkgs/go-swagger { };
 
-  gcovr = pkgs.callPackage ./pkgs/gcovr/csv.nix { };
-
   gocov = pkgs.callPackage ./pkgs/gocov { };
 
   gocovmerge = pkgs.callPackage ./pkgs/gocovmerge { };
@@ -80,6 +82,7 @@ rec {
 
   kube-batch = pkgs.callPackage ./pkgs/kube-batch { };
 
+  loguru-oldnixpkgs = pkgs-2109.callPackage ./pkgs/loguru { inherit debug; };
   loguru = pkgs.callPackage ./pkgs/loguru { inherit debug; };
 
   procset = pkgs.callPackage ./pkgs/procset { };
@@ -96,6 +99,7 @@ rec {
 
   python-mip = pkgs.callPackage ./pkgs/python-mip { };
 
+  redox-oldnixpkgs = pkgs-2109.callPackage ./pkgs/redox { };
   redox = pkgs.callPackage ./pkgs/redox { };
 
   remote_pdb = pkgs.callPackage ./pkgs/remote-pdb { };
@@ -113,9 +117,10 @@ rec {
   rsg-030 = pkgs.callPackage ./pkgs/remote-simgrid/rsg030.nix { inherit debug ; simgrid = simgrid-326; };
   rsg = rsg-030;
 
-  simgrid-324 = pkgs.callPackage ./pkgs/simgrid/simgrid324.nix { inherit debug; };
-  simgrid-325 = pkgs.callPackage ./pkgs/simgrid/simgrid325.nix { inherit debug; };
-  simgrid-326 = pkgs.callPackage ./pkgs/simgrid/simgrid326.nix { inherit debug; };
+  # simgrid-3(24->26) compiles with glibc from nixpkgs-21.09 but not with more recent nixpkgs versions
+  simgrid-324 = pkgs-2109.callPackage ./pkgs/simgrid/simgrid324.nix { inherit debug; };
+  simgrid-325 = pkgs-2109.callPackage ./pkgs/simgrid/simgrid325.nix { inherit debug; };
+  simgrid-326 = pkgs-2109.callPackage ./pkgs/simgrid/simgrid326.nix { inherit debug; };
   simgrid-327 = pkgs.callPackage ./pkgs/simgrid/simgrid327.nix { inherit debug; };
   simgrid-328 = pkgs.callPackage ./pkgs/simgrid/simgrid328.nix { inherit debug; };
   simgrid-329 = pkgs.callPackage ./pkgs/simgrid/simgrid329.nix { inherit debug; };
