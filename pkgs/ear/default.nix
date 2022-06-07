@@ -60,6 +60,7 @@ stdenv.mkDerivation rec {
   postInstall = "cp etc/examples/prolog_epilog/ejob etc/examples/prolog_epilog/oar-ejob $out/bin/";
 
   meta = with lib; {
+    broken = true;
     homepage = "https://gitlab.bsc.es/ear_team/ear";
     description = "Energy Aware Runtime (EAR) package provides an energy management framework for super computers";
     license = licenses.bsd3;
