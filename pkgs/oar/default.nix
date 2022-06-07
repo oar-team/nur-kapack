@@ -1,7 +1,7 @@
 { lib, pkgs, fetchFromGitHub, python3Packages, poetry, zeromq, procset, pybatsim, remote_pdb }:
 
 python3Packages.buildPythonPackage rec {
-  name = "oar-${version}";
+  pname = "oar";
   version = "3.0.0";
   format = "pyproject";
 
@@ -37,7 +37,6 @@ python3Packages.buildPythonPackage rec {
   ];
 
   doCheck = false;
-  #doCheck = true;
   postInstall = ''
     cp -r setup $out
     cp -r oar/tools $out
@@ -45,7 +44,6 @@ python3Packages.buildPythonPackage rec {
   '';
 
   meta = {
-    #broken = true;
     homepage = "https://github.com/oar-team/oar3";
     description = "OAR: a Versatile Resource and Job Manager";
     license = lib.licenses.lgpl21;
