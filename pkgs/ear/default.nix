@@ -7,7 +7,7 @@
 # TODO torque/PBS
 
 stdenv.mkDerivation rec {
-  name =  "ear-${version}";
+  pname =  "ear";
   version = "4.1.0";
 
   # WARNNING: repo below refers to a public version it's not suitable to be use with OAR
@@ -18,7 +18,7 @@ stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = [ autoreconfHook ];
-  
+
   buildInputs = [ gsl openmpi which ] ++ [(if useMysql then libmysqlclient else postgresql)] ++ lib.optional cudaSupport cudatoolkit ++ lib.optional useSlurm slurm;
 
   preConfigure = (if useMysql then ''
@@ -44,7 +44,7 @@ stdenv.mkDerivation rec {
     ++ (if useAvx512 then ["--disable-avx512"] else ["--disable-avx512"])
     ++ (if cudaSupport then ["--with-cuda=${cudatoolkit.out}"] else []);
   #++ [(if useMysql then "--with-mysql=${libmysqlclient.out}" else "--with-pgsql=${postgresql.out}")]
-  
+
   preBuild = if useMysql then ''
     makeFlagsArray=(DB_LDFLAGS="-lmysqlclient -L${libmysqlclient.out}/lib/mysql")
   '' else "";
@@ -58,7 +58,7 @@ stdenv.mkDerivation rec {
   '';
 
   postInstall = "cp etc/examples/prolog_epilog/ejob etc/examples/prolog_epilog/oar-ejob $out/bin/";
-  
+
   meta = with lib; {
     homepage = "https://gitlab.bsc.es/ear_team/ear";
     description = "Energy Aware Runtime (EAR) package provides an energy management framework for super computers";
