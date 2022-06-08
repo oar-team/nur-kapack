@@ -1,8 +1,7 @@
-{ lib, pkgs, fetchFromGitHub, python37Packages }:
+{ lib, pkgs, fetchFromGitHub, python3Packages }:
 
-python37Packages.buildPythonApplication rec {
-  #name = "colmet-collector-${version}";
-  name = "colmet-collector";
+python3Packages.buildPythonApplication rec {
+  name = "colmet-collector-${version}";
   version = "0.0.1";
 
   #src = fetchFromGitHub {
@@ -14,7 +13,7 @@ python37Packages.buildPythonApplication rec {
   
   src = /home/imeignanmasson/colmet-collector;
 
-  propagatedBuildInputs = with python37Packages; [
+  propagatedBuildInputs = with python3Packages; [
     pyzmq
     msgpack
     pyyaml
