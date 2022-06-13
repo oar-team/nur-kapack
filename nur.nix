@@ -91,6 +91,9 @@ rec {
 
   oxidisched = pkgs.callPackage ./pkgs/oxidisched { };
 
+  nxc-cluster = pkgs.callPackage ./pkgs/nxc/cluster.nix { inherit execo; };
+  nxc = nxc-cluster;
+
   pybatsim-320 = pkgs.callPackage ./pkgs/pybatsim/pybatsim320.nix { inherit procset; };
   pybatsim-321 = pkgs.callPackage ./pkgs/pybatsim/pybatsim321.nix { inherit procset; };
   pybatsim-core-400 = pkgs.callPackage ./pkgs/pybatsim/core400.nix { inherit procset; };
