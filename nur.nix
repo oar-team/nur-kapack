@@ -168,8 +168,6 @@ rec {
       pkgs.ghc.meta.platforms;
   });
 
-  taktuk = pkgs.callPackage ./pkgs/taktuk { };
-
   wait-for-it = pkgs.callPackage ./pkgs/wait-for-it { };
 
   yamldiff = pkgs.callPackage ./pkgs/yamldiff { };
