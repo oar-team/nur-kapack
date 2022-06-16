@@ -30,7 +30,7 @@ let
        substitute ${cfg.package}/visualization_interfaces/Monika/monika.cgi.in $out/monika/share/monika.cgi \
          --replace "%%OARCONFDIR%%" /etc/oar
 
-       chmod a+x $out/monika/share/monika.cgi 
+       chmod a+x $out/monika/share/monika.cgi
 
        makeWrapper $out/monika/share/monika.cgi $out/monika/monika.cgi --set PERL5LIB \
          "${
@@ -45,7 +45,7 @@ let
              HTMLParser
            ])
          }:$out/monika/lib"
-         
+
       mkdir -p $out/drawgantt
       substitute ${cfg.package}/visualization_interfaces/DrawGantt-SVG/drawgantt.php.in $out/drawgantt/drawgantt.php \
         --replace "%%OARCONFDIR%%" /etc/oar
@@ -66,8 +66,8 @@ let
         --replace "%%OARHOMEDIR%%" ${cfg.oarHomeDir} \
         --replace "%%XAUTHCMDPATH%%" /run/current-system/sw/bin/xauth \
         --replace /usr/bin/ssh /run/current-system/sw/bin/ssh
-      chmod 755 $out/bin/oarsh    
-        
+      chmod 755 $out/bin/oarsh
+
       #oarsh_shell
       substitute ${cfg.package}/tools/oarsh/oarsh_shell.in $out/bin/oarsh_shell \
         --replace "/bin/bash" "${pkgs.bash}/bin/bash" \
@@ -97,11 +97,11 @@ let
           --replace "%%XAUTHCMDPATH%%" /run/current-system/sw/bin/xauth \
           --replace "%%OAROWNER%%" oar \
           --replace "%%OARDOPATH%%"  /run/wrappers/bin:/run/current-system/sw/bin
-          
+
         $CC -Wall -O2 oardo.c -o $out/$2
       }
 
-      # generate cli    
+      # generate cli
       a=(oarsub oarstat oardel oarresume oarnodes oarnotify oarqueue oarconnect oarremoveresource \
       oarnodesetting oaraccounting oarproperty oarwalltime)
 
@@ -158,7 +158,7 @@ in
           type = types.str;
           default = "localhost";
           description = ''
-            Host of the postgresql server. 
+            Host of the postgresql server.
           '';
         };
 
@@ -201,7 +201,7 @@ in
           type = types.lines;
           description = ''
           Shell commands to be executed just after OAR DB initialization.
-          ''; 
+          '';
         };
       };
 
@@ -250,7 +250,7 @@ in
           type = types.str;
           default = "localhost";
           description = ''
-            Host of the OAR server. 
+            Host of the OAR server.
           '';
         };
       };
@@ -269,7 +269,7 @@ in
             type = types.str;
             default = "";
             description = ''
-              Entry Point for proxy server (example "server:5000"). 
+              Entry Point for proxy server (example "server:5000").
             '';
           };
           configOptions = mkOption {
@@ -292,7 +292,7 @@ in
           type = types.str;
           default = "";
           description = ''
-            Extra configuration to append to Nginx's one. 
+            Extra configuration to append to Nginx's one.
           '';
         };
       };
@@ -321,7 +321,7 @@ in
         pkgs.nur.repos.kapack.oar
       ];
 
-      # manage setuid for oardodo and oarcli 
+      # manage setuid for oardodo and oarcli
       security.wrappers = {
         oardodo = {
           source = "${oarTools}/oardodo_toWrap";
@@ -385,9 +385,9 @@ in
           #
           # OAR bash environnement file for the oar user
           #
-          # /!\ This file is automatically created at update installation/upgrade. 
+          # /!\ This file is automatically created at update installation/upgrade.
           #     Do not modify this file.
-          #      
+          #
           bash_oar() {
             # Prevent to be executed twice or more
             [ -n "$OAR_BASHRC" ] && return
@@ -398,8 +398,8 @@ in
           bash_oar
           EOF
 
-          cd ${cfg.oarHomeDir}  
-          chown oar:oar .bashrc .bash_profile .bash_oar 
+          cd ${cfg.oarHomeDir}
+          chown oar:oar .bashrc .bash_profile .bash_oar
 
           # create and populate .ssh
           mkdir .ssh
@@ -485,7 +485,7 @@ in
         ];
       };
 
-      #### 
+      ####
       # systemd.services.oar-node-job-notifier = mkIf (cfg.node.job_notifier.enable) {
       #   wantedBy = [ "multi-user.target" ];
       #   after = [ "network.target" "oar-user-init" "oar-conf-init" "oar-node" ];
@@ -493,9 +493,9 @@ in
       #    script = ''
       #       source /etc/oar/oar.conf
       #       cpuset_path=${cfg.cpusetBasePath}$CPUSET_PATH
-      
+
       #       # TODO prepare_cpuset_nixos.pl|py
-             
+
       #       ${pkgs.inotify-tools}/bin/inotifywait -q -m -e create -e delete --format '%:e %f' \
       #           $cpuset_path | \
       #       while read events; do
@@ -531,7 +531,7 @@ in
       };
 
       ##################
-      # Database section 
+      # Database section
 
       services.postgresql = mkIf cfg.dbserver.enable {
         #TODO TOCOMPLETE (UNSAFE)
@@ -575,7 +575,7 @@ in
             PGPASSWORD=$DB_BASE_PASSWD ${pkgs.postgresql}/bin/psql -U $DB_BASE_LOGIN \
               -c "GRANT SELECT ON ALL TABLES IN SCHEMA public TO $DB_BASE_LOGIN_RO;" \
               -h localhost ${cfg.database.dbname}
-            
+
             ${cfg.database.postInitCommands}
 
             touch /var/lib/oar/db-created
@@ -632,7 +632,7 @@ in
                   auth_basic_user_file /etc/oar/api-users;
                   error_page 404 = @api;
                 }
-                
+
                 location ~ ^/api {
                   error_page 404 = @api;
                 }
@@ -649,7 +649,7 @@ in
                   fastcgi_pass ${fcgi.socketType}:${fcgi.socketAddress};
                   fastcgi_param SCRIPT_FILENAME ${oarVisualization}/monika/monika.cgi;
                   fastcgi_param PATH_INFO $fastcgi_script_name;
-                } 
+                }
               '')
               (optionalString cfg.web.drawgantt.enable ''
                 location ~ ^/drawgantt {
@@ -681,11 +681,11 @@ in
             type = "normal";
             master = true;
             workers = 2;
-            # TODO: PATH variable suffered duplication, the bug is in nixpkgs/nixos/.../uwsgi.nix 
+            # TODO: PATH variable suffered duplication, the bug is in nixpkgs/nixos/.../uwsgi.nix
             env = [ "PATH=/run/current-system/sw/bin/" ];
             module = "oarapi:application";
             chdir = pkgs.writeTextDir "oarapi.py" ''
-              from oar.rest_api.app import wsgi_app as application 
+              from oar.rest_api.app import wsgi_app as application
             '';
             pythonPackages = self: with self; [ pkgs.nur.repos.kapack.oar ];
           };
@@ -775,7 +775,7 @@ in
 
               echo "username = $DB_BASE_LOGIN_RO" >> /etc/oar/monika.conf
               echo "password = $DB_BASE_PASSWD_RO" >> /etc/oar/monika.conf
-              cat /etc/oar/monika-base.conf >> /etc/oar/monika.conf          
+              cat /etc/oar/monika-base.conf >> /etc/oar/monika.conf
             '')
 
             (optionalString cfg.web.drawgantt.enable ''
@@ -841,7 +841,7 @@ in
         };
       };
       # services.traefik = mkIf cfg.web.proxy.enable {
-      #   enable = true;     
+      #   enable = true;
       #   configOptions = {
       #     #debug = true;
       #     #logLevel = "DEBUG";
