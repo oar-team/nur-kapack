@@ -473,7 +473,7 @@ in
 
       systemd.services.oar-node-register = mkIf (cfg.node.register.enable) {
         wantedBy = [ "multi-user.target" ];
-        after = [ "network.target" "oar-user-init" "oar-conf-init" "oar-node" ];
+        after = [ "network.target" "oar-user-init.service" "oar-conf-init.service" "oar-node.service" ];
         serviceConfig.Type = "oneshot";
         path = [ pkgs.hostname ];
         script = concatStringsSep "\n" [
