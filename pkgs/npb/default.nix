@@ -22,7 +22,7 @@ stdenv.mkDerivation rec {
 
     sed -i 's/^MPIF77.*/MPIF77 = mpif77/' config/make.def
     sed -i 's/^MPICC.*/MPICC = mpicc/' config/make.def
-    sed -i 's/^FFLAGS.*/FFLAGS  = -O -mcmodel=medium/' config/make.def
+    sed -i 's/^FFLAGS.*/FFLAGS  = -fallow-argument-mismatch -O -mcmodel=medium/' config/make.def
 
     # need to build setparams before to use parallel build 
     make -C sys
