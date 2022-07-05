@@ -1,4 +1,4 @@
-{ config, stdenv, lib, fetchgit, boost170, cassandra, cpp-driver, libuv, openssl, mosquitto, libgcrypt, libgpg-error freeipmi, net-snmp, opencv, mariadb-connector-c }:
+{ config, stdenv, cpp-driver, lib, fetchgit, snap7,  boost170, cassandra, libuv, openssl, mosquitto, libgcrypt, bacnet-stack, libgpg-error, freeipmi, net-snmp, opencv, mariadb-connector-c, wget, git }:
 
 stdenv.mkDerivation rec {
   name =  "dcdb-${version}";
@@ -10,14 +10,21 @@ stdenv.mkDerivation rec {
   #   sha256 = "sha256-ff/NdZ3jvHGxO4v92+KpzDpHhWcZKVmwuBLs/oZyl5I=";
   # };
 
-  src = /home/auguste/dev/dcdb;
+  src = /home/imeignanmasson/DCDB/dcdb;
+
+  #nativeInputs = [ cassandra bacnet-stack ];
   
-  nativeBuildInputs = [ boost170 cassandra cpp-driver libuv openssl mosquitto libgcrypt libgpg-error freeipmi net-snmp opencv mariadb-connector-c ];
-  
+  buildInputs = [ boost170 cassandra bacnet-stack libuv cpp-driver openssl mosquitto libgcrypt libgpg-error freeipmi net-snmp opencv mariadb-connector-c snap7 wget git ];
+
+  BACNET_SRC = "${bacnet-stack}";
+ 
   preBuild = ''
-    substituteInPlace Makefile --replace "include dependencies.mk" "#include dependencies.mk"
+    substituteInPlace config.mk \
+        --replace 'include $(DCDBSRCPATH)/dependencies.mk' '#include $(DCDBSRCPATH)/dependencies.mk' \
+        --replace "-Wno-unused-variable" "-Wno-unused-variable -I${bacnet-stack}/include" \
+        --replace "c++17" "c++14"
   '';
-    
+ 
   # apache-cassandra-3.11.5.tar.gz
   
   #buildInputs = [ gsl slurm openmpi ] ++ [(if useMysql then  libmysqlclient else postgresql)] ++ lib.optional cudaSupport cudatoolkit;

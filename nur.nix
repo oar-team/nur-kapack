@@ -54,6 +54,12 @@ rec {
 
   cgvg = pkgs.callPackage ./pkgs/cgvg { };
 
+  cpp-driver = pkgs.callPackage ./pkgs/cpp-driver {};
+
+  dcdb = pkgs.callPackage ./pkgs/dcdb { inherit cpp-driver bacnet-stack; };
+  
+  bacnet-stack = pkgs.callPackage ./pkgs/bacnet-stack { };
+  
   colmet = pkgs.callPackage ./pkgs/colmet { inherit libpowercap; };
 
   colmet-rs = pkgs.callPackage ./pkgs/colmet-rs { };
