@@ -55,8 +55,10 @@ rec {
   cgvg = pkgs.callPackage ./pkgs/cgvg { };
 
   cpp-driver = pkgs.callPackage ./pkgs/cpp-driver {};
+  
+  scylladb-cpp-driver = pkgs.callPackage ./pkgs/scylladb-cpp-driver {};
 
-  dcdb = pkgs.callPackage ./pkgs/dcdb { inherit cpp-driver bacnet-stack; };
+  dcdb = pkgs.callPackage ./pkgs/dcdb { inherit scylladb-cpp-driver bacnet-stack; };
   
   bacnet-stack = pkgs.callPackage ./pkgs/bacnet-stack { };
   
@@ -73,6 +75,8 @@ rec {
   execo = pkgs.callPackage ./pkgs/execo { };
 
   flatbuffers = pkgs.callPackage ./pkgs/flatbuffers/2.0.nix { };
+
+  likwid = pkgs.callPackage ./pkgs/likwid { };
 
   melissa = pkgs.callPackage ./pkgs/melissa { };
   melissa-heat-pde = pkgs.callPackage ./pkgs/melissa-heat-pde { inherit melissa; };
