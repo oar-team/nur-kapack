@@ -25,8 +25,9 @@ stdenv.mkDerivation rec {
   installPhase = ''
     mkdir -p $out/bin $out/lib 
     cp bin/ba* bin/bv* $out/bin
-    cp lib/libbacnet.a /lib
+    cp lib/libbacnet.a $out/lib
     cp -r include $out/
+    cp -r ports $out/include
   '';
   
   meta = with lib; {

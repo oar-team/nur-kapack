@@ -1,29 +1,55 @@
-{ config, stdenv, scylladb-cpp-driver, lib, fetchgit, snap7,  boost170, cassandra, libuv, openssl, mosquitto, libgcrypt, bacnet-stack, libgpg-error, freeipmi, net-snmp, opencv, mariadb-connector-c, wget, git }:
+{ config, stdenv, scylladb-cpp-driver, lib, fetchurl, fetchgit, snap7,  boost170, cassandra, libuv, openssl, mosquitto-dcdb, libgcrypt, bacnet-stack, libgpg-error, freeipmi, net-snmp, opencv, mariadb-connector-c, mariadb, wget, git , unzip}:
 
 stdenv.mkDerivation rec {
-  name =  "dcdb-${version}";
-  version = "0.4";
+  pname =  "dcdb";
+  version = "0.5";
   
-  src = fetchgit {
-     url = "https://gitlab.lrz.de/dcdb/dcdb.git";
-     rev = "ac0d755402ec76daa5fb58fdf4438d217acbb1d2";
-     sha256 = "sha256-01d1a0uOHij4SiaaJQ0RDbMp0kDuKLSGEtgNEU95VmA=";
+  #src = fetchgit {
+  #   url = "https://gitlab.lrz.de/dcdb/dcdb.git";
+  #   rev = "ac0d755402ec76daa5fb58fdf4438d217acbb1d2";
+  #   sha256 = "sha256-01d1a0uOHij4SiaaJQ0RDbMp0kDuKLSGEtgNEU95VmA=";
+  #};
+  src = fetchurl {
+    name = "${pname}-${version}.zip";
+    url = "https://gitlab.lrz.de/dcdb/dcdb/-/archive/${version}/${pname}-${version}.zip";
+    sha256 = "sha256-TvxikYWHf4xqGnBSaHwBuz5+FwYVsty98J1D7x4+x4U="; 
   };
 
-  #src = /home/imeignanmasson/DCDB/dcdb;
+  buildInputs = [ boost170 cassandra bacnet-stack libuv scylladb-cpp-driver openssl mosquitto-dcdb libgcrypt libgpg-error freeipmi net-snmp opencv mariadb-connector-c mariadb snap7 wget git unzip ];
 
-  #nativeInputs = [ cassandra bacnet-stack ];
-  
-  buildInputs = [ boost170 cassandra bacnet-stack libuv scylladb-cpp-driver openssl mosquitto libgcrypt libgpg-error freeipmi net-snmp opencv mariadb-connector-c snap7 wget git ];
+  propagatedBuildInputs = [ mariadb ];
 
   BACNET_SRC = "${bacnet-stack}";
+  parentDir = "DCDB";
+
+  unpackPhase = ''
+    runHook preUnpack
+    mkdir -p ${parentDir}
+    unzip $src -d ${parentDir}
+    runHook postUnpack
+  '';
  
   preBuild = ''
-    substituteInPlace config.mk \
+    substituteInPlace ${parentDir}/${pname}-${version}/config.mk \
         --replace 'include $(DCDBSRCPATH)/dependencies.mk' '#include $(DCDBSRCPATH)/dependencies.mk' \
-        --replace "-Wno-unused-variable" "-Wno-unused-variable -I${bacnet-stack}/include -I${scylladb-cpp-driver}/include" \
+        --replace "-Wno-unused-variable" "-Wno-unused-variable -I${bacnet-stack}/include -I${bacnet-stack}/include/ports/linux -I${scylladb-cpp-driver}/include -I${opencv}/include/opencv4 -I${mariadb-connector-c}/lib" \
         --replace "c++17" "c++14" 
-    substituteInPlace dcdbpusher/sensors/bacnet/BACnetClient.h --replace "bacnet/" ""
+    substituteInPlace ${parentDir}/${pname}-${version}/dcdbpusher/sensors/bacnet/BACnetClient.h --replace "bacnet/" ""
+    substituteInPlace ${parentDir}/${pname}-${version}/dcdbpusher/sensors/bacnet/BACnetClient.cpp --replace "bacnet/" ""
+    substituteInPlace ${parentDir}/${pname}-${version}/dcdbpusher/sensors/bacnet/BACnetSensorBase.h --replace "bacnet/" ""
+    substituteInPlace ${parentDir}/${pname}-${version}/dcdbpusher/includes/SensorGroupTemplate.h --replace "#include <memory>" \
+    "#include <memory>
+    #include <thread>"
+    substituteInPlace ${parentDir}/${pname}-${version}/analytics/includes/OperatorTemplate.h --replace "#include <memory>" \
+    "#include <memory>
+    #include <thread>"
+  '';
+
+  buildPhase = ''
+    runHook preBuild
+    cd ${parentDir}/${pname}-${version}
+    make depsinstall install 
+    runHook postBuild
   '';
  
   meta = with lib; {

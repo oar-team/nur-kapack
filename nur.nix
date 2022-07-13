@@ -58,8 +58,6 @@ rec {
   
   scylladb-cpp-driver = pkgs.callPackage ./pkgs/scylladb-cpp-driver {};
 
-  dcdb = pkgs.callPackage ./pkgs/dcdb { inherit scylladb-cpp-driver bacnet-stack; };
-  
   bacnet-stack = pkgs.callPackage ./pkgs/bacnet-stack { };
   
   colmet = pkgs.callPackage ./pkgs/colmet { inherit libpowercap; };
@@ -67,6 +65,8 @@ rec {
   colmet-rs = pkgs.callPackage ./pkgs/colmet-rs { };
 
   colmet-collector = pkgs.callPackage ./pkgs/colmet-collector { };
+  
+  dcdb = pkgs.callPackage ./pkgs/dcdb { inherit scylladb-cpp-driver bacnet-stack mosquitto-dcdb; };
 
   ear =  pkgs.callPackage ./pkgs/ear { };
 
@@ -99,10 +99,12 @@ rec {
 
   procset = pkgs.callPackage ./pkgs/procset { };
 
-  oxidisched = pkgs.callPackage ./pkgs/oxidisched { };
+  mosquitto-dcdb = pkgs.callPackage ./pkgs/mosquitto-dcdb {};
 
   nxc-cluster = pkgs.callPackage ./pkgs/nxc/cluster.nix { inherit execo; };
   nxc = nxc-cluster;
+  
+  oxidisched = pkgs.callPackage ./pkgs/oxidisched { };
 
   pybatsim-320 = pkgs.callPackage ./pkgs/pybatsim/pybatsim320.nix { inherit procset; };
   pybatsim-321 = pkgs.callPackage ./pkgs/pybatsim/pybatsim321.nix { inherit procset; };
