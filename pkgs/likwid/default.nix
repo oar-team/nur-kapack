@@ -14,7 +14,7 @@ stdenv.mkDerivation rec {
   hardeningDisable = [ "format" ];
 
   preBuild=''
- 	substituteInPlace config.mk --replace 'PREFIX ?= /usr/local' "PREFIX ?= $out" --replace "ACCESSMODE = accessdaemon" "ACCESSMODE = direct"
+ 	substituteInPlace config.mk --replace 'PREFIX ?= /usr/local' "PREFIX ?= $out" --replace "ACCESSMODE = accessdaemon" "ACCESSMODE = perf_event"
  	substituteInPlace perl/gen_events.pl --replace '/usr/bin/env perl' '${perl}/bin/perl'
  	substituteInPlace bench/perl/generatePas.pl --replace '/usr/bin/env perl' '${perl}/bin/perl'
  	substituteInPlace bench/perl/AsmGen.pl --replace '/usr/bin/env perl' '${perl}/bin/perl'

@@ -25,6 +25,9 @@ stdenv.mkDerivation rec {
   unpackPhase = ''
     runHook preUnpack
     mkdir -p ${parentDir}
+    mkdir -p ${parentDir}/install/lib
+    mkdir -p ${parentDir}/install/include
+    mkdir -p ${parentDir}/install/bin
     unzip $src -d ${parentDir}
     runHook postUnpack
   '';
@@ -33,10 +36,11 @@ stdenv.mkDerivation rec {
     substituteInPlace ${parentDir}/${pname}-${version}/config.mk \
         --replace 'include $(DCDBSRCPATH)/dependencies.mk' '#include $(DCDBSRCPATH)/dependencies.mk' \
         --replace "-Wno-unused-variable" "-Wno-unused-variable -I${bacnet-stack}/include -I${bacnet-stack}/include/ports/linux -I${scylladb-cpp-driver}/include -I${opencv}/include/opencv4 -I${mariadb-connector-c}/lib" \
-        --replace "c++17" "c++14" 
+        --replace "c++17" "c++14"
     substituteInPlace ${parentDir}/${pname}-${version}/dcdbpusher/sensors/bacnet/BACnetClient.h --replace "bacnet/" ""
     substituteInPlace ${parentDir}/${pname}-${version}/dcdbpusher/sensors/bacnet/BACnetClient.cpp --replace "bacnet/" ""
     substituteInPlace ${parentDir}/${pname}-${version}/dcdbpusher/sensors/bacnet/BACnetSensorBase.h --replace "bacnet/" ""
+    substituteInPlace ${parentDir}/${pname}-${version}/dcdbpusher/PluginManager.cpp --replace "LOG(info) << \"Loading plugin \" << name << \"...\";" "LOG(info) << \"Loading plugin \" << name << \"...\"; LOG(info) << \"Plugin path \" << pluginPath;"
     substituteInPlace ${parentDir}/${pname}-${version}/dcdbpusher/includes/SensorGroupTemplate.h --replace "#include <memory>" \
     "#include <memory>
     #include <thread>"
@@ -50,6 +54,22 @@ stdenv.mkDerivation rec {
     cd ${parentDir}/${pname}-${version}
     make depsinstall install 
     runHook postBuild
+  '';
+
+  installPhase = ''
+    mkdir -p $out/bin
+    cp -R ../install/bin $out
+    cp -R ../install/lib $out
+    cp -R ../install/include $out
+    cp ../install/dcdb.bash $out/bin/dcdb.bash
+    cp -R ../install/etc $out
+    #cp -RT dcdbpusher/config $out/config
+    cp lib/libdcdb.so $out/lib/libdcdb.so
+    sed -i "s|/build/DCDB/install|$out|g" $out/etc/init.d/dcdb
+    sed -i "s|/build/DCDB/install|$out|g" $out/etc/systemd/system/cassandra.service
+    sed -i "s|/build/DCDB/install|$out|g" $out/etc/systemd/system/collectagent.service
+    sed -i "s|/build/DCDB/install|$out|g" $out/etc/systemd/system/pusher.service
+    sed -i "s|/build/DCDB/install|$out|g" $out/bin/dcdb.bash
   '';
  
   meta = with lib; {

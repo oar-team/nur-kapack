@@ -32,7 +32,7 @@ stdenv.mkDerivation rec {
       for bench in is ep cg mg ft bt sp lu
       do
         # Not all bench are compiling so skip the errors
-        make -j $(nproc) $bench CLASS=$class || echo \
+        make $bench CLASS=$class || echo \
         "Warning: the bench $bench $class is not compiling"
       done
     done
