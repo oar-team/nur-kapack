@@ -36,7 +36,8 @@ stdenv.mkDerivation rec {
     substituteInPlace ${parentDir}/${pname}-${version}/config.mk \
         --replace 'include $(DCDBSRCPATH)/dependencies.mk' '#include $(DCDBSRCPATH)/dependencies.mk' \
         --replace "-Wno-unused-variable" "-Wno-unused-variable -I${bacnet-stack}/include -I${bacnet-stack}/include/ports/linux -I${scylladb-cpp-driver}/include -I${opencv}/include/opencv4 -I${mariadb-connector-c}/lib" \
-        --replace "c++17" "c++14"
+        --replace "c++17" "c++14" \
+        --replace '$(if $(GIT_VERSION),$(GIT_VERSION),$(DEFAULT_VERSION))' "${version}"
     substituteInPlace ${parentDir}/${pname}-${version}/dcdbpusher/sensors/bacnet/BACnetClient.h --replace "bacnet/" ""
     substituteInPlace ${parentDir}/${pname}-${version}/dcdbpusher/sensors/bacnet/BACnetClient.cpp --replace "bacnet/" ""
     substituteInPlace ${parentDir}/${pname}-${version}/dcdbpusher/sensors/bacnet/BACnetSensorBase.h --replace "bacnet/" ""
@@ -47,6 +48,9 @@ stdenv.mkDerivation rec {
     substituteInPlace ${parentDir}/${pname}-${version}/analytics/includes/OperatorTemplate.h --replace "#include <memory>" \
     "#include <memory>
     #include <thread>"
+    substituteInPlace ${parentDir}/${pname}-${version}/collectagent/simplemqttserver.cpp --replace "using namespace std;" \
+    "using namespace std;
+    #define SimpleMQTTVerbose"
   '';
 
   buildPhase = ''
