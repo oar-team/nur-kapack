@@ -52,6 +52,8 @@ rec {
 
   batsky = pkgs.callPackage ./pkgs/batsky { };
 
+  bdpo =  pkgs.callPackage ./pkgs/bdpo { };
+
   cli11 = pkgs.callPackage ./pkgs/cli11 { };
 
   cgvg = pkgs.callPackage ./pkgs/cgvg { };
