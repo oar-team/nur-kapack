@@ -48,6 +48,8 @@ rec {
   batsim = batsim-410;
   batsim-docker = pkgs.callPackage ./pkgs/batsim/batsim-docker.nix { inherit batsim; };
 
+  elastisim = pkgs.callPackage ./pkgs/elastisim { };
+
   batsky = pkgs.callPackage ./pkgs/batsky { };
 
   cli11 = pkgs.callPackage ./pkgs/cli11 { };
