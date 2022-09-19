@@ -41,7 +41,7 @@ stdenv.mkDerivation rec {
     longDescription = ''
     '';
     homepage = "https://github.com/elastisim/elastisim";
-    license = licenses.lgpl2Plus;
+    license = licenses.bsd3;
     maintainers = with maintainers; [ adfaure ];
     platforms = platforms.all;
     broken = false;
