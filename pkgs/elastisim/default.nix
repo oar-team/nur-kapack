@@ -11,14 +11,13 @@ in
 
 stdenv.mkDerivation rec {
   pname = "elastisim";
-  version = "master";
+  version = "1e967c";
 
   src = fetchFromGitHub {
     owner  = "elastisim";
     repo   = "elastisim";
-    rev    = "${version}";
-    sha256 = "sha256-WWHXp3aLJ5X8RV6wbkaujX+C949mO6VLxEPuBfHA9tU=";
-
+    rev    = "1e967ce8e965fedce08da0e0edffe9f99161ca0a";
+    sha256 = "sha256-yMScmVE6FAE5PWUAKZkbGAuCXZ6OCZsbjlKzvOnIcjQ=";
   };
 
   propagatedBuildInputs = [ ];
