@@ -9,4 +9,5 @@
   my-startup = ./services/my-startup.nix;
   phpfpm0 = ./services/phpfpm0.nix;
   ear = ./services/ear.nix;
+  beo = ./services/beo.nix;
 }

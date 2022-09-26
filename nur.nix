@@ -1,12 +1,16 @@
 # If called without explicitly setting the 'pkgs' arg, a pinned nixpkgs version is used by default.
-{ pkgs ? import (fetchTarball {
-    url = "https://github.com/NixOS/nixpkgs/archive/22.05.tar.gz";
-    sha256 = "0d643wp3l77hv2pmg2fi7vyxn4rwy0iyr8djcw1h5x72315ck9ik";
-  }) {}
-, pkgs-2111 ? import (fetchTarball {
-    url = "https://github.com/NixOS/nixpkgs/archive/21.11.tar.gz";
-    sha256 = "162dywda2dvfj1248afxc45kcrg83appjd0nmdb541hl7rnncf02";
-  }) {}
+{ pkgs ? import
+    (fetchTarball {
+      url = "https://github.com/NixOS/nixpkgs/archive/22.05.tar.gz";
+      sha256 = "0d643wp3l77hv2pmg2fi7vyxn4rwy0iyr8djcw1h5x72315ck9ik";
+    })
+    { }
+, pkgs-2111 ? import
+    (fetchTarball {
+      url = "https://github.com/NixOS/nixpkgs/archive/21.11.tar.gz";
+      sha256 = "162dywda2dvfj1248afxc45kcrg83appjd0nmdb541hl7rnncf02";
+    })
+    { }
 , debug ? false
 }:
 
@@ -19,8 +23,10 @@ rec {
 
   glibc-batsky = pkgs.glibc.overrideAttrs (attrs: {
     meta.broken = true;
-    patches = attrs.patches ++ [ ./pkgs/glibc-batsky/clock_gettime.patch
-      ./pkgs/glibc-batsky/gettimeofday.patch ];
+    patches = attrs.patches ++ [
+      ./pkgs/glibc-batsky/clock_gettime.patch
+      ./pkgs/glibc-batsky/gettimeofday.patch
+    ];
     postConfigure = ''
       export NIX_CFLAGS_LINK=
       export NIX_LDFLAGS_BEFORE=
@@ -52,7 +58,11 @@ rec {
 
   batsky = pkgs.callPackage ./pkgs/batsky { };
 
-  bdpo =  pkgs.callPackage ./pkgs/bdpo { };
+  bdpo = pkgs.callPackage ./pkgs/bdpo { };
+
+  bdpo-pmpiwrapper = pkgs.callPackage ./pkgs/bdpo-pmpiwrapper { };
+
+  beo = pkgs.callPackage ./pkgs/beo { };
 
   cli11 = pkgs.callPackage ./pkgs/cli11 { };
 
@@ -85,9 +95,9 @@ rec {
   melissa = pkgs.callPackage ./pkgs/melissa { };
   melissa-heat-pde = pkgs.callPackage ./pkgs/melissa-heat-pde { inherit melissa; };
 
-  npb =  pkgs.callPackage ./pkgs/npb { };
+  npb = pkgs.callPackage ./pkgs/npb { };
 
-  go-swagger  = pkgs.callPackage ./pkgs/go-swagger { };
+  go-swagger = pkgs.callPackage ./pkgs/go-swagger { };
 
   gocov = pkgs.callPackage ./pkgs/gocov { };
 
@@ -135,7 +145,7 @@ rec {
 
   oar3 = oar;
 
-  rsg-030 = pkgs.callPackage ./pkgs/remote-simgrid/rsg030.nix { inherit debug ; simgrid = simgrid-326; };
+  rsg-030 = pkgs.callPackage ./pkgs/remote-simgrid/rsg030.nix { inherit debug; simgrid = simgrid-326; };
   rsg = rsg-030;
 
   # simgrid-3(24->26) compiles with glibc from nixpkgs-21.09 but not with more recent nixpkgs versions
@@ -169,7 +179,7 @@ rec {
   #slurm-bsc-simulator-v14 = slurm-bsc-simulator.override { version="14"; };
 
   slurm-multiple-slurmd = pkgs.slurm.overrideAttrs (oldAttrs: {
-    configureFlags = oldAttrs.configureFlags ++ ["--enable-multiple-slurmd" "--enable-silent-rules"];
+    configureFlags = oldAttrs.configureFlags ++ [ "--enable-multiple-slurmd" "--enable-silent-rules" ];
     meta.platforms = pkgs.lib.lists.intersectLists pkgs.rdma-core.meta.platforms
       pkgs.ghc.meta.platforms;
   });
