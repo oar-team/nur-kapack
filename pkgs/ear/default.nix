@@ -10,7 +10,7 @@ stdenv.mkDerivation rec {
   pname =  "ear";
   version = "4.1.0";
 
-  # WARNNING: repo below refers to a public version it's not suitable to be use with OAR
+  # WARNNING: repo below refers to a private repository
   src = builtins.fetchGit {
     url = "ssh://git@gricad-gitlab.univ-grenoble-alpes.fr/regale/tools/ear.git";
     rev = "6ec22df09f4d87c206075d3b7e0acd3c313f3bcc";
