@@ -11,10 +11,10 @@ stdenv.mkDerivation rec {
   version = "4.1.0";
 
   # WARNNING: repo below refers to a public version it's not suitable to be use with OAR
-  src1 = fetchgit {
-     url = "https://gitlab.inria.fr/nixos-compose/regale/ear.git";
-     rev = "85105f441c7080b615e0f2377b1d22ca3a9cf51a";
-     sha256 = "sha256-vqHPt1O+va3vjssEcITTmbWyzZeBzP6G3VsLb4UPBhA=";
+  src = builtins.fetchGit {
+    url = "ssh://git@gricad-gitlab.univ-grenoble-alpes.fr/regale/tools/ear.git";
+    rev = "6ec22df09f4d87c206075d3b7e0acd3c313f3bcc";
+    narHash = "sha256-DNnEVrMWECI3j3VfjdmlB+75cSjyWvCpfzFgwHb2ZyA=";
   };
 
   nativeBuildInputs = [ autoreconfHook ];
@@ -63,7 +63,7 @@ stdenv.mkDerivation rec {
   postInstall = "cp etc/examples/prolog_epilog/ejob etc/examples/prolog_epilog/oar-ejob $out/bin/";
 
   meta = with lib; {
-    broken = true;
+    #broken = true;
     homepage = "https://gitlab.bsc.es/ear_team/ear";
     description = "Energy Aware Runtime (EAR) package provides an energy management framework for super computers";
     license = licenses.bsd3;
