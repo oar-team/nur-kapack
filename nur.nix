@@ -82,12 +82,18 @@ rec {
 
   dcdb = pkgs.callPackage ./pkgs/dcdb { inherit scylladb-cpp-driver bacnet-stack mosquitto-dcdb; };
 
-  ear =  pkgs.callPackage ./pkgs/ear { };
+  ear_examon = pkgs.callPackage ./pkgs/ear { useExamon = true; inherit openssl_1_0_2 examon; };
+  ear =  pkgs.callPackage ./pkgs/ear { inherit openssl_1_0_2 examon; };
 
   evalys = pkgs.callPackage ./pkgs/evalys { inherit procset; };
 
   execo = pkgs.callPackage ./pkgs/execo { };
 
+  examon = pkgs.callPackage ./pkgs/examon { inherit openssl_1_0_2; };
+  
+  # examon embeds Mosquito v1.5.3 which has openssl < 1.1.0 dependency  
+  openssl_1_0_2 = pkgs.callPackage ./pkgs/openssl_1_0_2 { }; # required for 
+  
   flatbuffers = pkgs.callPackage ./pkgs/flatbuffers/2.0.nix { };
 
   likwid = pkgs.callPackage ./pkgs/likwid { };
