@@ -1,4 +1,4 @@
-{ config, stdenv, lib, fetchgit, autoreconfHook, which, gsl, postgresql, libmysqlclient, useOar ? true, slurm, useSlurm ? false, openmpi, useMysql ? true, useAvx512 ? config.useAvx512 or false, cudaSupport ? config.cudaSupport or false, cudatoolkit }:
+{ config, stdenv, lib, fetchgit, autoreconfHook, which, gsl, postgresql, libmysqlclient, useOar ? true, slurm, useSlurm ? false, openmpi, useExamon ? false,  useMysql ? true, useAvx512 ? config.useAvx512 or false, cudaSupport ? config.cudaSupport or false, cudatoolkit, useGPUS ? true, examon, openssl_1_0_2 }:
 # TODO test/finish OAR
 # TODO test cudasupport
 # TODO test/finish Postgresql
@@ -12,14 +12,25 @@ stdenv.mkDerivation rec {
 
   # WARNNING: repo below refers to a private repository
   src = builtins.fetchGit {
-    url = "ssh://git@gricad-gitlab.univ-grenoble-alpes.fr/regale/tools/ear.git";
-    rev = "6ec22df09f4d87c206075d3b7e0acd3c313f3bcc";
-    narHash = "sha256-DNnEVrMWECI3j3VfjdmlB+75cSjyWvCpfzFgwHb2ZyA=";
+     url = "ssh://git@gricad-gitlab.univ-grenoble-alpes.fr/regale/tools/ear.git";
+     rev = "f222583c60740fcb45ab91474f59a98a4e149b3a";
+     narHash = "sha256-RrKsxjhi7w5YE6B0AOofEpqzAxgza+gtPyd9jxd0ieo=";
+     allRefs = true;
   };
 
   nativeBuildInputs = [ autoreconfHook ];
 
   buildInputs = [ gsl openmpi which ] ++ [(if useMysql then libmysqlclient else postgresql)] ++ lib.optional cudaSupport cudatoolkit ++ lib.optional useSlurm slurm;
+
+  # preConfigure = (lib.optionalString useMysql ''
+  #   mkdir mysql
+  #   ln -s ${libmysqlclient.out}/lib mysql
+  #   ln -s ${lib.getDev libmysqlclient}/include mysql\n
+  # '') + (lib.optionalString useSlurm ''
+  #   mkdir slurm
+  #   ln -s ${slurm.out}/lib slurm
+  #   ln -s ${lib.getDev slurm}/include slurm
+  # '');
 
   preConfigure = (if useMysql then ''
     mkdir mysql
@@ -31,7 +42,7 @@ stdenv.mkDerivation rec {
     ln -s ${slurm.out}/lib slurm
     ln -s ${lib.getDev slurm}/include slurm
   '' else "");
-
+  
   # 2022-05-17: workaround for "stack smashing detected" 
   NIX_CFLAGS_COMPILE = "-fno-stack-protector";
   
@@ -44,13 +55,18 @@ stdenv.mkDerivation rec {
     ++ lib.optional useOar "--with-oar"
     ++ lib.optional useSlurm "--with-slurm=slurm"
     ++ [(if useMysql then "--with-mysql=mysql" else "--with-pgsql=${postgresql.out}")]
-    ++ (if useAvx512 then ["--disable-avx512"] else ["--disable-avx512"])
-    ++ (if cudaSupport then ["--with-cuda=${cudatoolkit.out}"] else []);
+    ++ (if useAvx512 then ["--enable-avx512"] else ["--disable-avx512"])
+    ++ (if cudaSupport then ["--with-cuda=${cudatoolkit.out}"] else [])
+    ++ (if useGPUS then ["--enable-gpus"] else []);
   #++ [(if useMysql then "--with-mysql=${libmysqlclient.out}" else "--with-pgsql=${postgresql.out}")]
 
-  preBuild = if useMysql then ''
+  preBuild = ''
+    substituteInPlace src/report/Makefile --replace 'INC = -I$(EXAMON_BASE)/lib/iniparser/src -I$(EXAMON_BASE)/lib/mosquitto-1.3.5/lib' 'INC = -I${examon}/include'
+    substituteInPlace src/report/Makefile --replace 'LDIR = -L/usr/lib -L$(EXAMON_BASE)/lib/iniparser' 'LDIR = -L${examon}/lib'
+substituteInPlace src/report/Makefile --replace 'LIBMOSQ = $(EXAMON_BASE)/lib/mosquitto-1.3.5/lib/libmosquitto.a' 'LIBMOSQ = -lmosquitto'
+  '' + (lib.optionalString useExamon "\nexport FEAT_EXAMON=1\n") + (lib.optionalString useMysql ''
     makeFlagsArray=(DB_LDFLAGS="-lmysqlclient -L${libmysqlclient.out}/lib/mysql")
-  '' else "";
+  '');
 
   # compile ejob
   postBuild = ''
