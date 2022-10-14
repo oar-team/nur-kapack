@@ -62,11 +62,12 @@ let
       mkdir -p $out/bin
 
       #oarsh
-      substitute ${cfg.package}/tools/oarsh/oarsh.in $out/bin/oarsh \
+      substitute ${cfg.package}/tools/oarsh/oarsh.in $out/bin/.oarsh \
         --replace "%%OARHOMEDIR%%" ${cfg.oarHomeDir} \
         --replace "%%XAUTHCMDPATH%%" /run/current-system/sw/bin/xauth \
+        --replace "/bin/bash" "${pkgs.bash}/bin/bash" \
         --replace /usr/bin/ssh /run/current-system/sw/bin/ssh
-      chmod 755 $out/bin/oarsh
+      chmod 755 $out/bin/.oarsh
 
       #oarsh_shell
       substitute ${cfg.package}/tools/oarsh/oarsh_shell.in $out/bin/oarsh_shell \
@@ -91,26 +92,28 @@ let
       #oardo -> cli
       gen_oardo () {
         substitute ${cfg.package}/tools/oardo.c.in oardo.c\
-          --replace TT/usr/local/oar/oarsub ${pkgs.nur.repos.kapack.oar}/bin/$1 \
+          --replace TT/usr/local/oar/oarsub $1/$2 \
           --replace "%%OARDIR%%" /run/wrappers/bin \
           --replace "%%OARCONFDIR%%" /etc/oar \
           --replace "%%XAUTHCMDPATH%%" /run/current-system/sw/bin/xauth \
           --replace "%%OAROWNER%%" oar \
           --replace "%%OARDOPATH%%"  /run/wrappers/bin:/run/current-system/sw/bin
 
-        $CC -Wall -O2 oardo.c -o $out/$2
+        $CC -Wall -O2 oardo.c -o $out/$3
       }
 
-      # generate cli
+      # generate binary wrappers 
       a=(oarsub oarstat oardel oarresume oarnodes oarnotify oarqueue oarconnect oarremoveresource \
-      oarnodesetting oaraccounting oarproperty oarwalltime)
+      oarnodesetting oaraccounting oarproperty oarwalltime oarsh)
 
       for (( i=0; i<''${#a[@]}; i++ ))
       do
         echo generate ''${a[i]}
-        gen_oardo .''${a[i]} ''${a[i]}
+        gen_oardo ${pkgs.nur.repos.kapack.oar}/bin .''${a[i]} ''${a[i]}
       done
 
+      # generate binary wrappers fo oarsh 
+      gen_oardo $out/bin .oarsh oarsh
     '';
   };
 
@@ -333,6 +336,7 @@ in
       } // lib.genAttrs [
         "oarsub"
         "oarstat"
+        "oarsh"
         "oarresume"
         "oardel"
         "oarnodes"
