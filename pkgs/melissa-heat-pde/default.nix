@@ -3,15 +3,16 @@
 stdenv.mkDerivation rec {
     pname = "heat-pde";
     version = melissa.version;
-
-    src = "${melissa}/share/melissa/examples/heat-pde";
+    
+    src = /home/auguste/dev/melissa-combined/examples/heat-pde/heat-pde;
+    #src = "${melissa}/share/melissa/examples/heat-pde";
 
     buildInputs = [ melissa cmake gfortran openmpi python3 ];
 
     postInstall = ''
-        mkdir -p $out
-        cp -r ${src}/*.py $out
-        chmod +x $out/*.py
+        #mkdir -p $out
+        #cp -r ${src}/*.py $out
+        #chmod +x $out/*.py
     '';
 
     meta = with lib; {
