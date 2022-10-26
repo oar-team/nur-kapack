@@ -3,14 +3,15 @@
 stdenv.mkDerivation rec {
   pname =  "melissa";
   version = "0.7.1";
-
-  src = fetchFromGitLab {
-    domain = "gitlab.inria.fr";
-    owner = "melissa";
-    repo = "melissa";
-    rev = "v${version}";
-    sha256 = "sha256-YVT4kmzHrBwpE8VhPItL/O3qb7N/5pnWpmSBhDh0q38=";
-  };
+  src = /home/auguste/dev/melissa-combined;
+  # src = fetchFromGitLab {
+  #   domain = "gitlab.inria.fr";
+  #   owner = "melissa";
+  #   repo = "melissa-combined";
+  #   #rev = "v${version}";
+  #   rev="022c86c6aac84ec5469bca8d0509e39db4e693ee";
+  #   sha256 = "sha256-YVT3kmzHrBwpE8VhPItL/O3qb7N/5pnWpmSBhDh0q38=";
+  # };
 
   buildInputs = [ cmake gfortran python3 openmpi zeromq pkg-config libsodium ];
 
@@ -27,17 +28,16 @@ stdenv.mkDerivation rec {
   '';
 
   postInstall = ''
-    substituteInPlace $out/bin/melissa-launcher --replace "python3" "${python3}/bin/python3"
-    substituteInPlace $out/share/melissa/melissa/launcher/job_management.py --replace "/bin/sh" "${bash}/bin/sh"
-    substituteInPlace $out/share/melissa/melissa/scheduler/slurm.py --replace "/bin/sh" "${bash}/bin/sh"
-    patchShebangs $out
+    #substituteInPlace $out/bin/melissa-launcher --replace "python3" "${python3}/bin/python3"
+    #substituteInPlace $out/share/melissa/melissa/launcher/job_management.py --replace "/bin/sh" "${bash}/bin/sh"
+    #substituteInPlace $out/share/melissa/melissa/scheduler/slurm.py --replace "/bin/sh" "${bash}/bin/sh"
+    #patchShebangs $out
   '';
 
   meta = with lib; {
     homepage = "https://melissa-sa.github.io/";
     description = "Melissa is a file avoiding, adaptive, fault tolerant and elastic framework, to run large scale sensitivity analysis on supercomputers";
     license = licenses.bsd3;
-    platforms = ghc.meta.platforms;
     broken = false;
   };
 }
