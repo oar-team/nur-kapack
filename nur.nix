@@ -83,7 +83,10 @@ rec {
   dcdb = pkgs.callPackage ./pkgs/dcdb { inherit scylladb-cpp-driver bacnet-stack mosquitto-dcdb; };
 
   ear-examon = pkgs.callPackage ./pkgs/ear { useExamon = true; inherit openssl_1_0_2 examon; };
-  ear =  pkgs.callPackage ./pkgs/ear { inherit openssl_1_0_2 examon; };
+  ear = pkgs.callPackage ./pkgs/ear { inherit openssl_1_0_2 examon; };
+  earCuda = pkgs.callPackage ./pkgs/ear { cudaSupport = true; inherit openssl_1_0_2 examon; };
+  earFull= pkgs.callPackage ./pkgs/ear { cudaSupport = true; useExamon = true;
+                                         inherit openssl_1_0_2 examon; };
 
   evalys = pkgs.callPackage ./pkgs/evalys { inherit procset; };
 
@@ -103,6 +106,12 @@ rec {
   melissa = pkgs.callPackage ./pkgs/melissa { };
   melissa-heat-pde = pkgs.callPackage ./pkgs/melissa-heat-pde { inherit melissa; };
 
+  python3Packages = rec {
+    melissa = pkgs.python3.pkgs.callPackage ./pkgs/python-modules/melissa {};
+  };
+  
+  melissa-py = pkgs.python3.pkgs.callPackage ./pkgs/python-modules/melissa {};
+  
   npb = pkgs.callPackage ./pkgs/npb { };
 
   go-swagger = pkgs.callPackage ./pkgs/go-swagger { };
