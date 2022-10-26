@@ -60,6 +60,11 @@ in
           default = "cigri";
           description = "Name of the postgresql database";
         };
+        package = mkOption {
+          type = types.path;
+          default = pkgs.postgresql;
+          description = "The postgresql package";
+        };
       };
 
       extraConfig = mkOption {
@@ -236,8 +241,8 @@ in
           # Deny access by default, except from localhost
 
           Order deny,allow
-          Allow from             ${cfg.server.host}
-          Deny from all
+          Allow from ${cfg.server.host}
+          # Deny from all
           # Pidentd is a simple and efficient way to authentify unix users on a cigri frontend
           <IfModule ident_module>
             IdentityCheck On
@@ -262,6 +267,7 @@ in
     
     services.postgresql = mkIf cfg.dbserver.enable {
       #TODO TOCOMPLETE (UNSAFE)
+      package = cfg.database.package;
       enable = true;
       enableTCPIP = true;
       authentication = mkForce
