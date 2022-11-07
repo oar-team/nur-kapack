@@ -29,7 +29,7 @@ DEFAULT_JOB_WALLTIME = "01:00:00"
 # (meaning we should stop queuing jobs until the stress factor becomes
 # again acceptable). Note that a cluster under stress is not blacklisted
 # so that we can still update job statuses.
-STRESS_FACTOR="0.8"
+STRESS_FACTOR="8.0"
 
 #############################################################################
 ## LOGGING OPTIONS
