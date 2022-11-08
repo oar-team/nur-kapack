@@ -1,23 +1,22 @@
-{ stdenv, lib, fetchFromGitLab, bash, cmake, pkg-config, gfortran, python3, zeromq, openmpi, libsodium, ghc }: # pandoc, ghc }:
+{ stdenv, lib, pkgs, fetchFromGitLab, bash, cmake, pkg-config, gfortran, python3, zeromq, openmpi, libsodium, ghc }: # pandoc, ghc }:
 
 stdenv.mkDerivation rec {
   pname =  "melissa";
   version = "0.7.1";
-  src = /home/auguste/dev/melissa-combined;
-  # src = fetchFromGitLab {
-  #   domain = "gitlab.inria.fr";
-  #   owner = "melissa";
-  #   repo = "melissa-combined";
-  #   #rev = "v${version}";
-  #   rev="022c86c6aac84ec5469bca8d0509e39db4e693ee";
-  #   sha256 = "sha256-YVT3kmzHrBwpE8VhPItL/O3qb7N/5pnWpmSBhDh0q38=";
-  # };
 
-  buildInputs = [ cmake gfortran python3 openmpi zeromq pkg-config libsodium ];
+  # src = /home/adfaure/Sandbox/nxc-melissa/melissa-combined;
+  src = builtins.fetchGit {
+     url = "ssh://git@gitlab.inria.fr/melissa/melissa-combined.git";
+     ref = "master";
+     narHash = "sha256-T6QM7bgH7wK6fFWeG1jKHM3c4Ag70xHGcNfH1Dr8D0Q=";
+     allRefs = true;
+  };
+
+  buildInputs = with pkgs; [ cmake gfortran python3 openmpi zeromq pkg-config libsodium ];
 
   cmakeBuildType = "Release";
   enableParallelBuilding = false;
-  dontUseCmakeBuildDir = true;
+  dontUseCmakeBuildDir = false;
 
   postBuild = ''
     for f in $(find $out/bin/ -type f -executable); do

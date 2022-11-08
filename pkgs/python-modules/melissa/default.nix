@@ -5,10 +5,8 @@
 
 buildPythonPackage rec {
   pname = "melissa";
-  version = "0.7.1";
-  
-  src = /home/auguste/dev/melissa-combined;
-  
+  version = "1.0.0";
+  src = /home/adfaure/Sandbox/nxc-melissa/melissa-combined;
   doCheck = false;
 
   #pythonImportsCheck = [  ];

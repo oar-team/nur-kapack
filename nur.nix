@@ -93,25 +93,26 @@ rec {
   execo = pkgs.callPackage ./pkgs/execo { };
 
   #examon-debug = pkgs.enableDebugging examon;
-    
+
   examon = pkgs.callPackage ./pkgs/examon { inherit openssl_1_0_2; };
-  
+
   # examon embeds Mosquito v1.5.3 which has openssl < 1.1.0 dependency  
   openssl_1_0_2 = pkgs.callPackage ./pkgs/openssl_1_0_2 { }; # required for 
-  
+
   flatbuffers = pkgs.callPackage ./pkgs/flatbuffers/2.0.nix { };
 
   likwid = pkgs.callPackage ./pkgs/likwid { };
 
   melissa = pkgs.callPackage ./pkgs/melissa { };
+  melissa-launcher = pkgs.callPackage ./pkgs/melissa-launcher { inherit melissa; };
   melissa-heat-pde = pkgs.callPackage ./pkgs/melissa-heat-pde { inherit melissa; };
 
   python3Packages = rec {
     melissa = pkgs.python3.pkgs.callPackage ./pkgs/python-modules/melissa {};
   };
-  
+
   melissa-py = pkgs.python3.pkgs.callPackage ./pkgs/python-modules/melissa {};
-  
+
   npb = pkgs.callPackage ./pkgs/npb { };
 
   go-swagger = pkgs.callPackage ./pkgs/go-swagger { };
