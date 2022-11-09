@@ -1,4 +1,4 @@
-{ stdenv, lib, pkgs, fetchFromGitHub, bundlerEnv, ruby, bash, perl }:
+{ stdenv, lib, pkgs, fetchgit, bundlerEnv, ruby, bash, perl }:
 let
   rubyEnv = bundlerEnv rec {
   name = "cigri-env";
@@ -9,11 +9,11 @@ let
   in
     stdenv.mkDerivation rec {
   name = "cigri-3.0.0";
-  src = fetchFromGitHub {
-    owner = "oar-team";
-    repo = "cigri";
-    rev = "904bed81d61f5565bd5b86c345241bc0c511c317";
-    sha256 = "001rapmzp08314c4y9birmfi6njgyvn7f95735qrd0443kfwhd19";
+
+  src = fetchgit {
+    url = "https://gitlab.inria.fr/cigri-ctrl/feedforward-approach/cigri-src.git";
+    rev = "a85064747cc83b9245172cdbe5846b83ed4b5f2f";
+    sha256 = "sha256-f8BRBumZDqjEs8pGs+h93wbiwfcDA9+mqf2RQ5lMjP0=";
   };
   
   buildInputs = [ rubyEnv rubyEnv.wrappedRuby rubyEnv.bundler bash perl ];
