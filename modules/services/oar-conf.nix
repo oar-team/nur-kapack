@@ -31,7 +31,7 @@ OARSUB_NODES_RESOURCES="network_address"
 OARSUB_FORCE_JOB_KEY="no"
 
 # OAR log level: 3(debug+warnings+errors), 2(warnings+errors), 1(errors)
-LOG_LEVEL="1"
+LOG_LEVEL="3"
 
 # Log categories to display in the log file.
 # Ex: LOG_CATEGORIES="scheduler,main,energy"
