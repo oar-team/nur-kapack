@@ -9,11 +9,11 @@ let
   in
     stdenv.mkDerivation rec {
   name = "cigri-3.0.0";
-
+  
   src = fetchgit {
     url = "https://gitlab.inria.fr/cigri-ctrl/feedforward-approach/cigri-src.git";
-    rev = "a85064747cc83b9245172cdbe5846b83ed4b5f2f";
-    sha256 = "sha256-f8BRBumZDqjEs8pGs+h93wbiwfcDA9+mqf2RQ5lMjP0=";
+    rev = "0565ddb58ca1ce17d7a24c8e74db68dc8e208a23";
+    sha256 = "sha256-U2FA4C1rvnyh+sE2JmbjArNETzqOyxp4rNGv1iwjd7k=";
   };
   
   buildInputs = [ rubyEnv rubyEnv.wrappedRuby rubyEnv.bundler bash perl ];
