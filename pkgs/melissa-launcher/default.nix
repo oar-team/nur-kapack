@@ -8,10 +8,12 @@ with python3Packages;
 
   propagatedBuildInputs = [ melissa pyzmq mpi4py numpy jsonschema ];
 
+  # src = /home/adfaure/Sandbox/nxc-melissa/melissa-combined;
+
   src = builtins.fetchGit {
     url = "ssh://git@gitlab.inria.fr/adfaure/melissa-combined.git";
-    ref = "python-packaging";
-    narHash = "sha256-Re17+2B6tTioQigjurOvrIY3zVGh9Z7HQ/yrbHPpxuA=";
+    ref = "regale-features";
+    narHash = "sha256-s628ifro4qYeW+QhqLNg17QVJafx+3je6/vm4Lp5t4M=";
     allRefs = true;
   };
 
