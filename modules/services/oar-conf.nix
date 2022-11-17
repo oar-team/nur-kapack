@@ -87,6 +87,10 @@ OPENSSH_CMD="${pkgs.openssh}/bin/ssh -p 6667"
 # the resources turned into the Suspected state (default is 300s)
 #JOBDEL_WALLTIME="300"
 
+
+ADMISSION_RULES_IN_FILES="yes"
+
+
 # If you have installed taktuk and want to use it to manage remote
 # admnistration commands then give the full command path
 # (with your options except "-m" and "-o").
