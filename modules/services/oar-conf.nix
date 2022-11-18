@@ -230,12 +230,12 @@ SCHEDULER_JOB_SECURITY_TIME="60"
 # for the advance reservation). Default is 0 seconds.
 # If SCHEDULER_BESTEFFORT_KILL_DURATION_BEFORE_RESERVATION < SCHEDULER_JOB_SECURITY_TIME
 # then SCHEDULER_JOB_SECURITY_TIME is used instead.
-#SCHEDULER_BESTEFFORT_KILL_DURATION_BEFORE_RESERVATION=0
+SCHEDULER_BESTEFFORT_KILL_DURATION_BEFORE_RESERVATION=0
 
 # Minimum time in seconds that can be considered like a hole where a job could
 # be scheduled in (if you have performance problems, you can try to increase
 # this)
-SCHEDULER_GANTT_HOLE_MINIMUM_TIME="300"
+SCHEDULER_GANTT_HOLE_MINIMUM_TIME="30"
 
 # You can add an order preference on resources assigned by the
 # system(SQL ORDER syntax)
