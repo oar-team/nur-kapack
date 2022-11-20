@@ -1,17 +1,15 @@
-{ stdenv, lib, fetchgit , openmpi }:
+{ stdenv, lib, openmpi }:
 
 stdenv.mkDerivation rec {
   pname =  "bdpo";
   version = "4.1.0";
-  src = /home/auguste/dev/bdpo;
-  # src1 = fetchgit {
-  #   url = "git@gricad-gitlab.univ-grenoble-alpes.fr:regale/tools/bdpo";
-  #   rev = "fc2a819b1351473f6bd4144098af461a2e03803c";
-  #   sha256 = "1m716warxqdswp80wn3k0qniccb9csr5y8yk4749cn7dslcaia5c";
-  # };
+  #src = /home/auguste/dev/bdpo;
+  src = builtins.fetchGit {
+    url = "git@gricad-gitlab.univ-grenoble-alpes.fr:regale/tools/bdpo?ref=main";
+    rev = "edebce50639d6a01e2bbae813ba1bcdb92f71fb1";
+  };
   
-  nativeBuildInputs = [
-  ];
+  nativeBuildInputs = [ ];
   
   buildInputs = [ openmpi ];
   
