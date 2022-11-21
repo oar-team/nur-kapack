@@ -5,7 +5,7 @@
 # TODO test/finish Slurm
 # TODO test/add debug (test generic approach)
 # TODO torque/PBS
-# TODO remove workaround for "stack smashing detected" 
+# TODO remove workaround for "stack smashing detected"
 stdenv.mkDerivation rec {
   pname =  "ear";
   version = "4.1.0";
@@ -42,10 +42,10 @@ stdenv.mkDerivation rec {
     ln -s ${slurm.out}/lib slurm
     ln -s ${lib.getDev slurm}/include slurm
   '' else "");
-  
-  # 2022-05-17: workaround for "stack smashing detected" 
+
+  # 2022-05-17: workaround for "stack smashing detected"
   NIX_CFLAGS_COMPILE = "-fno-stack-protector";
-  
+
   configureFlags = [
     "CC=${stdenv.cc}/bin/gcc"
     "CC_FLAGS=-lm" # "CC_FLAGS=-DSHOW_DEBUGS"]
