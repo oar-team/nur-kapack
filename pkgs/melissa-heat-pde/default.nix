@@ -6,14 +6,13 @@ stdenv.mkDerivation rec {
 
     # src = /home/adfaure/Sandbox/nxc-melissa/melissa-combined/examples/heat-pde/heat-pde;
     # WARNNING: repo below refers to a private repository
-  src = builtins.fetchGit {
-    url = "ssh://git@gitlab.inria.fr/melissa/melissa-combined.git";
-    ref = "master";
-    narHash = "sha256-W2jzCsm0mqkcrMYRUBBaquy9d45FWhxO5C0JOGdw6PA=";
-    allRefs = true;
-  };
 
-
+    src = builtins.fetchGit {
+      url = "ssh://git@gitlab.inria.fr/melissa/melissa-combined.git";
+      rev = "c97976c77fe9285e3341740ebd8cbeac330ee1ef";
+      narHash = "sha256-itTWG4+2hh+3gQ/piE9uVgxGij/51XwcT2QeukiHtKo=";
+      allRefs = true;
+    };
     buildInputs = [ melissa cmake gfortran openmpi python3 ];
     sourceRoot = "source/examples/heat-pde-sa/heat-pde";
 
