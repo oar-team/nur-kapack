@@ -735,6 +735,7 @@ in
       };
 
       services.phpfpm = lib.mkIf cfg.web.drawgantt.enable {
+        phpPackage = [ pkgs.php74 ];
         pools.oar = {
           user = "oar";
           group = "oar";
