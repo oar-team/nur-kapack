@@ -42,6 +42,6 @@ stdenv.mkDerivation rec {
   meta = with lib; {
     description = "BEO";
     #sourceProvenance = with sourceTypes; [ binaryNativeCode ];
-    license = lib.licenses.unfree;
+    #license = lib.licenses.unfree;
   };
 }

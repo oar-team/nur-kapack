@@ -35,6 +35,6 @@ stdenv.mkDerivation rec {
   meta = with lib; {
     description = "BDPO";
     sourceProvenance = with sourceTypes; [ binaryNativeCode ];
-    license = lib.licenses.unfree;
+    #license = lib.licenses.unfree;
   };
 }
