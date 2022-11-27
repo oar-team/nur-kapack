@@ -42,10 +42,9 @@ in
       path = [ pkgs.util-linux ];
       script = ''
         cp ${cfg.package}/etc/bdpo.conf /etc/
+        chmod 644 /etc/bdpo.conf
         mkdir /var/log/bdpo
         ${pkgs.python3.interpreter} ${cfg.package}/bin/bdpo-set-default-conf
-        mkdir -p /sys/fs/cgroup/cpu
-        mount -t cgroup -o cpu none /sys/fs/cgroup/cpu
         cat ${cfg.extraConfig} >> /etc/bdpo.conf
       '';
     };
