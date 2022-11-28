@@ -98,8 +98,8 @@ in
       daemon = {
         enable = mkEnableOption "EAR Daemon (EARD)";
       };
-      install_configuration = {
-        enable = mkEnableOption "EAR configuration (for tools like eacct)";
+      ear_commands = {
+        enable = mkEnableOption "EAR commands for users (eacct)";
       };
       global_manager = {
         enable = mkEnableOption "EAR Global Manager (EARGM)";
@@ -113,7 +113,7 @@ in
   config =  mkIf ( cfg.daemon.enable ||
                    cfg.global_manager.enable ||
                    cfg.db_manager.enable ||
-                   cfg.install_configuration.enable ||
+                   cfg.ear_commands.enable ||
                    cfg.database.enable) {
 
     environment.etc =  mkMerge [
