@@ -14,7 +14,9 @@ stdenv.mkDerivation rec {
       allRefs = true;
     };
     buildInputs = [ melissa cmake gfortran openmpi python3 ];
-    sourceRoot = "source/examples/heat-pde-sa/heat-pde";
+
+    # source location differs when src is overrided (source/ vs melissa-combined)
+    setSourceRoot = "sourceRoot=$(echo */examples/heat-pde-sa/heat-pde)";
 
     meta = with lib; {
       homepage = "https://melissa-sa.github.io/";
