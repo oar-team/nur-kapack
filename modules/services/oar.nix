@@ -631,7 +631,9 @@ in
                   proxy_pass http://127.0.0.1:8080;
                   proxy_set_header Host $host;
                   proxy_set_header X-Remote-Ident $remote_user;
-                  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                  # proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                  # Only for http I guess
+                  proxy_set_header X-Remote-Ident $http_remote_user;
                 }
 
                 location ~ ^/api-priv {
