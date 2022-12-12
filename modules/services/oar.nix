@@ -625,6 +625,7 @@ in
                   proxy_set_header Host $host;
                   # Only for http I guess
                   proxy_set_header X-Remote-Ident $http_remote_user;
+                  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
                 }
 
                 location ~ ^/api-priv {
