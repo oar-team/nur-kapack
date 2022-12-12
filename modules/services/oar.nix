@@ -513,11 +513,7 @@ in
           # copy some required and useful scripts
           cp ${cfg.package}/tools/*.pl ${cfg.package}/tools/*.sh /etc/oar/
           cp -r ${cfg.package}/admission_rules.d /etc/oar
-<<<<<<< HEAD
 
-=======
-          
->>>>>>> d3db3ea (fix oar admission rules pb)
           touch /etc/oar/oar.conf
           chmod 600 /etc/oar/oar.conf
           chown oar /etc/oar/oar.conf
@@ -709,9 +705,10 @@ in
                   rewrite ^/api/?(.*)$ /$1 break;
                   proxy_pass http://127.0.0.1:8080;
                   proxy_set_header Host $host;
+                  proxy_set_header X-Remote-Ident $http_remote_user;
+                  # proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
                   # Only for http I guess
                   proxy_set_header X-Remote-Ident $http_remote_user;
-                  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
                 }
 
                 location ~ ^/api-priv {
