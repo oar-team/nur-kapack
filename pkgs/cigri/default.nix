@@ -12,8 +12,8 @@ let
   
   src = fetchgit {
     url = "https://gitlab.inria.fr/cigri-ctrl/feedforward-approach/cigri-src.git";
-    rev = "1e55c6bdd3cce2edee42da24a209fd277a62c810";
-    sha256 = "sha256-GLVuoRvAQiYwnDXI+SDvZFaklLbDzCSjODgEOKSb8mY=";
+    rev = "b96d700021f0bdf9f91a0087c9b7ef6f8779c252";
+    sha256 = "sha256-L41v9RU8ojGInxQEX76FFX7yFrEEF18ZYRAyzaKexuo=";
   };
   
   buildInputs = [ rubyEnv rubyEnv.wrappedRuby rubyEnv.bundler bash perl ];
