@@ -95,6 +95,14 @@ in
           Extra configuration options that will replace default.
         '';
       };
+      extraConfigCommands = mkOption {
+          default = "";
+          example = "touch /etc/foo";
+          type = types.lines;
+          description = ''
+          Shell commands to be executed just after EAR Config file creation (can be use to amend it).
+          '';
+        };      
       daemon = {
         enable = mkEnableOption "EAR Daemon (EARD)";
       };
@@ -140,6 +148,8 @@ in
 
         cat ${cfg.database.passwordFile} >> /etc/ear/ear.conf
         cat /etc/ear/ear-base.conf >> /etc/ear/ear.conf
+
+        ${cfg.extraConfigCommands}
       '';
     };
 
