@@ -132,6 +132,13 @@ in
         defaultText = "pkgs.nur.repos.kapack.oar";
       };
 
+      plugins = mkOption {
+        type = types.listOf types.package;
+        default = [];
+        defaultText = "[]";
+        description = "List of plugins packages";
+      };
+
       privateKeyFile = mkOption {
         type = types.str;
         default = "/run/keys/oar_id_rsa_key";
@@ -518,12 +525,15 @@ in
 
       ################
       # Server Section
-      systemd.services.oar-server = mkIf (cfg.server.enable) {
+      systemd.services.oar-server =
+      let
+          pythonEnv = (pkgs.python3.withPackages (ps: [ cfg.package ] ++ cfg.plugins));
+      in mkIf (cfg.server.enable) {
         wantedBy = [ "multi-user.target" ];
         after = [ "network.target" ];
         description = "OAR server's main processes";
         restartIfChanged = false;
-        environment.OARDIR = "${cfg.package}/bin";
+        environment.OARDIR = "${pythonEnv}/bin";
         serviceConfig = {
           User = "oar";
           Group = "oar";
