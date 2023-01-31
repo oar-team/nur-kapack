@@ -1,18 +1,20 @@
-{ lib, pkgs, fetchFromGitHub, python3Packages, poetry, zeromq, procset, pybatsim, remote_pdb  }:
+{ lib, pkgs, fetchFromGitHub, python3Packages, poetry, zeromq, procset, pybatsim, remote_pdb, oar }:
 
 python3Packages.buildPythonPackage rec {
-  pname = "oar";
-  version = "3.0.0";
+  pname = "oar3-plugins";
+  version = "0.0.0a";
   format = "pyproject";
 
   src = fetchFromGitHub {
-    owner = "oar-team";
-    repo = "oar3";
-    rev = "63b87b3d3e7a4fce36833522c8c0987506677924";
-    sha256 = "sha256-1uedI/e0YE8ZMbqApnODYwsktMQDz8014jCiAvXyhNs=";
+    owner = "adfaure";
+    repo = "oar3-plugins";
+    rev = "master";
+    sha256 = "sha256-XkHhy+oLCEzSodYwtOho+ApkIjsBmEzVTUjidG4af+k=";
   };
 
   nativeBuildInputs = [ poetry ];
+
+  buildInputs = with python3Packages; [ oar ];
 
   propagatedBuildInputs = with python3Packages; [
     pyzmq
@@ -38,11 +40,6 @@ python3Packages.buildPythonPackage rec {
   ];
 
   doCheck = false;
-  postInstall = ''
-    cp -r setup $out
-    cp -r oar/tools $out
-    cp -r visualization_interfaces $out
-  '';
 
   meta = {
     broken = false;
