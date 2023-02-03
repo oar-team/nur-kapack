@@ -11,6 +11,7 @@ python3Packages.buildPythonPackage rec {
     rev = "4618f6b2a6e3974739edf1ef7b0fdb1d9f6576fd";
     sha256 = "sha256-/akiREogSmixxAqztY5c+rNUZqDnu87iVig0E2jaHgY=";
   };
+  patches = [ ./0001-bs-loosen-pyzmq-version-constraint.patch ];
 
   nativeBuildInputs = [ poetry ];
 
