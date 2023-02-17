@@ -6,10 +6,10 @@ python3Packages.buildPythonPackage rec {
   format = "pyproject";
 
   src = fetchFromGitHub {
-    owner = "adfaure";
+    owner = "oar-team";
     repo = "oar3-plugins";
     rev = "master";
-    sha256 = "sha256-XkHhy+oLCEzSodYwtOho+ApkIjsBmEzVTUjidG4af+k=";
+    sha256 = "sha256-FtU/1dxNXj08t+Greg/i0PQrVAoL/Rg0Bm4jbwRZLko=";
   };
 
   nativeBuildInputs = [ poetry ];
@@ -44,7 +44,7 @@ python3Packages.buildPythonPackage rec {
   meta = {
     broken = false;
     homepage = "https://github.com/oar-team/oar3";
-    description = "OAR: a Versatile Resource and Job Manager";
+    description = "Official plugin repository for oar";
     license = lib.licenses.lgpl21;
     longDescription = "";
   };
