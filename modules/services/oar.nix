@@ -604,6 +604,7 @@ in
         enable = true;
         user = "oar";
         group = "oar";
+        logError = "/tmp/nginx.log";
 
         virtualHosts.default = {
           #TODO root = "${pkgs.nix.doc}/share/doc/nix/manual";
@@ -745,7 +746,6 @@ in
       };
 
       services.phpfpm = lib.mkIf cfg.web.drawgantt.enable {
-        phpPackage = pkgs.php74;
         pools.oar = {
           user = "oar";
           group = "oar";
@@ -753,6 +753,9 @@ in
             "listen.owner" = "oar";
             "listen.group" = "oar";
             "listen.mode" = "0660";
+            "php_admin_value[error_log]" = "/var/log/fpm-php.www.log";
+            "php_admin_flag[log_errors]" = "on";
+            "catch_workers_output" = "yes";
             "pm" = "dynamic";
             "pm.start_servers" = 1;
             "pm.min_spare_servers" = 1;
@@ -795,6 +798,10 @@ in
 
             (optionalString cfg.web.drawgantt.enable ''
               touch /etc/oar/drawgantt-config.inc.php
+
+              touch /var/log/fpm-php.www.log
+              chmod 777 /var/log/fpm-php.www.log
+
               chmod 600 /etc/oar/drawgantt-config.inc.php
               chown oar /etc/oar/drawgantt-config.inc.php
 
