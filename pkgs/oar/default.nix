@@ -9,7 +9,7 @@ python3Packages.buildPythonPackage rec {
     owner = "oar-team";
     repo = "oar3";
     rev = "92c187340e255d68568ec60b0b3a12c69b0d6572";
-    sha256 = "sha256-0ZZEXwvRipXNqEwYBC6rgr/afYvSJPbB+SmBPy8PmiI=";
+    sha256 = "sha256-0ZZEXwvRipXNqEwYBC6rgr/afYvSJPaB+SmBPy8PmiI=";
   };
 
   nativeBuildInputs = [ poetry ];
