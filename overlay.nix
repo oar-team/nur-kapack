@@ -8,7 +8,7 @@ let
 
   isReserved = n: n == "lib" || n == "overlays" || n == "modules";
   nameValuePair = n: v: { name = n; value = v; };
-  nurAttrs = import ./default.nix { pkgs = prev; };
+  nurAttrs = import ./nur.nix { pkgs = prev; };
 
 in
 
