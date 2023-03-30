@@ -75,5 +75,6 @@ stdenv.mkDerivation rec {
     description = "The Data Center Data Base (DCDB) is a modular, continuous and holistic monitoring framework targeted at HPC environments.";
     license = licenses.lgpl21;
     platforms = platforms.linux;
+    broken = true;
   };
 }
