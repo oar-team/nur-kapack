@@ -34,5 +34,6 @@ stdenv.mkDerivation rec {
     description = "BACnet Protocol Stack library provides a BACnet application layer, network layer and media access (MAC) layer communications services.";
     license = licenses.asl20;
     platforms = platforms.linux;
+    broken = true;
   };
 }
