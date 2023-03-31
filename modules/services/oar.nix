@@ -298,11 +298,6 @@ in
             default = true;
             description = "Execute oarnodesseting";
           };
-          nbResources = mkOption {
-            type = types.str;
-            default = "1";
-            description = "Number of resources in the node";
-          };
           extraCommand = mkOption {
             type = types.str;
             default = "";
@@ -555,7 +550,7 @@ in
         path = [ pkgs.hostname ];
         script = concatStringsSep "\n" [
         ''
-          for i in $(seq ${cfg.node.register.nbResources}); do /run/wrappers/bin/oarnodesetting -a -s Alive;done
+          /run/wrappers/bin/oarnodesetting -a -s Alive
         ''
           (optionalString (cfg.node.register.extraCommand != "") ''
             ${cfg.node.register.extraCommand}
