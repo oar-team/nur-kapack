@@ -116,8 +116,6 @@ rec {
   pybatsim-core = pybatsim-core-400;
   pybatsim-functional = pybatsim-functional-400;
   
-  # pynamic = pkgs.callPackage ./pkgs/pynamic { };
-
   python-mip = pkgs.callPackage ./pkgs/python-mip { };
 
   redox-oldnixpkgs = pkgs-2111.callPackage ./pkgs/redox { };
