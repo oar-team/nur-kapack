@@ -115,6 +115,8 @@ rec {
   pybatsim = pybatsim-321;
   pybatsim-core = pybatsim-core-400;
   pybatsim-functional = pybatsim-functional-400;
+  
+  # pynamic = pkgs.callPackage ./pkgs/pynamic { };
 
   python-mip = pkgs.callPackage ./pkgs/python-mip { };
 
@@ -183,6 +185,8 @@ rec {
     meta.platforms = pkgs.lib.lists.intersectLists pkgs.rdma-core.meta.platforms
       pkgs.ghc.meta.platforms;
   });
+  
+  starpu = pkgs.callPackage ./pkgs/starpu { };
 
   wait-for-it = pkgs.callPackage ./pkgs/wait-for-it { };
 
