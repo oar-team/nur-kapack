@@ -9,14 +9,14 @@ stdenv.mkDerivation rec {
 
     src = builtins.fetchGit {
       url = "ssh://git@gitlab.inria.fr/melissa/melissa-combined.git";
-      rev = "c97976c77fe9285e3341740ebd8cbeac330ee1ef";
-      narHash = "sha256-itTWG4+2hh+3gQ/piE9uVgxGij/51XwcT2QeukiHtKo=";
+      rev = "c2fbcc0e19c773e81e4ba2d3860f37c012902da1";
+      narHash = "sha256-OoKOazJb5vyHqMoylECT8BFfqSIpgi+iu0fApRuHWwM=";
       allRefs = true;
     };
     buildInputs = [ melissa cmake gfortran openmpi python3 ];
 
     # source location differs when src is overrided (source/ vs melissa-combined)
-    setSourceRoot = "sourceRoot=$(echo */examples/heat-pde-sa/heat-pde)";
+    setSourceRoot = "sourceRoot=$(echo */examples/heat-pde/executables)";
 
     meta = with lib; {
       homepage = "https://melissa-sa.github.io/";
