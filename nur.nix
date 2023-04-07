@@ -71,6 +71,8 @@ rec {
   dcdb = pkgs.callPackage ./pkgs/dcdb { inherit scylladb-cpp-driver bacnet-stack mosquitto-dcdb; };
 
   ear =  pkgs.callPackage ./pkgs/ear { };
+  
+  enoslib = pkgs.callPackage ./pkgs/enoslib { inherit execo; };
 
   evalys = pkgs.callPackage ./pkgs/evalys { inherit procset; };
 
