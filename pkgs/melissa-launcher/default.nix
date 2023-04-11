@@ -6,7 +6,7 @@ with python3Packages;
   version = "1.0";
   doCheck = false;
 
-  propagatedBuildInputs = [ melissa pyzmq mpi4py numpy jsonschema ];
+  propagatedBuildInputs = [ melissa pyzmq mpi4py numpy jsonschema python-rapidjson ];
 
   # src = /home/adfaure/Sandbox/nxc-melissa/melissa-combined;
 
