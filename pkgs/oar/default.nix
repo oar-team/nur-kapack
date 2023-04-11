@@ -8,8 +8,8 @@ python3Packages.buildPythonPackage rec {
   src = fetchFromGitHub {
     owner = "oar-team";
     repo = "oar3";
-    rev = "eacbcde63b6a229f48e58aa3c66fef6851f6e626";
-    sha256 = "sha256-gngBAmNajhI/oas0aVB3exaaIQLGp+lQSp9B2HORk3w=";
+    rev = "402aaeb032b081aa061997a4158951a340becf77";
+    sha256 = "sha256-WykQV8JLrIEoGvJVrtTeFAmJwknQZfp9DMDiT9i4drw=";
   };
   # patches = [ ./0001-bs-loosen-pyzmq-version-constraint.patch ];
 
@@ -36,6 +36,8 @@ python3Packages.buildPythonPackage rec {
     ptpython
     python-multipart
     importlib-metadata
+    clustershell
+    rich
   ];
 
   doCheck = false;
