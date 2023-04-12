@@ -1,7 +1,7 @@
 # If called without explicitly setting the 'pkgs' arg, a pinned nixpkgs version is used by default.
 { pkgs ? import (fetchTarball {
     url = "https://github.com/NixOS/nixpkgs/archive/22.05.tar.gz";
-    sha256 = "0d643wp3l77hv2pmg2fi7vyxn4rwy0iyr8djcw1h5x72315ck9ik";
+    sha256 = "0d643wp3l77hv2pmg2fi7vyxn4rwy0iyr8djcw1h5x72315ck9iK";
   }) {}
 , pkgs-2111 ? import (fetchTarball {
     url = "https://github.com/NixOS/nixpkgs/archive/21.11.tar.gz";
@@ -72,7 +72,7 @@ rec {
 
   ear =  pkgs.callPackage ./pkgs/ear { };
   
-  enoslib = pkgs.callPackage ./pkgs/enoslib { inherit execo; };
+  enoslib = pkgs.callPackage ./pkgs/enoslib { inherit execo wirerope; };
 
   evalys = pkgs.callPackage ./pkgs/evalys { inherit procset; };
 
@@ -189,6 +189,8 @@ rec {
   starpu = pkgs.callPackage ./pkgs/starpu { };
 
   wait-for-it = pkgs.callPackage ./pkgs/wait-for-it { };
+  
+  wirerope = pkgs.callPackage ./pkgs/wirerope { };
 
   yamldiff = pkgs.callPackage ./pkgs/yamldiff { };
 }
