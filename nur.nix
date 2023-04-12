@@ -72,7 +72,7 @@ rec {
 
   ear =  pkgs.callPackage ./pkgs/ear { };
   
-  enoslib = pkgs.callPackage ./pkgs/enoslib { inherit execo wirerope; };
+  enoslib = pkgs.callPackage ./pkgs/enoslib { inherit execo ring; };
 
   evalys = pkgs.callPackage ./pkgs/evalys { inherit procset; };
 
@@ -134,6 +134,8 @@ rec {
   oar2 = pkgs.callPackage ./pkgs/oar2 { };
 
   oar3 = oar;
+  
+  ring = pkgs.callPackage ./pkgs/ring { inherit wirerope; };
 
   rsg-030 = pkgs.callPackage ./pkgs/remote-simgrid/rsg030.nix { inherit debug ; simgrid = simgrid-326; };
   rsg = rsg-030;
