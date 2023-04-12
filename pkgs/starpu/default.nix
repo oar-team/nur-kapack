@@ -1,10 +1,12 @@
-{ stdenv, fetchgit, lib, gnumake, gcc, libtool, autoconf, automake, pkg-config, fftw, hwloc, bashInteractive }:
+{ stdenv, fetchFromGitLab, lib, gnumake, gcc, libtool, autoconf, automake, pkg-config, fftw, hwloc, bashInteractive }:
 
 stdenv.mkDerivation rec {
   pname = "starpu";
   version = "1.4.0";
-  src = fetchgit {
-    url = "https://gitlab.inria.fr/starpu/starpu";
+  src = fetchFromGitLab {
+    domain = "gitlab.inria.fr";
+    owner = pname;
+    repo = pname;
     rev = "${pname}-${version}";
     sha256 = "sha256-EwS/BKMdRfn1U/ln1ezbg03zF8XiNMquGBRPe9WAeqw=";
   };
