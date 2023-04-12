@@ -1,18 +1,5 @@
-{ python3Packages, fetchgit, execo, cmake, libssh2, openssl, zlib, ansible }:
+{ python3Packages, fetchgit, execo, cmake, libssh2, openssl, zlib, ansible, wirerope }:
 let
-  wirerope = python3Packages.buildPythonPackage rec {
-    name = "wirerope";
-    version = "0.4.5";
-    src = fetchgit {
-      url = "https://github.com/youknowone/wirerope";
-      rev = "81c533d6df479cae80f74b5c298c4236f98f0158";
-      sha256 = "sha256-IZOu3JNNd/g19KeaeeJUXr0Ia+n5iffuZqNonfwCG8k=";
-    };
-    propagatedBuildInputs = with python3Packages; [
-      six
-    ];
-    doCheck = false;
-  };
   ring = python3Packages.buildPythonPackage rec {
     name = "ring";
     version = "0.9.1";
