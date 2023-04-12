@@ -184,6 +184,8 @@ rec {
       pkgs.ghc.meta.platforms;
   });
 
+  starpu = pkgs.callPackage ./pkgs/starpu { };
+
   wait-for-it = pkgs.callPackage ./pkgs/wait-for-it { };
 
   yamldiff = pkgs.callPackage ./pkgs/yamldiff { };
