@@ -1,22 +1,5 @@
-{ python3Packages, fetchgit, execo, ansible, ring, iotlabsshcli, distem }:
-let
+{ python3Packages, fetchgit, execo, ansible, ring, iotlabsshcli, distem, python-grid5000 }:
 
-  python-grid5000 = python3Packages.buildPythonPackage rec {
-    pname = "python-grid5000";
-    version = "1.2.4";
-    src = fetchgit {
-      url = "https://gitlab.inria.fr/msimonin/python-grid5000";
-      rev = "v${version}";
-      sha256 = "sha256-wfDyoaOn0Dlbz/metxskbN4frsJbkEe8byUeO01upV8=";
-    };
-    doCheck = false;
-    propagatedBuildInputs = [
-      python3Packages.pyyaml
-      python3Packages.requests
-      python3Packages.ipython
-    ];
-  };
-in
 python3Packages.buildPythonPackage rec {
   pname = "enoslib";
   version = "v8.1.3";

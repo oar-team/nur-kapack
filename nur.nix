@@ -74,7 +74,7 @@ rec {
 
   ear =  pkgs.callPackage ./pkgs/ear { };
   
-  enoslib = pkgs.callPackage ./pkgs/enoslib { inherit execo ring iotlabsshcli distem; };
+  enoslib = pkgs.callPackage ./pkgs/enoslib { inherit execo ring iotlabsshcli distem python-grid5000; };
 
   evalys = pkgs.callPackage ./pkgs/evalys { inherit procset; };
 
@@ -197,6 +197,8 @@ rec {
   });
   
   parallel-ssh = pkgs.callPackage ./pkgs/parallel-ssh { inherit ssh-python ssh2-python; };
+  
+  python-grid5000 = pkgs.callPackage ./pkgs/python-grid5000 { };
 
   starpu = pkgs.callPackage ./pkgs/starpu { };
 
