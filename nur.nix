@@ -72,7 +72,7 @@ rec {
 
   ear =  pkgs.callPackage ./pkgs/ear { };
   
-  enoslib = pkgs.callPackage ./pkgs/enoslib { inherit execo ring; };
+  enoslib = pkgs.callPackage ./pkgs/enoslib { inherit execo ring parallel-ssh; };
 
   evalys = pkgs.callPackage ./pkgs/evalys { inherit procset; };
 
@@ -160,6 +160,9 @@ rec {
   simgrid-332light = simgrid-332.override { minimalBindings = true; withoutBin = true; withoutBoostPropagation = true; buildPythonBindings = false; };
   simgrid = simgrid-332;
   simgrid-light = simgrid-332light;
+  
+  ssh-python = pkgs.callPackage ./pkgs/ssh-python { };
+  ssh2-python = pkgs.callPackage ./pkgs/ssh2-python { };
 
   # Setting needed for nixos-19.03 and nixos-19.09
   slurm-bsc-simulator =
@@ -187,6 +190,8 @@ rec {
     meta.platforms = pkgs.lib.lists.intersectLists pkgs.rdma-core.meta.platforms
       pkgs.ghc.meta.platforms;
   });
+  
+  parallel-ssh = pkgs.callPackage ./pkgs/parallel-ssh { inherit ssh-python ssh2-python; };
 
   wait-for-it = pkgs.callPackage ./pkgs/wait-for-it { };
   
