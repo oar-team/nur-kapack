@@ -1,17 +1,5 @@
-{ python3Packages, fetchgit, execo, ansible, ring, iotlabsshcli }:
+{ python3Packages, fetchgit, execo, ansible, ring, iotlabsshcli, distem }:
 let
-  distem = python3Packages.buildPythonPackage rec {
-    pname = "distem";
-    version = "0.0.5";
-    src = fetchgit {
-      url = "https://gitlab.inria.fr/myriads-team/python-distem";
-      rev = "650931b377c35470e3c72923f9af2fd9c37f0470";
-      sha256 = "sha256-brrs350eC+vBzLJmdqw4FnjNbL+NgAfnqWDjsMiEyZ4=";
-    };
-    propagatedBuildInputs = [
-      python3Packages.requests
-    ];
-  };
 
   python-grid5000 = python3Packages.buildPythonPackage rec {
     pname = "python-grid5000";

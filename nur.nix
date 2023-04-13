@@ -69,10 +69,12 @@ rec {
   colmet-collector = pkgs.callPackage ./pkgs/colmet-collector { };
 
   dcdb = pkgs.callPackage ./pkgs/dcdb { inherit scylladb-cpp-driver bacnet-stack mosquitto-dcdb; };
+  
+  distem = pkgs.callPackage ./pkgs/distem { };
 
   ear =  pkgs.callPackage ./pkgs/ear { };
   
-  enoslib = pkgs.callPackage ./pkgs/enoslib { inherit execo ring iotlabsshcli; };
+  enoslib = pkgs.callPackage ./pkgs/enoslib { inherit execo ring iotlabsshcli distem; };
 
   evalys = pkgs.callPackage ./pkgs/evalys { inherit procset; };
 
