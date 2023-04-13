@@ -72,13 +72,16 @@ rec {
 
   ear =  pkgs.callPackage ./pkgs/ear { };
   
-  enoslib = pkgs.callPackage ./pkgs/enoslib { inherit execo ring parallel-ssh; };
+  enoslib = pkgs.callPackage ./pkgs/enoslib { inherit execo ring iotlabsshcli; };
 
   evalys = pkgs.callPackage ./pkgs/evalys { inherit procset; };
 
   execo = pkgs.callPackage ./pkgs/execo { };
 
   flatbuffers = pkgs.callPackage ./pkgs/flatbuffers/2.0.nix { };
+  
+  iotlabcli = pkgs.callPackage ./pkgs/iotlabcli { };
+  iotlabsshcli = pkgs.callPackage ./pkgs/iotlabsshcli { inherit iotlabcli parallel-ssh; };
 
   likwid = pkgs.callPackage ./pkgs/likwid { };
 
