@@ -115,6 +115,8 @@ rec {
 
   oxidisched = pkgs.callPackage ./pkgs/oxidisched { };
 
+  parallel-ssh = pkgs.callPackage ./pkgs/parallel-ssh { inherit ssh-python ssh2-python; };
+
   pybatsim-320 = pkgs.callPackage ./pkgs/pybatsim/pybatsim320.nix { inherit procset; };
   pybatsim-321 = pkgs.callPackage ./pkgs/pybatsim/pybatsim321.nix { inherit procset; };
   pybatsim-core-400 = pkgs.callPackage ./pkgs/pybatsim/core400.nix { inherit procset; };
@@ -122,6 +124,8 @@ rec {
   pybatsim = pybatsim-321;
   pybatsim-core = pybatsim-core-400;
   pybatsim-functional = pybatsim-functional-400;
+  
+  python-grid5000 = pkgs.callPackage ./pkgs/python-grid5000 { };
 
   python-mip = pkgs.callPackage ./pkgs/python-mip { };
 
@@ -196,10 +200,6 @@ rec {
       pkgs.ghc.meta.platforms;
   });
   
-  parallel-ssh = pkgs.callPackage ./pkgs/parallel-ssh { inherit ssh-python ssh2-python; };
-  
-  python-grid5000 = pkgs.callPackage ./pkgs/python-grid5000 { };
-
   wait-for-it = pkgs.callPackage ./pkgs/wait-for-it { };
   
   wirerope = pkgs.callPackage ./pkgs/wirerope { };
