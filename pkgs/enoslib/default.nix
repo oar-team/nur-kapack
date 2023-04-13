@@ -1,52 +1,5 @@
-{ python3Packages, fetchgit, execo, cmake, libssh2, openssl, zlib, ansible, ring }:
+{ python3Packages, fetchgit, execo, cmake, libssh2, openssl, zlib, ansible, ring, parallel-ssh }:
 let
-  ssh-python = python3Packages.buildPythonPackage rec {
-    pname = "ssh-python";
-    version = "0.10.0";
-    src = python3Packages.fetchPypi {
-      inherit pname version;
-      sha256 = "sha256-ZFlypiAbOGvHs4CQFO4p1JqB0DVCIgqUrPBSykbF+Mg=";
-    };
-    # We don't want to build with CMake, just include it for the libssh2 bindings.
-    dontUseCmakeConfigure = true;
-    nativeBuildInputs = [ cmake ];
-
-    SYSTEM_LIBSSH2 = "1";
-    buildInputs = [ libssh2 openssl zlib ];
-  };
-
-  ssh2-python = python3Packages.buildPythonPackage rec {
-    pname = "ssh2-python";
-    version = "0.27.0";
-
-    src = python3Packages.fetchPypi {
-      inherit pname version;
-      sha256 = "sha256-plsU/0S3oFzpDHCvDeZE0wwdB+dtrFDfjg19K5QJYjs=";
-    };
-
-    # We don't want to build with CMake, just include it for the libssh2 bindings.
-    dontUseCmakeConfigure = true;
-    nativeBuildInputs = [ cmake ];
-
-    SYSTEM_LIBSSH2 = "1";
-
-    buildInputs = [ libssh2 openssl zlib ];
-  };
-
-  parallel-ssh = python3Packages.buildPythonPackage rec {
-    pname = "parallel-ssh";
-    version = "2.10.0";
-    src = python3Packages.fetchPypi {
-      inherit pname version;
-      sha256 = "sha256-i5JfQ5cqVJrgkKVfVXvrU6GWhWZtvrFmswQ9YfXrLbk=";
-    };
-    propagatedBuildInputs = [
-      python3Packages.gevent
-      ssh2-python
-      ssh-python
-    ];
-  };
-
   iotlabcli = python3Packages.buildPythonPackage rec {
     pname = "iotlabcli";
     version = "3.3.0";
