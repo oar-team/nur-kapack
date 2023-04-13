@@ -1,10 +1,12 @@
-{ python3Packages, fetchgit, execo, ansible, ring, iotlabsshcli, distem, python-grid5000 }:
+{ python3Packages, fetchFromGitLab, execo, ansible, ring, iotlabsshcli, distem, python-grid5000 }:
 
 python3Packages.buildPythonPackage rec {
   pname = "enoslib";
   version = "v8.1.3";
-  src = fetchgit {
-    url = "https://gitlab.inria.fr/discovery/enoslib";
+  src = fetchFromGitLab {
+    domain = "gitlab.inria.fr";
+    owner = "discovery";
+    repo = pname;
     rev = "${version}";
     sha256 = "sha256-fV2lpNYJqvLOkpOKNBXMdlBC288SAH2xPx42dkqfSzU=";
   };
