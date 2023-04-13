@@ -8,7 +8,7 @@ python3Packages.buildPythonPackage rec {
     owner = "discovery";
     repo = pname;
     rev = "${version}";
-    sha256 = "sha256-fV2lpNYJqvLOkpOKNBXMdlBC288SAH2xPx42dkqfSzU=";
+    sha256 = "sha256-QopX4YyYef9YkWmlm1wLg7DcXWUCpG+bdE3LxN7udtk=";
   };
   # We do the following because nix cannot yet access the extra builds of poetry
   patchPhase = ''
