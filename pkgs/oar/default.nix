@@ -4,13 +4,15 @@ python3Packages.buildPythonPackage rec {
   pname = "oar";
   version = "3.0.0";
   format = "pyproject";
-
+  
   src = fetchFromGitHub {
     owner = "oar-team";
     repo = "oar3";
-    rev = "370f1faecc418233d6dcee2bc278e27247fd63f5";
-    sha256 = "sha256-b2cDPa9n7VXGmSC7mQfhTGGNCRurHB8nWwYMSkdLu9A=";
+    rev = "402aaeb032b081aa061997a4158951a340becf77";
+    sha256 = "sha256-WykQV8JLrIEoGvJVrtTeFAmJwknQZfp9DMDiT9i4drw=";
   };
+  
+  patches = [ ./0001-fix-rest-api-resources.patch ];
 
   nativeBuildInputs = [ poetry ];
 
@@ -35,6 +37,8 @@ python3Packages.buildPythonPackage rec {
     ptpython
     python-multipart
     importlib-metadata
+    clustershell
+    rich
   ];
 
   doCheck = false;
