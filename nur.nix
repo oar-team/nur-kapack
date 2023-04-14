@@ -104,8 +104,6 @@ rec {
 
   python-mip = pkgs.callPackage ./pkgs/python-mip { };
   
-  pyzmq = pkgs.callPackage ./pkgs/pyzmq { };
-
   redox-oldnixpkgs = pkgs-2111.callPackage ./pkgs/redox { };
   redox = pkgs.callPackage ./pkgs/redox { };
 
