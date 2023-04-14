@@ -69,11 +69,11 @@ rec {
   colmet-collector = pkgs.callPackage ./pkgs/colmet-collector { };
 
   dcdb = pkgs.callPackage ./pkgs/dcdb { inherit scylladb-cpp-driver bacnet-stack mosquitto-dcdb; };
-  
+
   distem = pkgs.callPackage ./pkgs/distem { };
 
   ear =  pkgs.callPackage ./pkgs/ear { };
-  
+
   enoslib = pkgs.callPackage ./pkgs/enoslib { inherit execo ring iotlabsshcli distem python-grid5000; };
 
   evalys = pkgs.callPackage ./pkgs/evalys { inherit procset; };
@@ -81,7 +81,7 @@ rec {
   execo = pkgs.callPackage ./pkgs/execo { };
 
   flatbuffers = pkgs.callPackage ./pkgs/flatbuffers/2.0.nix { };
-  
+
   iotlabcli = pkgs.callPackage ./pkgs/iotlabcli { };
   iotlabsshcli = pkgs.callPackage ./pkgs/iotlabsshcli { inherit iotlabcli parallel-ssh; };
 
@@ -139,7 +139,7 @@ rec {
   oar2 = pkgs.callPackage ./pkgs/oar2 { };
 
   oar3 = oar;
-  
+
   ring = pkgs.callPackage ./pkgs/ring { inherit wirerope; };
 
   rsg-030 = pkgs.callPackage ./pkgs/remote-simgrid/rsg030.nix { inherit debug ; simgrid = simgrid-326; };
@@ -165,7 +165,7 @@ rec {
   simgrid-332light = simgrid-332.override { minimalBindings = true; withoutBin = true; withoutBoostPropagation = true; buildPythonBindings = false; };
   simgrid = simgrid-332;
   simgrid-light = simgrid-332light;
-  
+
   ssh-python = pkgs.callPackage ./pkgs/ssh-python { };
   ssh2-python = pkgs.callPackage ./pkgs/ssh2-python { };
 
@@ -195,15 +195,15 @@ rec {
     meta.platforms = pkgs.lib.lists.intersectLists pkgs.rdma-core.meta.platforms
       pkgs.ghc.meta.platforms;
   });
-  
+
   parallel-ssh = pkgs.callPackage ./pkgs/parallel-ssh { inherit ssh-python ssh2-python; };
-  
+
   python-grid5000 = pkgs.callPackage ./pkgs/python-grid5000 { };
 
   starpu = pkgs.callPackage ./pkgs/starpu { };
 
   wait-for-it = pkgs.callPackage ./pkgs/wait-for-it { };
-  
+
   wirerope = pkgs.callPackage ./pkgs/wirerope { };
 
   yamldiff = pkgs.callPackage ./pkgs/yamldiff { };
