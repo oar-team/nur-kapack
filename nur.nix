@@ -166,9 +166,6 @@ rec {
   simgrid = simgrid-332;
   simgrid-light = simgrid-332light;
 
-  ssh-python = pkgs.callPackage ./pkgs/ssh-python { };
-  ssh2-python = pkgs.callPackage ./pkgs/ssh2-python { };
-
   # Setting needed for nixos-19.03 and nixos-19.09
   slurm-bsc-simulator =
     if pkgs ? libmysql
@@ -195,6 +192,9 @@ rec {
     meta.platforms = pkgs.lib.lists.intersectLists pkgs.rdma-core.meta.platforms
       pkgs.ghc.meta.platforms;
   });
+
+  ssh-python = pkgs.callPackage ./pkgs/ssh-python { };
+  ssh2-python = pkgs.callPackage ./pkgs/ssh2-python { };
 
   parallel-ssh = pkgs.callPackage ./pkgs/parallel-ssh { inherit ssh-python ssh2-python; };
 
