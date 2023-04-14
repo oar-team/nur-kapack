@@ -70,13 +70,20 @@ rec {
 
   dcdb = pkgs.callPackage ./pkgs/dcdb { inherit scylladb-cpp-driver bacnet-stack mosquitto-dcdb; };
 
+  distem = pkgs.callPackage ./pkgs/distem { };
+
   ear =  pkgs.callPackage ./pkgs/ear { };
+
+  enoslib = pkgs.callPackage ./pkgs/enoslib { inherit execo ring iotlabsshcli distem python-grid5000; };
 
   evalys = pkgs.callPackage ./pkgs/evalys { inherit procset; };
 
   execo = pkgs.callPackage ./pkgs/execo { };
 
   flatbuffers = pkgs.callPackage ./pkgs/flatbuffers/2.0.nix { };
+
+  iotlabcli = pkgs.callPackage ./pkgs/iotlabcli { };
+  iotlabsshcli = pkgs.callPackage ./pkgs/iotlabsshcli { inherit iotlabcli parallel-ssh; };
 
   likwid = pkgs.callPackage ./pkgs/likwid { };
 
@@ -133,6 +140,8 @@ rec {
 
   oar3 = oar;
 
+  ring = pkgs.callPackage ./pkgs/ring { inherit wirerope; };
+
   rsg-030 = pkgs.callPackage ./pkgs/remote-simgrid/rsg030.nix { inherit debug ; simgrid = simgrid-326; };
   rsg = rsg-030;
 
@@ -184,9 +193,18 @@ rec {
       pkgs.ghc.meta.platforms;
   });
 
+  ssh-python = pkgs.callPackage ./pkgs/ssh-python { };
+  ssh2-python = pkgs.callPackage ./pkgs/ssh2-python { };
+
+  parallel-ssh = pkgs.callPackage ./pkgs/parallel-ssh { inherit ssh-python ssh2-python; };
+
+  python-grid5000 = pkgs.callPackage ./pkgs/python-grid5000 { };
+
   starpu = pkgs.callPackage ./pkgs/starpu { };
 
   wait-for-it = pkgs.callPackage ./pkgs/wait-for-it { };
+
+  wirerope = pkgs.callPackage ./pkgs/wirerope { };
 
   yamldiff = pkgs.callPackage ./pkgs/yamldiff { };
 }
