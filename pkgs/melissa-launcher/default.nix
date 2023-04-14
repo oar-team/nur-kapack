@@ -11,9 +11,9 @@ with python3Packages;
   # src = /home/adfaure/Sandbox/nxc-melissa/melissa-combined;
 
   src = builtins.fetchGit {
-    url = "ssh://git@gitlab.inria.fr/melissa/melissa-combined.git";
-    rev = "c2fbcc0e19c773e81e4ba2d3860f37c012902da1";
-    narHash = "sha256-OoKOazJb5vyHqMoylECT8BFfqSIpgi+iu0fApRuHWwM=";
+    url = "ssh://git@gitlab.inria.fr/adfaure/melissa.git";
+    rev = "c3892f459b11680bcbd25fa69760a3af7f5bc131";
+    narHash = "sha256-1cU/xkEzlj3TUGxwUlvbWDPhAU2sGbtLEKTaPF4bAuk=";
     allRefs = true;
   };
 
