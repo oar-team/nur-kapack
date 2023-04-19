@@ -12,7 +12,11 @@ python3Packages.buildPythonPackage rec {
     sha256 = "sha256-WykQV8JLrIEoGvJVrtTeFAmJwknQZfp9DMDiT9i4drw=";
   };
   
-  patches = [ ./0001-fix-rest-api-resources.patch ];
+  patches = [
+    ./0001-fix-rest-api-resources.patch
+    ./0002-location-for-type-in-jobs.patch
+    ./0003-events-for-get-jobs.patch
+  ];
 
   nativeBuildInputs = [ poetry ];
 
