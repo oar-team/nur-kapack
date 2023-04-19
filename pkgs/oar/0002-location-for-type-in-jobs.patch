@@ -1,0 +1,73 @@
+From a40b47567feb45d6db49acd1986a1ba6478ddbcd Mon Sep 17 00:00:00 2001
+From: Quentin Guilloteau <Quentin.Guilloteau@inria.fr>
+Date: Tue, 18 Apr 2023 08:34:12 +0200
+Subject: [PATCH 2/3] location for type in /jobs
+
+---
+ oar/rest_api/utils.py     | 8 ++++----
+ oar/rest_api/views/job.py | 2 +-
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/oar/rest_api/utils.py b/oar/rest_api/utils.py
+index 0fc292f..feac236 100644
+--- a/oar/rest_api/utils.py
++++ b/oar/rest_api/utils.py
+@@ -7,7 +7,6 @@ from flask import abort, current_app, request
+ from oar.lib import config
+ from oar.lib.utils import integer_types, reraise, to_unicode
+ 
+-
+ class WSGIProxyFix(object):
+     def __init__(self, app):
+         self.app = app
+@@ -69,7 +68,7 @@ class Arg(object):
+         self.required = required
+         self.dest = dest
+         self.error = error
+-        self.locations = locations or self.DEFAULT_LOCATIONS
++        self.locations = locations if locations else self.DEFAULT_LOCATIONS
+ 
+     def raw_value(self, value):
+         if value is not None:
+@@ -111,7 +110,7 @@ class ArgParser(object):
+         self.argmap = argmap
+ 
+     def get_value(self, data, name, argobj):
+-        if isinstance(argobj.type, ListArg) and not argobj.type.sep:
++        if isinstance(argobj.type, ListArg) and not argobj.type.sep and not isinstance(data, dict):
+             return data.getlist(name)
+         else:
+             return data.get(name, self.MISSING)
+@@ -119,6 +118,7 @@ class ArgParser(object):
+     def parse_arg(self, argname, argobj):
+         """Pull a form value from the request."""
+         for location in argobj.locations:
++
+             value = self.MISSING
+             if location == "querystring" and request.args:
+                 value = self.get_value(request.args, argname, argobj)
+@@ -136,7 +136,7 @@ class ArgParser(object):
+ 
+     def convert_bool(self, value):
+         """Try to convert ``value`` to a Boolean."""
+-        if value.lower() in ("True", "yes", "1"):
++        if value.lower() in ("true", "yes", "1"):
+             return True
+         if value.lower() in ("false", "no", "0"):
+             return False
+diff --git a/oar/rest_api/views/job.py b/oar/rest_api/views/job.py
+index bb536f3..4a15eda 100644
+--- a/oar/rest_api/views/job.py
++++ b/oar/rest_api/views/job.py
+@@ -79,7 +79,7 @@ def index(
+         "reservation": Arg(str),
+         "checkpoint": Arg(int, default=0),
+         "signal": Arg(int),
+-        "type": Arg([str], dest="types"),
++        "type": Arg([str], dest="types", locations=("json",)),
+         "directory": Arg(str),
+         "project": Arg(str),
+         "name": Arg(str),
+-- 
+2.38.1
+
