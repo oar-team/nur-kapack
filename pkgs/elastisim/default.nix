@@ -42,7 +42,7 @@ stdenv.mkDerivation rec {
     '';
     homepage = "https://github.com/elastisim/elastisim";
     license = licenses.bsd3;
-    maintainers = with maintainers; [ adfaure ];
+    maintainers = [];
     platforms = platforms.all;
     broken = false;
   };

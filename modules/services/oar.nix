@@ -118,7 +118,7 @@ in
 {
   ###### interface
 
-  meta.maintainers = [ maintainers.augu5te ];
+  meta.maintainers = [];
 
   options = {
     services.oar = {
