@@ -18,8 +18,6 @@ let
 
     pybatsim-master = pkgs.callPackage ./pkgs/pybatsim/master.nix { pybatsim = nur-pkgs.pybatsim; };
 
-    rsg-master = pkgs.callPackage ./pkgs/remote-simgrid/master.nix { rsg = nur-pkgs.rsg; };
-
     simgrid-master = pkgs.callPackage ./pkgs/simgrid/master.nix { simgrid = nur-pkgs.simgrid; };
     simgrid-light-master = pkgs.callPackage ./pkgs/simgrid/master.nix { simgrid = nur-pkgs.simgrid-light; };
   };
