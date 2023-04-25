@@ -94,6 +94,8 @@ rec {
   intervalset = pkgs.callPackage ./pkgs/intervalset { };
   intervalsetlight = pkgs.callPackage ./pkgs/intervalset { withoutBoostPropagation = true; };
 
+  iterators = pkgs.callPackage ./pkgs/iterators { };
+
   kube-batch = pkgs.callPackage ./pkgs/kube-batch { };
 
   loguru = pkgs.callPackage ./pkgs/loguru { inherit debug; };
