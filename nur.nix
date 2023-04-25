@@ -75,6 +75,8 @@ rec {
 
   flatbuffers = pkgs.callPackage ./pkgs/flatbuffers/2.0.nix { };
 
+  flower = pkgs.callPackage ./pkgs/flower { inherit iterators; };
+
   iotlabcli = pkgs.callPackage ./pkgs/iotlabcli { };
   iotlabsshcli = pkgs.callPackage ./pkgs/iotlabsshcli { inherit iotlabcli parallel-ssh; };
 
