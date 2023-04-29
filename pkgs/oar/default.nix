@@ -16,6 +16,7 @@ python3Packages.buildPythonPackage rec {
     ./0001-fix-rest-api-resources.patch
     ./0002-location-for-type-in-jobs.patch
     ./0003-events-for-get-jobs.patch
+    ./0004-resubmit-job-id.patch
   ];
 
   nativeBuildInputs = [ poetry ];
