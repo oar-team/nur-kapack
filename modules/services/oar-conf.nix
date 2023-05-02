@@ -737,6 +737,11 @@ UsePAM yes
 AddressFamily any
 Port 6667
 
+# TODO to be consistent to the number of resources per network_address
+# If this number is lower than the number of resources of a single host, if we have a node full of jobs, it causes sshd to drop connections.
+# Thus the node state is set as suspected. For us, only the first number is important, refer to the doc for the other two (man sshd_config).
+MaxStartups 50:30:60
+
 X11Forwarding no
 
 PermitRootLogin prohibit-password
