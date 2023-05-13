@@ -1,7 +1,7 @@
 From a96d1a2c3aca98ef4af376feed8b5f8ba421a940 Mon Sep 17 00:00:00 2001
 From: Quentin Guilloteau <Quentin.Guilloteau@inria.fr>
 Date: Tue, 9 May 2023 19:10:12 +0200
-Subject: [PATCH 5/5] gantt route for cigri ff
+Subject: [PATCH 5/6] gantt route for cigri ff
 
 ---
  oar/lib/basequery.py      | 21 +++++++++++++++++++++

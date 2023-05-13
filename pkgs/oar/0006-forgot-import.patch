@@ -1,0 +1,32 @@
+From 5d4ffd1703f21e16ffd38ca5efb54b736ee50675 Mon Sep 17 00:00:00 2001
+From: Quentin Guilloteau <Quentin.Guilloteau@inria.fr>
+Date: Sat, 13 May 2023 15:08:04 +0200
+Subject: [PATCH 6/6] forgot import
+
+---
+ oar/rest_api/views/job.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/oar/rest_api/views/job.py b/oar/rest_api/views/job.py
+index 54e6ba6..1482368 100644
+--- a/oar/rest_api/views/job.py
++++ b/oar/rest_api/views/job.py
+@@ -1,13 +1,14 @@
+ # -*- coding: utf-8 -*-
+ import os
+ import re
++import time
+ 
+ from flask import g, url_for
+ 
+ from oar.cli.oardel import oardel
+ from oar.cli.oarhold import oarhold
+ from oar.cli.oarresume import oarresume
+-from oar.lib import Job, db
++from oar.lib import Job, db, get_logger
+ from oar.lib.submission import JobParameters, Submission, check_reservation
+ from oar.lib.event import get_job_events
+ 
+-- 
+2.38.1
+

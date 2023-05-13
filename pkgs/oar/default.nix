@@ -5,6 +5,8 @@ python3Packages.buildPythonPackage rec {
   version = "3.0.0";
   format = "pyproject";
   
+  # src = /home/quentin/ghq/github.com/oar-team/oar3;
+  
   src = fetchFromGitHub {
     owner = "oar-team";
     repo = "oar3";
@@ -18,6 +20,7 @@ python3Packages.buildPythonPackage rec {
     ./0003-events-for-get-jobs.patch
     ./0004-resubmit-job-id.patch
     ./0005-gantt-route-for-cigri-ff.patch
+    ./0006-forgot-import.patch
   ];
 
   nativeBuildInputs = [ poetry ];
