@@ -8,8 +8,13 @@ python3Packages.buildPythonPackage rec {
   src = fetchFromGitHub {
     owner = "oar-team";
     repo = "oar3";
+<<<<<<< HEAD
     rev = "402aaeb032b081aa061997a4158951a340becf77";
     sha256 = "sha256-WykQV8JLrIEoGvJVrtTeFAmJwknQZfp9DMDiT9i4drw=";
+=======
+    rev = "813efc3cc1082bc1ee2c655dbd07e4d9c96513fd";
+    sha256 = "sha256-M1BU3GO4y3JlYNOgXbudtNhYpQ/+hNpcGzzhvAjwLoQ=";
+>>>>>>> d3db3ea (fix oar admission rules pb)
   };
   # patches = [ ./0001-bs-loosen-pyzmq-version-constraint.patch ];
 
