@@ -8,13 +8,13 @@ python3Packages.buildPythonPackage rec {
   src = fetchFromGitHub {
     owner = "oar-team";
     repo = "oar3-plugins";
-    rev = "master";
-    sha256 = "sha256-FtU/1dxNXj08t+Greg/i0PQrVAoL/Rg0Bm4jbwRZLko=";
+    rev = "expes_cigri_quentin";
+    sha256 = "sha256-9cTMpNvOh8wlvNdBnhkR7xNPYq8+knZaQXDCJiuDu/A=";
   };
 
   nativeBuildInputs = [ poetry ];
 
-  buildInputs = with python3Packages; [ oar ];
+  buildInputs = with python3Packages; [ ]; # oar ];
 
   propagatedBuildInputs = with python3Packages; [
     pyzmq
@@ -31,7 +31,7 @@ python3Packages.buildPythonPackage rec {
     passlib
     escapism
     toml
-    fastapi
+    # fastapi
     uvicorn
     pyyaml
     ptpython
