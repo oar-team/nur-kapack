@@ -507,6 +507,7 @@ in
 
           # copy some required and useful scripts
           cp ${cfg.package}/tools/*.pl ${cfg.package}/tools/*.sh /etc/oar/
+          cp -r ${cfg.package}/admission_rules.d /etc/oar
 
           touch /etc/oar/oar.conf
           chmod 600 /etc/oar/oar.conf
