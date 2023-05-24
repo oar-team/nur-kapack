@@ -147,6 +147,8 @@ rec {
   pybatsim-functional = pybatsim-functional-400;
 
   python-mip = pkgs.callPackage ./pkgs/python-mip { };
+  
+  pyzmq = pkgs.callPackage ./pkgs/pyzmq { };
 
   redox-oldnixpkgs = pkgs-2111.callPackage ./pkgs/redox { };
   redox = pkgs.callPackage ./pkgs/redox { };
@@ -157,7 +159,7 @@ rec {
 
   cigri = pkgs.callPackage ./pkgs/cigri { };
 
-  oar = pkgs.callPackage ./pkgs/oar { inherit procset pybatsim remote_pdb; };
+  oar = pkgs.callPackage ./pkgs/oar { inherit procset pybatsim remote_pdb pyzmq; };
 
   oar-plugins = pkgs.callPackage ./pkgs/oar-plugins { inherit procset pybatsim remote_pdb oar; };
 

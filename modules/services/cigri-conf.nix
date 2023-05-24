@@ -37,7 +37,7 @@ STRESS_FACTOR="8.0"
 #File where to log (STDOUT AND STDERR are accepted as  well)
 LOG_FILE = "${cfg.server.logfile}"
 # loglevel as supported by the ruby logger (FATAL, ERROR, WARN, INFO, DEBUG)
-LOG_LEVEL = "INFO"
+LOG_LEVEL = "DEBUG"
 # Job debugging. Set to 1 if you want to dump all submitted jobs
 LOG_JOBS = "0"
 LOG_JOBS_DIRECTORY = "/var/log/cigri_jobs"
