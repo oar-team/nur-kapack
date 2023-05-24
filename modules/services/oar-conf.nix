@@ -1156,7 +1156,7 @@ EOT;
 // Standby state display options for the part shown in the future
 $CONF['standby_truncate_state_to_now'] = 1; // default: 1
 // Besteffort job display options for the part shown in the future
-$CONF['besteffort_truncate_job_to_now'] = 1; // default: 1
+$CONF['besteffort_truncate_job_to_now'] = 0; // default: 1
 $CONF['besteffort_pattern'] = <<<EOT
 <pattern id="%%PATTERN_ID%%" patternUnits="userSpaceOnUse" x="0" y="0" width="10" height="10" viewBox="0 0 10 10" >
 <polygon points="0,0 7,0 10,5 7,10 0,10 3,5" fill="%%PATTERN_COLOR%%" stroke-width="0"/>
