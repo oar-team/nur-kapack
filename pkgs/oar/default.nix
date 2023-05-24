@@ -9,12 +9,17 @@ python3Packages.buildPythonPackage rec {
     owner = "oar-team";
     repo = "oar3";
 <<<<<<< HEAD
+<<<<<<< HEAD
     rev = "402aaeb032b081aa061997a4158951a340becf77";
     sha256 = "sha256-WykQV8JLrIEoGvJVrtTeFAmJwknQZfp9DMDiT9i4drw=";
 =======
     rev = "813efc3cc1082bc1ee2c655dbd07e4d9c96513fd";
     sha256 = "sha256-M1BU3GO4y3JlYNOgXbudtNhYpQ/+hNpcGzzhvAjwLoQ=";
 >>>>>>> d3db3ea (fix oar admission rules pb)
+=======
+    rev = "370f1faecc418233d6dcee2bc278e27247fd63f5";
+    sha256 = "sha256-b2cDPa9n7VXGmSC7mQfhTGGNCRurHB8nWwYMSkdLu9A=";
+>>>>>>> 8b87042 (new oar3 and posgresql)
   };
   # patches = [ ./0001-bs-loosen-pyzmq-version-constraint.patch ];
 

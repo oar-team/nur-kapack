@@ -165,6 +165,8 @@ rec {
 
   oar3 = oar;
   oar3-plugins = oar-plugins;
+  
+  postgresql = import ./pkgs/postgresql/default.nix pkgs;
 
   rsg-030 = pkgs.callPackage ./pkgs/remote-simgrid/rsg030.nix { inherit debug; simgrid = simgrid-326; };
   rsg = rsg-030;
