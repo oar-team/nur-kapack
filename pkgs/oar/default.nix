@@ -8,7 +8,7 @@ python3Packages.buildPythonPackage rec {
   src = fetchFromGitHub {
     owner = "oar-team";
     repo = "oar3";
-    rev = "402aaeb032b081aa061997a4158951a340becf77";
+    rev = "springcleaning";
     sha256 = "sha256-WykQV8JLrIEoGvJVrtTeFAmJwknQZfp9DMDiT9i4drw=";
   };
   # patches = [ ./0001-bs-loosen-pyzmq-version-constraint.patch ];
@@ -38,6 +38,7 @@ python3Packages.buildPythonPackage rec {
     importlib-metadata
     clustershell
     rich
+    httpx
   ];
 
   doCheck = false;

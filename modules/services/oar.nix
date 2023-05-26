@@ -746,29 +746,6 @@ in
         };
       };
 
-      services.uwsgi = mkIf cfg.web.enable {
-        enable = true;
-        plugins = [ "python3" ];
-        user = "oar";
-        group = "oar";
-        instance = {
-          type = "emperor";
-          vassals.oar-api = {
-            socket = "/run/uwsgi/oarapi.sock";
-            type = "normal";
-            master = true;
-            workers = 2;
-            # TODO: PATH variable suffered duplication, the bug is in nixpkgs/nixos/.../uwsgi.nix
-            env = [ "PATH=/run/current-system/sw/bin/" ];
-            module = "oarapi:application";
-            chdir = pkgs.writeTextDir "oarapi.py" ''
-              from oar.rest_api.app import wsgi_app as application
-            '';
-            pythonPackages = self: with self; [ pkgs.nur.repos.kapack.oar ];
-          };
-        };
-      };
-
       services.unit = mkIf cfg.web.enable {
         enable = true;
         user = "oar";
@@ -776,7 +753,31 @@ in
         config =
           let
             app = pkgs.writeTextDir "asgi.py" ''
-              from oar.api.app import app
+              # TODO: Is it a nixos compose thing, or does it belong to nur-kapack ?
+              import time
+              import sys
+
+              from oar.lib.tools import get_date
+              from oar.api.app import create_app
+              from oar.lib.globals import init_oar, init_and_get_session, init_config, get_logger
+              r = True
+
+              config = init_config()
+              logger = get_logger("asgi", config=config)
+
+              # Waiting for the database to be accessible
+              # This is needed in the context of nixos-compose.
+              while r:
+                  try:
+                      session = init_and_get_session(config)
+                      r = False
+                  except Exception as e:
+                      logger.error(f"db not ready: {e}")
+                      time.sleep(0.25)
+
+              # The root path must be defined according to the nginx configuration
+              # TODO: It might be made as a parameter.
+              app = create_app(config=config, root_path="/api/")
             '';
             app_env =
               pkgs.python3.withPackages (ps: [ pkgs.nur.repos.kapack.oar ]);
