@@ -746,6 +746,29 @@ in
         };
       };
 
+      services.uwsgi = mkIf cfg.web.enable {
+        enable = true;
+        plugins = [ "python3" ];
+        user = "oar";
+        group = "oar";
+        instance = {
+          type = "emperor";
+          vassals.oar-api = {
+            socket = "/run/uwsgi/oarapi.sock";
+            type = "normal";
+            master = true;
+            workers = 2;
+            # TODO: PATH variable suffered duplication, the bug is in nixpkgs/nixos/.../uwsgi.nix
+            env = [ "PATH=/run/current-system/sw/bin/" ];
+            module = "oarapi:application";
+            chdir = pkgs.writeTextDir "oarapi.py" ''
+              from oar.rest_api.app import wsgi_app as application
+            '';
+            pythonPackages = self: with self; [ pkgs.nur.repos.kapack.oar_restapi ];
+          };
+        };
+      };
+
       services.unit = mkIf cfg.web.enable {
         enable = true;
         user = "oar";

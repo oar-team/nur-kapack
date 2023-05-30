@@ -158,6 +158,9 @@ rec {
   cigri = pkgs.callPackage ./pkgs/cigri { };
 
   oar = pkgs.callPackage ./pkgs/oar { inherit procset pybatsim remote_pdb; };
+  
+  # 
+  oar_restapi = pkgs.callPackage ./pkgs/oar/oar_restapi.nix { inherit oar; };
 
   oar-plugins = pkgs.callPackage ./pkgs/oar-plugins { inherit procset pybatsim remote_pdb oar; };
 
