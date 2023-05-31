@@ -9,7 +9,7 @@ python3Packages.buildPythonPackage rec {
     owner = "oar-team";
     repo = "oar3";
     rev = "master";
-    sha256 = "sha256-6uH9a/oJOQzf+9oj9lZJbI7OPxEcGFHjo3NznrWFzvE=";
+    sha256 = "sha256-BRqFpc/5yY0xZ3VpbeRkAeAQ+aso9ywX8JJHadrm2kM=";
   };
   # patches = [ ./0001-bs-loosen-pyzmq-version-constraint.patch ];
 
