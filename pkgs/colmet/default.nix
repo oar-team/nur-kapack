@@ -38,5 +38,6 @@ python3Packages.buildPythonApplication rec {
     licence     = licenses.gpl2;
     longDescription = ''
     '';
+    broken = true; # due to libpowercap
   };
 }

@@ -8,9 +8,10 @@ python3Packages.buildPythonPackage rec {
   src = fetchFromGitHub {
     owner = "oar-team";
     repo = "oar3";
-    rev = "eacbcde63b6a229f48e58aa3c66fef6851f6e626";
-    sha256 = "sha256-gngBAmNajhI/oas0aVB3exaaIQLGp+lQSp9B2HORk3w=";
+    rev = "master";
+    sha256 = "sha256-BRqFpc/5yY0xZ3VpbeRkAeAQ+aso9ywX8JJHadrm2kM=";
   };
+  # patches = [ ./0001-bs-loosen-pyzmq-version-constraint.patch ];
 
   nativeBuildInputs = [ poetry ];
 
@@ -35,6 +36,9 @@ python3Packages.buildPythonPackage rec {
     ptpython
     python-multipart
     importlib-metadata
+    clustershell
+    rich
+    httpx
   ];
 
   doCheck = false;
@@ -42,6 +46,9 @@ python3Packages.buildPythonPackage rec {
     cp -r setup $out
     cp -r oar/tools $out
     cp -r visualization_interfaces $out
+
+    mkdir -p $out/admission_rules.d
+    cp -r etc/oar/admission_rules.d/0*.py $out/admission_rules.d
   '';
 
   meta = {

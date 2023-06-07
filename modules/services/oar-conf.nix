@@ -87,6 +87,8 @@ OPENSSH_CMD="${pkgs.openssh}/bin/ssh -p 6667"
 # the resources turned into the Suspected state (default is 300s)
 #JOBDEL_WALLTIME="300"
 
+ADMISSION_RULES_IN_FILES="yes"
+
 # If you have installed taktuk and want to use it to manage remote
 # admnistration commands then give the full command path
 # (with your options except "-m" and "-o").
@@ -1102,7 +1104,7 @@ $CONF['label_right_align'] = 105; // default: 105
 $CONF['hierarchy_left_align'] = 110; // default: 110
 $CONF['gantt_left_align'] = 160; // default: 160
 $CONF['gantt_min_width'] = 900; // default: 900
-$CONF['gantt_min_height'] = 100; // default: 100
+$CONF['gantt_min_height'] = 300; // default: 100
 $CONF['gantt_min_job_width_for_label'] = 40; // default: 40
 $CONF['min_state_duration'] = 2; // default: 2
 
@@ -1154,7 +1156,7 @@ EOT;
 // Standby state display options for the part shown in the future
 $CONF['standby_truncate_state_to_now'] = 1; // default: 1
 // Besteffort job display options for the part shown in the future
-$CONF['besteffort_truncate_job_to_now'] = 1; // default: 1
+$CONF['besteffort_truncate_job_to_now'] = 0; // default: 1
 $CONF['besteffort_pattern'] = <<<EOT
 <pattern id="%%PATTERN_ID%%" patternUnits="userSpaceOnUse" x="0" y="0" width="10" height="10" viewBox="0 0 10 10" >
 <polygon points="0,0 7,0 10,5 7,10 0,10 3,5" fill="%%PATTERN_COLOR%%" stroke-width="0"/>

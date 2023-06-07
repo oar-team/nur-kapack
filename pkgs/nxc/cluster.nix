@@ -12,6 +12,7 @@ python3Packages.buildPythonPackage rec {
     rev = "cluster22-pkg-kapack";
     sha256 = "sha256-Sqc4FF3yzBvbKFvlEYXmrCrh1AYfpcJv4vhiqN1K+Ws=";
   };
+  patches = [ ./0001-bs-loosen-tomlkit-dep-version-constraint.patch ];
 
   buildInputs = with python3Packages; [
     poetry
