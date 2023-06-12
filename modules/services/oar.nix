@@ -764,7 +764,6 @@ in
             chdir = pkgs.writeTextDir "oarapi.py" ''
               from oar.rest_api.app import wsgi_app as application
             '';
-            pythonPackages = self: with self; [ pkgs.nur.repos.kapack.oar_restapi ];
           };
         };
       };
