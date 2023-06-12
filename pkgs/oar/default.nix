@@ -8,7 +8,7 @@ python3Packages.buildPythonPackage rec {
   src = fetchFromGitHub {
     owner = "oar-team";
     repo = "oar3";
-    rev = "master";
+    rev = "b975ab36db416d6f2fd4e304940cc415985657c1";
     sha256 = "sha256-rgiLkkRyFqYNO7/OMhNhKE5mN7ukY9MnqmANRtmF1SA=";
   };
   # patches = [ ./0001-bs-loosen-pyzmq-version-constraint.patch ];
