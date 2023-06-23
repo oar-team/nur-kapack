@@ -8,10 +8,9 @@ python3Packages.buildPythonPackage rec {
   src = fetchFromGitHub {
     owner = "oar-team";
     repo = "oar3";
-    rev = "b975ab36db416d6f2fd4e304940cc415985657c1";
-    sha256 = "sha256-rgiLkkRyFqYNO7/OMhNhKE5mN7ukY9MnqmANRtmF1SA=";
+    rev = "7b8e077a1f3361ece5e927a38cf5cc497a0cfea1";
+    sha256 = "sha256-3olOxlHg2p5+mcgGiF70vZo9oFbZcDebJyxdPP9RYm8=";
   };
-  # patches = [ ./0001-bs-loosen-pyzmq-version-constraint.patch ];
 
   nativeBuildInputs = [ poetry ];
 
