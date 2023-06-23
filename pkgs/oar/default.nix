@@ -16,6 +16,7 @@ python3Packages.buildPythonPackage rec {
   nativeBuildInputs = [ poetry ];
 
   propagatedBuildInputs = with python3Packages; [
+    poetry-core
     pyzmq
     requests
     alembic
