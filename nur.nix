@@ -96,8 +96,8 @@ rec {
 
   examon = pkgs.callPackage ./pkgs/examon { inherit openssl_1_0_2; };
 
-  # examon embeds Mosquito v1.5.3 which has openssl < 1.1.0 dependency  
-  openssl_1_0_2 = pkgs.callPackage ./pkgs/openssl_1_0_2 { }; # required for 
+  # examon embeds Mosquito v1.5.3 which has openssl < 1.1.0 dependency
+  openssl_1_0_2 = pkgs-2111.openssl_1_0_2; # pkgs.callPackage ./pkgs/openssl_1_0_2 { };
 
   flatbuffers = pkgs.callPackage ./pkgs/flatbuffers/2.0.nix { };
 
