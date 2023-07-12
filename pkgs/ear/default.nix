@@ -67,9 +67,11 @@ stdenv.mkDerivation rec {
     substituteInPlace src/report/Makefile --replace 'INC = -I$(EXAMON_BASE)/lib/iniparser/src -I$(EXAMON_BASE)/lib/mosquitto-1.3.5/lib' 'INC = -I${examon}/include'
     substituteInPlace src/report/Makefile --replace 'LDIR = -L/usr/lib -L$(EXAMON_BASE)/lib/iniparser' 'LDIR = -L${examon}/lib'
     substituteInPlace src/report/Makefile --replace 'LIBMOSQ = $(EXAMON_BASE)/lib/mosquitto-1.3.5/lib/libmosquitto.a' 'LIBMOSQ = -lmosquitto'
-    # Use option provided by Julita instead
+    # Use option provided by Julita
     substituteInPlace src/library/dynais/Makefile --replace '-march=native' '-msse4.1  -msse4.2 -msse3 -mavx512dq -mavx512f -mavx'
+    # But this line also works idk which is best
     # substituteInPlace src/library/dynais/Makefile --replace '-march=native' '-march=native -mcrc32'
+
     # Meh looks really dirty, because this file is not generated but needed so I create it
     touch /build/source/src/common/config/defines.log
   '' + (lib.optionalString useExamon "\nexport FEAT_EXAMON=1\n") + (lib.optionalString useMysql ''
