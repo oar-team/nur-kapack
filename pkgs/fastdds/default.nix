@@ -2,7 +2,7 @@
 
 stdenv.mkDerivation rec {
   pname = "fastdds";
-  version = "1.0.27";
+  version = "2.10.1";
 
   src = fetchTarball { url = "https://github.com/eProsima/Fast-DDS/archive/v2.10.1.tar.gz";
     sha256= "1c1g2zk6m32nsaf362syv99bf2crz7xfhl6lgagcwx6naffd3cmq";};
@@ -17,10 +17,14 @@ stdenv.mkDerivation rec {
   ];
 
   meta = with lib; {
-    description = "eProsima Fast CDR is a C++ library that provides two serialization mechanisms.";
-    longDescription = """eProsima Fast CDR is a C++ library that provides two serialization mechanisms.
-    One is the standard CDR serialization mechanism, while the other is a
-    faster implementation that modifies the standard.""";
+    description = "eprosima Fast DDS (formerly Fast RTPS) is a C++ implementation of the DDS
+    (Data Distribution Service) standard of the OMG (Object Management Group).
+    eProsima Fast DDS implements the RTPS (Real Time Publish Subscribe) protoco";
+    longDescription = """eprosima Fast DDS (formerly Fast RTPS) is a C++ implementation of the DDS
+    (Data Distribution Service) standard of the OMG (Object Management Group).
+    eProsima Fast DDS implements the RTPS (Real Time Publish Subscribe) protocol,
+    which provides publisher-subscriber communications over unreliable transports
+    such as UDP, as defined and maintained by the Object Management Group (OMG) consortium.""";
     homepage = "https://www.eprosima.com/";
     platforms = platforms.all;
     license = licenses.free;
