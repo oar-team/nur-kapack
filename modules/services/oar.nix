@@ -674,15 +674,33 @@ in
             in
             concatStringsSep "\n" [
               ''
+                location @oarapi {
+                  rewrite ^/oarapi-priv/?(.*)$ /$1 break;
+                  rewrite ^/oarapi/?(.*)$ /$1 break;
+
+                  include ${pkgs.nginx}/conf/uwsgi_params;
+
+                  uwsgi_pass unix:/run/uwsgi/oarapi.sock;
+                  uwsgi_param HTTP_X_REMOTE_IDENT $remote_user;
+                }
+
+                location ~ ^/oarapi-priv {
+                  auth_basic "OAR API Authentication";
+                  auth_basic_user_file /etc/oar/api-users;
+                  error_page 404 = @oarapi;
+                }
+
+                location ~ ^/oarapi {
+                  error_page 404 = @oarapi;
+                }
+
                 location @api {
                   rewrite ^/api-priv/?(.*)$ /$1 break;
                   rewrite ^/api/?(.*)$ /$1 break;
                   proxy_pass http://127.0.0.1:8080;
                   proxy_set_header Host $host;
                   # Only for http I guess
-                  proxy_pass_request_headers on;
-                  proxy_pass_header server;
-                  # proxy_set_header X-Remote-Ident 'user1';
+                  proxy_set_header X-Remote-Ident $http_remote_user;
                   proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
                 }
 
@@ -725,6 +743,28 @@ in
                 ${cfg.web.extraConfig}
               '')
             ];
+        };
+      };
+
+      services.uwsgi = mkIf cfg.web.enable {
+        enable = true;
+        plugins = [ "python3" ];
+        user = "oar";
+        group = "oar";
+        instance = {
+          type = "emperor";
+          vassals.oar-api = {
+            socket = "/run/uwsgi/oarapi.sock";
+            type = "normal";
+            master = true;
+            workers = 2;
+            # TODO: PATH variable suffered duplication, the bug is in nixpkgs/nixos/.../uwsgi.nix
+            env = [ "PATH=/run/current-system/sw/bin/" ];
+            module = "oarapi:application";
+            chdir = pkgs.writeTextDir "oarapi.py" ''
+              from oar.rest_api.app import wsgi_app as application
+            '';
+          };
         };
       };
 
