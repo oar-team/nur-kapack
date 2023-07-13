@@ -82,6 +82,8 @@ rec {
 
   dcdb = pkgs.callPackage ./pkgs/dcdb { inherit scylladb-cpp-driver bacnet-stack mosquitto-dcdb; };
 
+  fastcdr = pkgs.callPackage ./pkgs/fastcdr {};
+
   ear-examon = pkgs.callPackage ./pkgs/ear { useExamon = true; inherit openssl_1_0_2 examon; };
   ear = pkgs.callPackage ./pkgs/ear { inherit openssl_1_0_2 examon; };
   earCuda = pkgs.callPackage ./pkgs/ear { cudaSupport = true; inherit openssl_1_0_2 examon; };
