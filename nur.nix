@@ -82,6 +82,7 @@ rec {
 
   dcdb = pkgs.callPackage ./pkgs/dcdb { inherit scylladb-cpp-driver bacnet-stack mosquitto-dcdb; };
 
+
   ear-examon = pkgs.callPackage ./pkgs/ear { useExamon = true; inherit openssl_1_0_2 examon; };
   ear = pkgs.callPackage ./pkgs/ear { inherit openssl_1_0_2 examon; };
   earCuda = pkgs.callPackage ./pkgs/ear { cudaSupport = true; inherit openssl_1_0_2 examon; };
@@ -103,10 +104,12 @@ rec {
   #fastdds = pkgs.callPackage ./pkgs/fastdds {};
   fastcdr = pkgs.callPackage ./pkgs/fastcdr {};
   foonathan-memory = pkgs.callPackage ./pkgs/foonathan-memory { };
+  fastdds = pkgs.callPackage ./pkgs/fastdds { inherit fastcdr foonathan-memory; };
+
   #python-fastdds = pkgs.callPackage ./pkgs/fastdds {};
-  
+
   #regale = pkgs.callPackage ./pkgs/fastcdr {};
-  
+
   flatbuffers = pkgs.callPackage ./pkgs/flatbuffers/2.0.nix { };
 
   likwid = pkgs.callPackage ./pkgs/likwid { };
