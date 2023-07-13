@@ -8,14 +8,14 @@ python3Packages.buildPythonPackage rec {
   src = fetchFromGitHub {
     owner = "oar-team";
     repo = "oar3";
-    rev = "b975ab36db416d6f2fd4e304940cc415985657c1";
-    sha256 = "sha256-rgiLkkRyFqYNO7/OMhNhKE5mN7ukY9MnqmANRtmF1SA=";
+    rev = "be13dcbcbb465b1730f25696bfea2b81260d8fff";
+    sha256 = "sha256-RlrpCwojVWf09zSqIJN6clpdmPvreaBpts3nLS/izDw=";
   };
-  # patches = [ ./0001-bs-loosen-pyzmq-version-constraint.patch ];
 
   nativeBuildInputs = [ poetry ];
 
   propagatedBuildInputs = with python3Packages; [
+    poetry-core
     pyzmq
     requests
     alembic

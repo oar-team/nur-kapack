@@ -28,7 +28,7 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ perl ];
   
   configureFlags = [
-    "shared" # "shared" builds both shared and static libraries
+    # "shared" # "shared" builds both shared and static libraries
     "--libdir=lib"
     "--openssldir=etc/ssl"
   ];
