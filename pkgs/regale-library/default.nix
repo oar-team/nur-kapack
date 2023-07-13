@@ -1,4 +1,4 @@
-{ stdenv, lib, cmake, fastdds }:
+{ stdenv, lib, cmake, fastdds, buildExamples ? true }:
 
 stdenv.mkDerivation rec {
   pname = "regale-library";
@@ -15,6 +15,8 @@ stdenv.mkDerivation rec {
   buildInputs = [
     fastdds
   ];
+
+  cmakeFlags = [ "-DREGALE_EXAMPLES=${if buildExamples then "ON" else "OFF"}" ];
 
   meta = with lib; {
     description = "Regale published subscribed library.";
