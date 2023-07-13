@@ -105,6 +105,7 @@ rec {
   fastcdr = pkgs.callPackage ./pkgs/fastcdr {};
   foonathan-memory = pkgs.callPackage ./pkgs/foonathan-memory { };
   fastdds = pkgs.callPackage ./pkgs/fastdds { inherit fastcdr foonathan-memory; };
+  regale-library = pkgs.callPackage ./pkgs/regale-library { inherit fastdds; };
 
   #python-fastdds = pkgs.callPackage ./pkgs/fastdds {};
 
