@@ -35,8 +35,6 @@ rec {
 
   batexpe = pkgs.callPackage ./pkgs/batexpe { };
 
-  batprotocol-cpp = pkgs.callPackage ./pkgs/batprotocol/cpp.nix { inherit flatbuffers debug; };
-
   batsim-410 = pkgs.callPackage ./pkgs/batsim/batsim410.nix { inherit redox debug; simgrid = simgrid-332light; intervalset = intervalsetlight; };
   batsim = batsim-410;
   batsim-docker = pkgs.callPackage ./pkgs/batsim/batsim-docker.nix { inherit batsim; };
@@ -72,8 +70,6 @@ rec {
   evalys = pkgs.callPackage ./pkgs/evalys { inherit procset; };
 
   execo = pkgs.callPackage ./pkgs/execo { };
-
-  flatbuffers = pkgs.callPackage ./pkgs/flatbuffers/2.0.nix { };
 
   flower = pkgs.callPackage ./pkgs/flower { inherit iterators; };
 
