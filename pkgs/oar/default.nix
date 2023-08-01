@@ -13,7 +13,10 @@ python3Packages.buildPythonPackage rec {
   };
   patches = [ ./0001-bs-loosen-pyzmq-version-constraint.patch ];
 
-  nativeBuildInputs = [ poetry ];
+  nativeBuildInputs = [
+    poetry
+    python3Packages.poetry-core
+  ];
 
   propagatedBuildInputs = with python3Packages; [
     pyzmq
