@@ -65,7 +65,7 @@ rec {
 
   ear =  pkgs.callPackage ./pkgs/ear { };
 
-  enoslib = pkgs.callPackage ./pkgs/enoslib { inherit execo ring iotlabsshcli distem python-grid5000; };
+  enoslib = pkgs.callPackage ./pkgs/enoslib { inherit execo iotlabsshcli distem python-grid5000; };
 
   evalys = pkgs.callPackage ./pkgs/evalys { inherit procset; };
 
@@ -130,8 +130,6 @@ rec {
   oar2 = pkgs.callPackage ./pkgs/oar2 { };
 
   oar3 = oar;
-
-  ring = pkgs.callPackage ./pkgs/ring { inherit wirerope; };
 
   simgrid-327 = pkgs.callPackage ./pkgs/simgrid/simgrid327.nix { inherit debug; };
   simgrid-328 = pkgs.callPackage ./pkgs/simgrid/simgrid328.nix { inherit debug; };
