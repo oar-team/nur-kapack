@@ -48,7 +48,7 @@ python3Packages.buildPythonPackage rec {
   '';
 
   meta = {
-    broken = false;
+    broken = true;
     homepage = "https://github.com/oar-team/oar3";
     description = "OAR: a Versatile Resource and Job Manager";
     license = lib.licenses.lgpl21;
