@@ -73,7 +73,9 @@ stdenv.mkDerivation rec {
     # substituteInPlace src/library/dynais/Makefile --replace '-march=native' '-march=native -mcrc32'
 
     # Meh looks really dirty, because this file is not generated but needed so I create it
+    mkdir -p /build/source/src/common/config/
     touch /build/source/src/common/config/defines.log
+
   '' + (lib.optionalString useExamon "\nexport FEAT_EXAMON=1\n") + (lib.optionalString useMysql ''
     makeFlagsArray=(DB_LDFLAGS="-lmysqlclient -L${libmysqlclient.out}/lib/mysql")
   '');
