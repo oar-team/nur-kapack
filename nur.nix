@@ -98,7 +98,7 @@ rec {
   examon = pkgs.callPackage ./pkgs/examon { inherit openssl_1_0_2; };
 
   # examon embeds Mosquito v1.5.3 which has openssl < 1.1.0 dependency
-  openssl_1_0_2 = pkgs.callPackage ./pkgs/openssl_1_0_2 { };
+  openssl_1_0_2 = pkgs-2111.openssl_1_0_2;# pkgs.callPackage ./pkgs/openssl_1_0_2 { };
 
   # eProsima Fast DDS Python
   #fastdds = pkgs.callPackage ./pkgs/fastdds {};
