@@ -51,7 +51,7 @@ python3Packages.buildPythonPackage rec {
     cp -r visualization_interfaces $out
 
     mkdir -p $out/admission_rules.d
-    cp -r etc/oar/admission_rules.d/0*.py $out/admission_rules.d
+    cp -r etc/oar/admission_rules.d/[0-9]*.py $out/admission_rules.d
   '';
 
   meta = {
