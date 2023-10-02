@@ -83,6 +83,9 @@ rec {
   dcdb = pkgs.callPackage ./pkgs/dcdb { inherit scylladb-cpp-driver bacnet-stack mosquitto-dcdb; };
 
 
+  ucx = pkgs.callPackage ./pkgs/ucx {};
+  openmpi = pkgs.openmpi.override { ucx = ucx; };
+  npb = pkgs.callPackage ./pkgs/npb { openmpi = openmpi; };
   ear-examon = pkgs.callPackage ./pkgs/ear { useExamon = true; inherit openssl_1_0_2 examon; };
   ear = pkgs.callPackage ./pkgs/ear { inherit openssl_1_0_2 examon; };
   earCuda = pkgs.callPackage ./pkgs/ear { cudaSupport = true; inherit openssl_1_0_2 examon; };
@@ -126,7 +129,6 @@ rec {
 
   melissa-py = pkgs.python3.pkgs.callPackage ./pkgs/python-modules/melissa {};
 
-  npb = pkgs.callPackage ./pkgs/npb { };
 
   go-swagger = pkgs.callPackage ./pkgs/go-swagger { };
 
