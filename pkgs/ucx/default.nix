@@ -1,11 +1,11 @@
 { ucx, fetchFromGitHub }:
 
 ucx.overrideAttrs (attrs: rec {
-  version = "1.15";
+  version = "1.15.0";
   src = fetchFromGitHub {
     owner = "openucx";
     repo = "ucx";
-    rev = "v${version}";
-    sha256 = "sha256-oAigiCgbr27pX+kNl+RW1P10TKYFSKrHDK4U4z8WMko=";
+    rev = "v1.15.0";
+    sha256 = "sha256-VxIxrk9qKM6Ncfczl4p2EhXiLNgPaYTmjhqi6/w2ZNY=";
   };
 })
