@@ -82,9 +82,16 @@ rec {
   melissa = pkgs.callPackage ./pkgs/melissa { };
   melissa-heat-pde = pkgs.callPackage ./pkgs/melissa-heat-pde { inherit melissa; };
 
-  npb =  pkgs.callPackage ./pkgs/npb { };
-
-  go-swagger  = pkgs.callPackage ./pkgs/go-swagger { };
+  npb = pkgs.callPackage ./pkgs/npb { };
+  
+  #Time-X EuroHPC project: dynres (mpi and dynamicity)
+  pmix-dynres = pkgs.callPackage ./pkgs/pmix-dynres { };
+  prrte-dynres = pkgs.callPackage ./pkgs/prrte-dynres { pmix = pmix-dynres; };
+  openmpi-dynres = pkgs.callPackage ./pkgs/openmpi-dynres { pmix = pmix-dynres; prrte = prrte-dynres; };
+  miniapps-dynres = pkgs.callPackage ./pkgs/miniapps-dynres { openmpi-dynres = openmpi-dynres; };
+  dyn_rm-dynres = pkgs.callPackage ./pkgs/dyn_rm-dynres { pmix = pmix-dynres; };
+    
+  go-swagger  = pkgs.callPackage ./pkgs/go-swagger {  };
 
   gocov = pkgs.callPackage ./pkgs/gocov { };
 
