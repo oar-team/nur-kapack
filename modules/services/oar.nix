@@ -162,17 +162,17 @@ let
         $CC -Wall -O2 oardo.c -o $out/$3
       }
 
-      # generate binary wrappers 
+      # generate binary wrappers
       a=(oarsub oarstat oardel oarresume oarnodes oarnotify oarqueue oarconnect oarremoveresource \
       oarnodesetting oaraccounting oarproperty oarwalltime oarsh)
 
       for (( i=0; i<''${#a[@]}; i++ ))
       do
         echo generate ''${a[i]}
-        gen_oardo ${pkgs.nur.repos.kapack.oar}/bin .''${a[i]} ''${a[i]}
+        gen_oardo ${cfg.package}/bin .''${a[i]} ''${a[i]}
       done
 
-      # generate binary wrappers fo oarsh 
+      # generate binary wrappers fo oarsh
       gen_oardo $out/bin .oarsh oarsh
     '';
   };
@@ -388,7 +388,8 @@ in
         oarTools
         pkgs.taktuk
         pkgs.xorg.xauth
-        pkgs.nur.repos.kapack.oar
+        cfg.package
+        #  pkgs.nur.repos.kapack.oar
       ];
 
       # manage setuid for oardodo and oarcli
@@ -806,7 +807,7 @@ in
               app = create_app(config=config, root_path="/api/")
             '';
             app_env =
-              pkgs.python3.withPackages (ps: [ pkgs.nur.repos.kapack.oar ]);
+              pkgs.python3.withPackages (ps: [ cfg.package ]);
           in
           pkgs.lib.strings.toJSON {
             listeners."*:8080" = {
