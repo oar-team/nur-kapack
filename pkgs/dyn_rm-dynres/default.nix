@@ -21,10 +21,20 @@ python3.pkgs.buildPythonApplication rec {
   nativeBuildInputs = [
     python3.pkgs.setuptools
     python3.pkgs.wheel
+  ];
+  
+  propagatedBuildInputs = [
     pmix
   ];
-
+  
   doCheck = false;
+  
+  postInstall = ''
+      for f in examples/*; do
+        substituteInPlace $f  --replace "-x LD_LIBRARY_PATH -x DYNMPI_BASE /opt/hpc/build/test_applications/build/" " "
+      done
+      cp -a examples $out
+  '';
   
   meta = with lib; {
     description = "";
