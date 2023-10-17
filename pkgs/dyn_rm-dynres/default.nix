@@ -31,7 +31,7 @@ python3.pkgs.buildPythonApplication rec {
   
   postInstall = ''
       for f in examples/*; do
-        substituteInPlace $f  --replace "-x LD_LIBRARY_PATH -x DYNMPI_BASE /opt/hpc/build/test_applications/build/" " "
+        substituteInPlace $f  --replace "-x LD_LIBRARY_PATH -x DYNMPI_BASE /opt/hpc/build/test_applications/build/" "/run/current-system/sw/bin/"
       done
       cp -a examples $out
   '';
