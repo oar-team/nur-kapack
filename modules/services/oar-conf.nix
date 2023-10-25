@@ -237,7 +237,7 @@ SCHEDULER_GANTT_HOLE_MINIMUM_TIME="300"
 
 # You can add an order preference on resources assigned by the
 # system(SQL ORDER syntax)
-SCHEDULER_RESOURCE_ORDER="scheduler_priority ASC, state_num ASC, available_upto DESC, suspended_jobs ASC, network_address ASC, resource_id ASC"
+SCHEDULER_RESOURCE_ORDER="scheduler_priority ASC, state_num ASC, available_upto DESC, suspended_jobs ASC, resource_id ASC, network_address ASC"
 
 # If next line is uncommented then OAR will automatically update the value of 
 # "scheduler_priority" field corresponding to the besteffort jobs.
