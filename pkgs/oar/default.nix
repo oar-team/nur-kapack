@@ -8,8 +8,8 @@ python3Packages.buildPythonPackage rec {
   src = fetchFromGitHub {
     owner = "oar-team";
     repo = "oar3";
-    rev = "be13dcbcbb465b1730f25696bfea2b81260d8fff";
-    sha256 = "sha256-RlrpCwojVWf09zSqIJN6clpdmPvreaBpts3nLS/izDw=";
+    rev = "7b94ee4043071e40b99a52d8a09d404bff512208";
+    sha256 = "sha256-oDBLDwgdJjjsaA9HOgQidVfot9EC7V8HQkqrmrAu1BI=";
   };
 
   nativeBuildInputs = [ poetry ];
@@ -39,6 +39,9 @@ python3Packages.buildPythonPackage rec {
     clustershell
     rich
     httpx
+    python-jose
+    passlib
+    bcrypt
   ];
 
   doCheck = false;

@@ -785,6 +785,10 @@ in
               r = True
 
               config = init_config()
+
+              # Force writing to stderr to otherwise log are lost
+              config["LOG_FILE"] = ":stderr:"
+
               logger = get_logger("asgi", config=config)
 
               # Waiting for the database to be accessible
@@ -818,6 +822,9 @@ in
               home = "${app_env}";
               module = "asgi";
               callable = "app";
+              # Most of the time we want the logs
+              stderr = "/var/log/unit/oar.log.err";
+              stdout = "/var/log/unit/oar.log.out";
             };
           };
       };
