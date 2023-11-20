@@ -52,6 +52,8 @@ python3Packages.buildPythonPackage rec {
 
     mkdir -p $out/admission_rules.d
     cp -r etc/oar/admission_rules.d/[0-9]*.py $out/admission_rules.d
+
+    patchShebangs $out/tools/sentinelle.pl
   '';
 
   meta = {
