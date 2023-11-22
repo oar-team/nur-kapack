@@ -6,15 +6,30 @@ stdenv.mkDerivation rec {
 
   src = builtins.fetchGit {
      url = "https://gricad-gitlab.univ-grenoble-alpes.fr/regale/tools/regale.git";
-     rev = "fa4ec6b192c514760e639d1a436b05839a021105";
+     rev = "4b4945e5654c953803f99fc85512a4136fc95d23";
      ref = "regale_nm_ear";
   };
 
-  patches = [ ./temporary_patch.patch ];
+  # patches = [ ./temporary_patch.patch ];
   nativeBuildInputs = [ cmake ];
   buildInputs = [
     fastdds
   ];
+
+  postPatch = ''
+    for file in src/**/*; do
+      substituteInPlace $file \
+        --replace /usr/local $out;
+    done
+  '';
+
+  postInstall = ''
+    mkdir -p $out/share
+    cp ../examples/spm_bindings.py $out/share/
+
+    sed -i "s#/usr/local/lib/#$out/lib/#g" $out/share/spm_bindings.py
+    chmod +x $out/share/spm_bindings.py
+  '';
 
   # Examples are broken with recent changes
   cmakeFlags = [ "-DCMAKE_SKIP_RPATH=ON"  "-DREGALE_EXAMPLES=${if buildExamples then "ON" else "OFF"}" ];
