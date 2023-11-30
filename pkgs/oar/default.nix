@@ -2,14 +2,14 @@
 
 python3Packages.buildPythonPackage rec {
   pname = "oar";
-  version = "3.0.0";
+  version = "3.0.0.dev11";
   format = "pyproject";
 
   src = fetchFromGitHub {
     owner = "oar-team";
     repo = "oar3";
-    rev = "7b94ee4043071e40b99a52d8a09d404bff512208";
-    sha256 = "sha256-oDBLDwgdJjjsaA9HOgQidVfot9EC7V8HQkqrmrAu1BI=";
+    rev = "15f5591a4243a964fb64c5e6b9a71c64b31b0ace";
+    sha256 = "sha256-XQas3karmxJPGXkU3qnQAZ3jxI+8qXHwR78zMohKTvQ=";
   };
 
   nativeBuildInputs = [ poetry ];
