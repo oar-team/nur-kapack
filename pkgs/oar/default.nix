@@ -8,7 +8,7 @@ python3Packages.buildPythonPackage rec {
   src = fetchFromGitHub {
     owner = "oar-team";
     repo = "oar3";
-    rev = "15f5591a4243a964fb64c5e6b9a71c64b31b0ace";
+    rev = "1a8bcf9c90c87d444de22a5fa3fbdfbdecc678f0"; 
     sha256 = "sha256-XQas3karmxJPGXkU3qnQAZ3jxI+8qXHwR78zMohKTvQ=";
   };
 

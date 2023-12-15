@@ -588,7 +588,9 @@ in
       # Server Section
       systemd.services.oar-server =
       let
-          pythonEnv = (pkgs.python3.withPackages (ps: [ cfg.package ] ++ cfg.plugins));
+          pythonEnv = (pkgs.python3.withPackages (ps: [ cfg.package ] ++ cfg.plugins))
+            # Is it safe to ignore collisions
+            .override (args: { ignoreCollisions = true; });
       in mkIf (cfg.server.enable) {
         wantedBy = [ "multi-user.target" ];
         after = [ "network.target" ];
