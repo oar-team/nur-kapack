@@ -33,7 +33,8 @@ stdenv.mkDerivation rec {
       for bench in ${benchs}
       do
         # Not all bench are compiling so skip the errors
-        make -j $(nproc) $bench CLASS=$class || echo \
+        # Warning TO NOT USE -j make option to speedup compilation (files confusion will occur)  
+        make $bench CLASS=$class || echo \
         "Warning: the bench $bench $class is not compiling"
       done
     done
