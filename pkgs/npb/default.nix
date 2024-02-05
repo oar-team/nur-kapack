@@ -1,4 +1,4 @@
-{ stdenv, lib, fetchurl, openmpi, automake, gfortran, bc, benchs ? "ep cg mg ft bt sp lu", classes ? "A B C D E F", buildOmp ? true }:
+{ stdenv, lib, fetchurl, openmpi, automake, gfortran, bc, benchs ? "ep cg mg ft bt sp lu is", classes ? "A B C D E F", buildOmp ? true }:
 
 stdenv.mkDerivation rec {
   name = "NPB-${version}";
