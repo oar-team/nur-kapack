@@ -26,8 +26,6 @@ rec {
     '';
   });
 
-  libpowercap = pkgs.callPackage ./pkgs/libpowercap { };
-
   haskellPackages = import ./pkgs/haskellPackages { inherit pkgs; };
 
   batsched-140 = pkgs.callPackage ./pkgs/batsched/batsched140.nix { inherit loguru redox debug; intervalset = intervalsetlight; };
@@ -54,7 +52,7 @@ rec {
 
   bacnet-stack = pkgs.callPackage ./pkgs/bacnet-stack { };
 
-  colmet = pkgs.callPackage ./pkgs/colmet { inherit libpowercap; };
+  colmet = pkgs.callPackage ./pkgs/colmet { };
 
   colmet-rs = pkgs.callPackage ./pkgs/colmet-rs { };
 

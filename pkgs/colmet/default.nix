@@ -1,4 +1,4 @@
-{ lib, pkgs, fetchFromGitHub, python3Packages, libpowercap }:
+{ lib, pkgs, fetchFromGitHub, python3Packages, powercap }:
 
 python3Packages.buildPythonApplication rec {
   name = "colmet-${version}";
@@ -11,7 +11,7 @@ python3Packages.buildPythonApplication rec {
     sha256 = "1g2m6crdmlgk8c57qa1nss20128dnw9x58yg4r5wdc7zliicahqq";
   };
 
-  buildInputs = [ libpowercap ];
+  buildInputs = [ powercap ];
 
   propagatedBuildInputs = with python3Packages; [
     pyinotify
@@ -34,10 +34,9 @@ python3Packages.buildPythonApplication rec {
   meta = with lib; {
     description = "Collecting metrics about process running in cpuset and in a distributed environnement";
     homepage    = https://github.com/oar-team/colmet;
-    platforms   = libpowercap.meta.platforms;
+    platforms   = powercap.meta.platforms;
     licence     = licenses.gpl2;
     longDescription = ''
     '';
-    broken = true; # due to libpowercap
   };
 }
