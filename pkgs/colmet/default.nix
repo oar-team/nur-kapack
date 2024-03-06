@@ -2,13 +2,13 @@
 
 python3Packages.buildPythonApplication rec {
   name = "colmet-${version}";
-  version = "0.5.4";
+  version = "0.6.10.dev0";
 
   src = fetchFromGitHub {
     owner = "oar-team";
     repo = "colmet";
-    rev = "4cc29227fcaf5236d97dde74b9a52e04250a5b77";
-    sha256 = "1g2m6crdmlgk8c57qa1nss20128dnw9x58yg4r5wdc7zliicahqq";
+    rev = "5046baf9acdaae8522948c2f6bb37f8ea8f8ed5b";
+    sha256 = "sha256-9d0QTcCn8bj4L0n0YRZYnLxrzUjtNA9o9nkJ5w3LC2U=";
   };
 
   buildInputs = [ powercap ];
