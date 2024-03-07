@@ -1,46 +1,25 @@
 { stdenv, lib, fetchFromGitHub
+, cmake
 , debug ? false
 , optimize ? (!debug)
 }:
 
 stdenv.mkDerivation rec {
   pname = "loguru";
-  version = "2.1.0";
+  version = "4adaa18";
 
   src = fetchFromGitHub {
     owner = "emilk";
     repo = "loguru";
-    rev = "v${version}";
-    sha256 = "0g8j6811nm9kf3g49sq6dygh4q8w838a6p05x5hyvpk2w8kpr7nx";
+    rev = "4adaa185883e3c04da25913579c451d3c32cfac1";
+    sha256 = "sha256-NpMKyjCC06bC5B3xqgDr2NgA9RsPEeiWr9GbHrHHzZ8=";
   };
 
-  cFlags = "-fPIC" +
-    lib.optionalString debug " -g" +
-    lib.optionalString optimize " -O2";
-  dontStrip = debug;
-  buildPhase = ''
-    $CXX -std=c++11 -o libloguru.so -shared -pthread ${cFlags} loguru.cpp
-  '';
+  nativeBuildInputs = [ cmake ];
 
-  installPhase = ''
-    mkdir -p $out/lib
-    cp libloguru.so $out/lib/
-
-    mkdir -p $out/include
-    cp ./loguru.hpp $out/include/
-
-    mkdir -p $out/lib/pkgconfig
-    cat <<EOF >>$out/lib/pkgconfig/loguru.pc
-prefix=$out
-libdir=$out/lib
-includedir=$out/include
-
-Name: loguru
-Description: A lightweight and flexible C++ logging library.
-Version: ${version}
-Libs: -L$out/lib -lloguru
-Cflags: -I$out/include
-EOF
+  postInstall = ''
+    # to set the hpp file under `include` and not `include/loguru` to not break batsched
+    ln -s $out/include/loguru/loguru.hpp $out/include/loguru.hpp
   '';
 
   meta = with lib; {
