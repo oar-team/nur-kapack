@@ -6,7 +6,7 @@ stdenv.mkDerivation rec {
 
   src = builtins.fetchGit {
      url = "https://gricad-gitlab.univ-grenoble-alpes.fr/regale/tools/regale.git";
-     rev = "4b4945e5654c953803f99fc85512a4136fc95d23";
+     rev = "7b673fb52bb9aee90f1f9d2b01823ee80dd694e8";
      ref = "regale_nm_ear";
   };
 
@@ -32,6 +32,7 @@ stdenv.mkDerivation rec {
   '';
 
   # Examples are broken with recent changes
+  # TODO update
   cmakeFlags = [ "-DCMAKE_SKIP_RPATH=ON"  "-DREGALE_EXAMPLES=${if buildExamples then "ON" else "OFF"}" ];
 
   meta = with lib; {
