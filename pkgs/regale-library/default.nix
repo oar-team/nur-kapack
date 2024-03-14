@@ -6,8 +6,7 @@ stdenv.mkDerivation rec {
 
   src = builtins.fetchGit {
      url = "https://gricad-gitlab.univ-grenoble-alpes.fr/regale/tools/regale.git";
-     #rev = "7b673fb52bb9aee90f1f9d2b01823ee80dd694e8";
-     rev = "e7e98805c3a57e8b10ae62a97fe8e3b187666c60";
+     rev = "a50cf720433d9ba1d6c9f2c31ee7387cf1b3843a";
      ref = "regale_nm_ear";
   };
 
