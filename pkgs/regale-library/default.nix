@@ -1,4 +1,4 @@
-{ stdenv, lib, cmake, fastdds, buildExamples ? false }:
+{ stdenv, lib, cmake, fastdds }:
 
 stdenv.mkDerivation rec {
   pname = "regale-library";
@@ -6,11 +6,11 @@ stdenv.mkDerivation rec {
 
   src = builtins.fetchGit {
      url = "https://gricad-gitlab.univ-grenoble-alpes.fr/regale/tools/regale.git";
-     rev = "7b673fb52bb9aee90f1f9d2b01823ee80dd694e8";
+     #rev = "7b673fb52bb9aee90f1f9d2b01823ee80dd694e8";
+     rev = "e7e98805c3a57e8b10ae62a97fe8e3b187666c60";
      ref = "regale_nm_ear";
   };
 
-  # patches = [ ./temporary_patch.patch ];
   nativeBuildInputs = [ cmake ];
   buildInputs = [
     fastdds
@@ -32,9 +32,8 @@ stdenv.mkDerivation rec {
   '';
 
   # Examples are broken with recent changes
-  # TODO update
-  cmakeFlags = [ "-DCMAKE_SKIP_RPATH=ON"  "-DREGALE_EXAMPLES=${if buildExamples then "ON" else "OFF"}" ];
-
+  cmakeFlags = [ "-DCMAKE_SKIP_RPATH=ON" ];
+ 
   meta = with lib; {
     description = "Regale published subscribed library.";
     homepage = "https://gricad-gitlab.univ-grenoble-alpes.fr/regale/tools/regale";
