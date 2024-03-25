@@ -8,16 +8,16 @@ python3Packages.buildPythonPackage rec {
   src = fetchFromGitHub {
     owner = "oar-team";
     repo = "oar3";
-    rev = "402aaeb032b081aa061997a4158951a340becf77";
-    sha256 = "sha256-WykQV8JLrIEoGvJVrtTeFAmJwknQZfp9DMDiT9i4drw=";
+    rev = "5824e2df834b04081b8f29b1714bda800a6bbf16";
+    sha256 = "sha256-IFMbGczsr/Ewj6d0Lv/ZP0fLwYa2Xspdlqto5n9i7yc=";
   };
   
-  patches = [
-    ./0001-fix-rest-api-resources.patch
-    ./0002-location-for-type-in-jobs.patch
-    ./0003-events-for-get-jobs.patch
-    ./0004-resubmit-job-id.patch
-  ];
+  #patches = [
+  #  ./0001-fix-rest-api-resources.patch
+  #  ./0002-location-for-type-in-jobs.patch
+  #  ./0003-events-for-get-jobs.patch
+  #  ./0004-resubmit-job-id.patch
+  #];
 
   nativeBuildInputs = [ poetry ];
 
