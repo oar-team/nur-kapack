@@ -80,6 +80,8 @@ rec {
   melissa = pkgs.callPackage ./pkgs/melissa { };
   melissa-heat-pde = pkgs.callPackage ./pkgs/melissa-heat-pde { inherit melissa; };
 
+  mlxp = pkgs.callPackage ./pkgs/mlxp { };
+
   npb =  pkgs.callPackage ./pkgs/npb { };
 
   go-swagger  = pkgs.callPackage ./pkgs/go-swagger { };
