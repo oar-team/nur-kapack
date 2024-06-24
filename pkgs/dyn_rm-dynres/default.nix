@@ -46,13 +46,9 @@ python3.pkgs.buildPythonApplication rec {
     cp timestamps/libtimestamps.so $out/examples/timestamps
     make bench_sleep
     cp build/bench_sleep $out/examples
+    cp -a run_test_dynrm.py submissions topology_files $out/examples
     cd ..
   '';
-
-      # for f in examples/*; do
-      #   substituteInPlace $f  --replace "-x LD_LIBRARY_PATH -x DYNMPI_BASE /opt/hpc/build/test_applications/build/" "/run/current-system/sw/bin/"
-      # done
-      # cp -a examples $out
   
   meta = with lib; {
     description = "";
