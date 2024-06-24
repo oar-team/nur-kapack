@@ -10,8 +10,8 @@ stdenv.mkDerivation rec {
     group = "dynres";
     owner = "applications";
     repo = pname;
-    rev = "204f360206030930cef7185f5258aac21c89f334";
-    sha256 = "sha256-F3K2wP0LRVY4mDrPqGEtxrmUCzAJSANaE9Mt72Kk08Q=";
+    rev = "5cf494d9ffc6cb7bd279cc57ca1493d4543e7b72";
+    sha256 = "sha256-Hcl7+LX1FNSdLhpntymRotek+qZNeqD+azpBWMTQvLM=";
   };
 
   postPatch = ''
