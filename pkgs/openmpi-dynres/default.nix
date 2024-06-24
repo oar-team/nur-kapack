@@ -28,8 +28,8 @@ stdenv.mkDerivation rec {
     group = "dynres";
     owner = "dyn-procs";
     repo = "ompi";
-    rev = "cd2f4e04a2f77807e261d4bd83204de1ed6b64ac";
-    sha256 = "sha256-VHBvIMnTy0MITFNjirQlCLZg+OSQGCsNRLDLIJIiyt0=";
+    rev = "d2ed99a62a0c515bc4bde7e10c6d7a945c01aad1";
+    sha256 = "sha256-yAfOnC29UN2orZ2nGxI/qj9k843Dgpc4/Tmz8atVkP0=";
   };
 
   postPatch = '' 
