@@ -88,9 +88,9 @@ rec {
   pmix-dynres = pkgs.callPackage ./pkgs/pmix-dynres { };
   prrte-dynres = pkgs.callPackage ./pkgs/prrte-dynres { pmix = pmix-dynres; };
   openmpi-dynres = pkgs.callPackage ./pkgs/openmpi-dynres { fortranSupport = true; pmix = pmix-dynres; prrte = prrte-dynres; };
-  miniapps-dynres = pkgs.callPackage ./pkgs/miniapps-dynres { openmpi-dynres = openmpi-dynres; };
-  dyn_rm-dynres = pkgs.callPackage ./pkgs/dyn_rm-dynres { pmix = pmix-dynres; };
-  dyn_psets =  pkgs.callPackage ./pkgs/dyn_psets { openmpi-dynres = openmpi-dynres; };
+  miniapps-dynres = pkgs.callPackage ./pkgs/miniapps-dynres { inherit openmpi-dynres; };
+  dyn_rm-dynres = pkgs.callPackage ./pkgs/dyn_rm-dynres { pmix = pmix-dynres; inherit openmpi-dynres dyn_psets ; };
+  dyn_psets =  pkgs.callPackage ./pkgs/dyn_psets { inherit openmpi-dynres; };
   
   
   go-swagger  = pkgs.callPackage ./pkgs/go-swagger {  };
