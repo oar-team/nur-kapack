@@ -90,7 +90,9 @@ rec {
   openmpi-dynres = pkgs.callPackage ./pkgs/openmpi-dynres { fortranSupport = true; pmix = pmix-dynres; prrte = prrte-dynres; };
   miniapps-dynres = pkgs.callPackage ./pkgs/miniapps-dynres { openmpi-dynres = openmpi-dynres; };
   dyn_rm-dynres = pkgs.callPackage ./pkgs/dyn_rm-dynres { pmix = pmix-dynres; };
-    
+  dyn_psets =  pkgs.callPackage ./pkgs/dyn_psets { openmpi-dynres = openmpi-dynres; };
+  
+  
   go-swagger  = pkgs.callPackage ./pkgs/go-swagger {  };
 
   gocov = pkgs.callPackage ./pkgs/gocov { };
