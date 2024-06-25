@@ -9,6 +9,66 @@ let
   cfg = config.services.oar;
   pgSuperUser = config.services.postgresql.superUser;
 
+  # TODO: Where is the best place to put this ?
+  prepare_cgroup = pkgs.writeShellScript "prepare_cgroup"
+  ''
+  # This script prepopulates OAR cgroup directory hierarchy, as used in the
+  # job_resource_manager_cgroups.pl script, in order to have nodes use different
+  # subdirectories and avoid conflitcs due to having all nodes actually running on
+  # the same host machine
+
+  OS_CGROUPS_PATH="/sys/fs/cgroup"
+  CGROUP_SUBSYSTEMS="cpuset cpu cpuacct devices freezer blkio"
+  if [ -e "$OS_CGROUPS_PATH/memory" ]; then
+    CGROUP_SUBSYSTEMS="$CGROUP_SUBSYSTEMS memory"
+  fi
+  CGROUP_DIRECTORY_COLLECTION_LINKS="/dev/oar_cgroups_links"
+
+
+  if [ "$1" = "init" ]; then
+      mkdir -p $CGROUP_DIRECTORY_COLLECTION_LINKS && \
+      for s in $CGROUP_SUBSYSTEMS; do
+        mkdir -p $OS_CGROUPS_PATH/$s/oardocker/$HOSTNAME
+        ln -s $OS_CGROUPS_PATH/$s/oardocker/$HOSTNAME $CGROUP_DIRECTORY_COLLECTION_LINKS/$s
+      done
+      ln -s $OS_CGROUPS_PATH/cpuset/oardocker/$HOSTNAME /dev/cpuset
+
+      cat $OS_CGROUPS_PATH/cpuset/cpuset.cpus > $OS_CGROUPS_PATH/cpuset/oardocker/cpuset.cpus
+      cat $OS_CGROUPS_PATH/cpuset/cpuset.mems > $OS_CGROUPS_PATH/cpuset/oardocker/cpuset.mems
+      /bin/echo 0 > $OS_CGROUPS_PATH/cpuset/oardocker/cpuset.cpu_exclusive
+      /bin/echo 1000 > $OS_CGROUPS_PATH/cpuset/oardocker/notify_on_release
+
+      cat $OS_CGROUPS_PATH/cpuset/oardocker/cpuset.cpus > $OS_CGROUPS_PATH/cpuset/oardocker/$HOSTNAME/cpuset.cpus
+      cat $OS_CGROUPS_PATH/cpuset/oardocker/cpuset.mems > $OS_CGROUPS_PATH/cpuset/oardocker/$HOSTNAME/cpuset.mems
+      /bin/echo 0 > $OS_CGROUPS_PATH/cpuset/oardocker/$HOSTNAME/cpuset.cpu_exclusive
+      /bin/echo 0 > $OS_CGROUPS_PATH/cpuset/oardocker/$HOSTNAME/notify_on_release
+      /bin/echo 1000 > $OS_CGROUPS_PATH/blkio/oardocker/$HOSTNAME/blkio.weight
+  elif [ "$1" = "clean" ]; then
+      if [ "$HOSTNAME" = "node1" ]; then
+          CGROOT="$OS_CGROUPS_PATH/cpuset/oardocker/"
+
+          if ! [ -d $CGROOT ]; then
+            echo "No such directory: $CGROOT"
+            exit 0;
+          fi
+
+          echo "kill all cgroup tasks"
+          while read task; do
+              echo "kill -9 $task"
+              kill -9 $task
+          done < <(find $CGROOT -name tasks -exec cat {} \;)
+
+          wait
+          echo "Wipe all cgroup content"
+          find $CGROOT -depth -type d -exec rmdir {} \;
+
+          echo "Cgroup is cleanded!"
+      fi
+  fi
+
+  exit 0
+  '';
+
   inherit (import ./oar-conf.nix {
     pkgs = pkgs;
     lib = lib;
@@ -62,11 +122,12 @@ let
       mkdir -p $out/bin
 
       #oarsh
-      substitute ${cfg.package}/tools/oarsh/oarsh.in $out/bin/oarsh \
+      substitute ${cfg.package}/tools/oarsh/oarsh.in $out/bin/.oarsh \
         --replace "%%OARHOMEDIR%%" ${cfg.oarHomeDir} \
         --replace "%%XAUTHCMDPATH%%" /run/current-system/sw/bin/xauth \
+        --replace "/bin/bash" "${pkgs.bash}/bin/bash" \
         --replace /usr/bin/ssh /run/current-system/sw/bin/ssh
-      chmod 755 $out/bin/oarsh
+      chmod 755 $out/bin/.oarsh
 
       #oarsh_shell
       substitute ${cfg.package}/tools/oarsh/oarsh_shell.in $out/bin/oarsh_shell \
@@ -91,26 +152,28 @@ let
       #oardo -> cli
       gen_oardo () {
         substitute ${cfg.package}/tools/oardo.c.in oardo.c\
-          --replace TT/usr/local/oar/oarsub ${pkgs.nur.repos.kapack.oar}/bin/$1 \
+          --replace TT/usr/local/oar/oarsub $1/$2 \
           --replace "%%OARDIR%%" /run/wrappers/bin \
           --replace "%%OARCONFDIR%%" /etc/oar \
           --replace "%%XAUTHCMDPATH%%" /run/current-system/sw/bin/xauth \
           --replace "%%OAROWNER%%" oar \
           --replace "%%OARDOPATH%%"  /run/wrappers/bin:/run/current-system/sw/bin
 
-        $CC -Wall -O2 oardo.c -o $out/$2
+        $CC -Wall -O2 oardo.c -o $out/$3
       }
 
-      # generate cli
+      # generate binary wrappers 
       a=(oarsub oarstat oardel oarresume oarnodes oarnotify oarqueue oarconnect oarremoveresource \
-      oarnodesetting oaraccounting oarproperty oarwalltime)
+      oarnodesetting oaraccounting oarproperty oarwalltime oarsh)
 
       for (( i=0; i<''${#a[@]}; i++ ))
       do
         echo generate ''${a[i]}
-        gen_oardo .''${a[i]} ''${a[i]}
+        gen_oardo ${pkgs.nur.repos.kapack.oar}/bin .''${a[i]} ''${a[i]}
       done
 
+      # generate binary wrappers fo oarsh 
+      gen_oardo $out/bin .oarsh oarsh
     '';
   };
 
@@ -127,6 +190,13 @@ in
         type = types.package;
         default = pkgs.nur.repos.kapack.oar;
         defaultText = "pkgs.nur.repos.kapack.oar";
+      };
+
+      plugins = mkOption {
+        type = types.listOf types.package;
+        default = [];
+        defaultText = "[]";
+        description = "List of plugins packages";
       };
 
       privateKeyFile = mkOption {
@@ -333,6 +403,7 @@ in
       } // lib.genAttrs [
         "oarsub"
         "oarstat"
+        "oarsh"
         "oarresume"
         "oardel"
         "oarnodes"
@@ -436,6 +507,7 @@ in
 
           # copy some required and useful scripts
           cp ${cfg.package}/tools/*.pl ${cfg.package}/tools/*.sh /etc/oar/
+          cp -r ${cfg.package}/admission_rules.d /etc/oar
 
           touch /etc/oar/oar.conf
           chmod 600 /etc/oar/oar.conf
@@ -514,12 +586,15 @@ in
 
       ################
       # Server Section
-      systemd.services.oar-server = mkIf (cfg.server.enable) {
+      systemd.services.oar-server =
+      let
+          pythonEnv = (pkgs.python3.withPackages (ps: [ cfg.package ] ++ cfg.plugins));
+      in mkIf (cfg.server.enable) {
         wantedBy = [ "multi-user.target" ];
         after = [ "network.target" ];
         description = "OAR server's main processes";
         restartIfChanged = false;
-        environment.OARDIR = "${cfg.package}/bin";
+        environment.OARDIR = "${pythonEnv}/bin";
         serviceConfig = {
           User = "oar";
           Group = "oar";
@@ -590,6 +665,7 @@ in
         enable = true;
         user = "oar";
         group = "oar";
+        logError = "/tmp/nginx.log";
 
         virtualHosts.default = {
           #TODO root = "${pkgs.nix.doc}/share/doc/nix/manual";
@@ -688,7 +764,6 @@ in
             chdir = pkgs.writeTextDir "oarapi.py" ''
               from oar.rest_api.app import wsgi_app as application
             '';
-            pythonPackages = self: with self; [ pkgs.nur.repos.kapack.oar ];
           };
         };
       };
@@ -700,7 +775,35 @@ in
         config =
           let
             app = pkgs.writeTextDir "asgi.py" ''
-              from oar.api.app import app
+              # TODO: Is it a nixos compose thing, or does it belong to nur-kapack ?
+              import time
+              import sys
+
+              from oar.lib.tools import get_date
+              from oar.api.app import create_app
+              from oar.lib.globals import init_oar, init_and_get_session, init_config, get_logger
+              r = True
+
+              config = init_config()
+
+              # Force writing to stderr to otherwise log are lost
+              config["LOG_FILE"] = ":stderr:"
+
+              logger = get_logger("asgi", config=config)
+
+              # Waiting for the database to be accessible
+              # This is needed in the context of nixos-compose.
+              while r:
+                  try:
+                      session = init_and_get_session(config)
+                      r = False
+                  except Exception as e:
+                      logger.error(f"db not ready: {e}")
+                      time.sleep(0.25)
+
+              # The root path must be defined according to the nginx configuration
+              # TODO: It might be made as a parameter.
+              app = create_app(config=config, root_path="/api/")
             '';
             app_env =
               pkgs.python3.withPackages (ps: [ pkgs.nur.repos.kapack.oar ]);
@@ -719,6 +822,9 @@ in
               home = "${app_env}";
               module = "asgi";
               callable = "app";
+              # Most of the time we want the logs
+              stderr = "/var/log/unit/oar.log.err";
+              stdout = "/var/log/unit/oar.log.out";
             };
           };
       };
@@ -739,6 +845,9 @@ in
             "listen.owner" = "oar";
             "listen.group" = "oar";
             "listen.mode" = "0660";
+            "php_admin_value[error_log]" = "/var/log/fpm-php.www.log";
+            "php_admin_flag[log_errors]" = "on";
+            "catch_workers_output" = "yes";
             "pm" = "dynamic";
             "pm.start_servers" = 1;
             "pm.min_spare_servers" = 1;
@@ -781,6 +890,10 @@ in
 
             (optionalString cfg.web.drawgantt.enable ''
               touch /etc/oar/drawgantt-config.inc.php
+
+              touch /var/log/fpm-php.www.log
+              chmod 777 /var/log/fpm-php.www.log
+
               chmod 600 /etc/oar/drawgantt-config.inc.php
               chown oar /etc/oar/drawgantt-config.inc.php
 
@@ -841,6 +954,21 @@ in
           StartLimitBurst = 5;
         };
       };
+
+      systemd.services.oar-cgroup = {
+        enable = config.boot.isContainer;
+        serviceConfig = {
+           ExecStart = "${prepare_cgroup} init";
+           ExecStop = "${prepare_cgroup} clean";
+           KillMode = "process";
+           RemainAfterExit = "on";
+        };
+        wantedBy = [ "network.target" ];
+        before = [ "network.target" ];
+        serviceConfig.Type = "oneshot";
+      };
+
+
       # services.traefik = mkIf cfg.web.proxy.enable {
       #   enable = true;
       #   configOptions = {

@@ -1,8 +1,16 @@
 # If called without explicitly setting the 'pkgs' arg, a pinned nixpkgs version is used by default.
-{ pkgs ? import (fetchTarball {
-    url = "https://github.com/NixOS/nixpkgs/archive/22.05.tar.gz";
-    sha256 = "0d643wp3l77hv2pmg2fi7vyxn4rwy0iyr8djcw1h5x72315ck9ik";
-  }) {}
+{ pkgs ? import
+    (fetchTarball {
+      url = "https://github.com/NixOS/nixpkgs/archive/22.05.tar.gz";
+      sha256 = "0d643wp3l77hv2pmg2fi7vyxn4rwy0iyr8djcw1h5x72315ck9ik";
+    })
+    { }
+, pkgs-2111 ? import
+    (fetchTarball {
+      url = "https://github.com/NixOS/nixpkgs/archive/21.11.tar.gz";
+      sha256 = "162dywda2dvfj1248afxc45kcrg83appjd0nmdb541hl7rnncf02";
+    })
+    { }
 , debug ? false
 }:
 
@@ -15,8 +23,10 @@ rec {
 
   glibc-batsky = pkgs.glibc.overrideAttrs (attrs: {
     meta.broken = true;
-    patches = attrs.patches ++ [ ./pkgs/glibc-batsky/clock_gettime.patch
-      ./pkgs/glibc-batsky/gettimeofday.patch ];
+    patches = attrs.patches ++ [
+      ./pkgs/glibc-batsky/clock_gettime.patch
+      ./pkgs/glibc-batsky/gettimeofday.patch
+    ];
     postConfigure = ''
       export NIX_CFLAGS_LINK=
       export NIX_LDFLAGS_BEFORE=
@@ -44,6 +54,12 @@ rec {
 
   batsky = pkgs.callPackage ./pkgs/batsky { };
 
+  bdpo = pkgs.callPackage ./pkgs/bdpo { };
+
+  bdpo-pmpiwrapper = pkgs.callPackage ./pkgs/bdpo-pmpiwrapper { };
+
+  beo = pkgs.callPackage ./pkgs/beo { };
+
   cli11 = pkgs.callPackage ./pkgs/cli11 { };
 
   cgvg = pkgs.callPackage ./pkgs/cgvg { };
@@ -64,25 +80,39 @@ rec {
 
   distem = pkgs.callPackage ./pkgs/distem { };
 
-  ear =  pkgs.callPackage ./pkgs/ear { };
 
+  ear-examon = pkgs.callPackage ./pkgs/ear { useExamon = true; inherit openssl_1_0_2 examon; };
+  ear = pkgs.callPackage ./pkgs/ear { inherit openssl_1_0_2 examon; };
+  earCuda = pkgs.callPackage ./pkgs/ear { cudaSupport = true; inherit openssl_1_0_2 examon; };
+  earFull= pkgs.callPackage ./pkgs/ear { cudaSupport = true; useExamon = true;
+                                         inherit openssl_1_0_2 examon; };
+  
   enoslib = pkgs.callPackage ./pkgs/enoslib { inherit execo iotlabsshcli distem python-grid5000; };
 
   evalys = pkgs.callPackage ./pkgs/evalys { inherit procset; };
 
   execo = pkgs.callPackage ./pkgs/execo { };
 
+
   flower = pkgs.callPackage ./pkgs/flower { inherit iterators; };
 
   iotlabcli = pkgs.callPackage ./pkgs/iotlabcli { };
   iotlabsshcli = pkgs.callPackage ./pkgs/iotlabsshcli { inherit iotlabcli parallel-ssh; };
 
+  #examon-debug = pkgs.enableDebugging examon;
+
+  examon = pkgs.callPackage ./pkgs/examon { inherit openssl_1_0_2; };
+
+  # examon embeds Mosquito v1.5.3 which has openssl < 1.1.0 dependency
+  openssl_1_0_2 = pkgs-2111.openssl_1_0_2; # pkgs.callPackage ./pkgs/openssl_1_0_2 { };
+
+  flatbuffers = pkgs.callPackage ./pkgs/flatbuffers/2.0.nix { };
+
   likwid = pkgs.callPackage ./pkgs/likwid { };
 
   melissa = pkgs.callPackage ./pkgs/melissa { };
+  melissa-launcher = pkgs.callPackage ./pkgs/melissa-launcher { inherit melissa; };
   melissa-heat-pde = pkgs.callPackage ./pkgs/melissa-heat-pde { inherit melissa; };
-
-  npb = pkgs.callPackage ./pkgs/npb { };
   
   #Time-X EuroHPC project: dynres (mpi and dynamicity)
   pmix-dynres = pkgs.callPackage ./pkgs/pmix-dynres { };
@@ -94,8 +124,15 @@ rec {
   dyn_rm-dynres = pkgs.callPackage ./pkgs/dyn_rm-dynres { pmix = pmix-dynres; inherit openmpi-dynres dyn_psets ; };
   dyn_psets =  pkgs.callPackage ./pkgs/dyn_psets { inherit openmpi-dynres; };
   
-  
-  go-swagger  = pkgs.callPackage ./pkgs/go-swagger {  };
+  python3Packages = rec {
+    melissa = pkgs.python3.pkgs.callPackage ./pkgs/python-modules/melissa {};
+  };
+
+  melissa-py = pkgs.python3.pkgs.callPackage ./pkgs/python-modules/melissa {};
+
+  npb = pkgs.callPackage ./pkgs/npb { };
+
+  go-swagger = pkgs.callPackage ./pkgs/go-swagger { };
 
   gocov = pkgs.callPackage ./pkgs/gocov { };
 
@@ -138,11 +175,22 @@ rec {
   cigri = pkgs.callPackage ./pkgs/cigri { };
 
   oar = pkgs.callPackage ./pkgs/oar { inherit procset pybatsim remote_pdb; };
+  
+  oar-plugins = pkgs.callPackage ./pkgs/oar-plugins { inherit procset pybatsim remote_pdb oar; };
 
   oar2 = pkgs.callPackage ./pkgs/oar2 { };
 
   oar3 = oar;
+  oar3-plugins = oar-plugins;
 
+
+  rsg-030 = pkgs.callPackage ./pkgs/remote-simgrid/rsg030.nix { inherit debug; simgrid = simgrid-326; };
+  rsg = rsg-030;
+
+  # simgrid-3(24->26) compiles with glibc from nixpkgs-21.09 but not with more recent nixpkgs versions
+  simgrid-324 = pkgs-2111.callPackage ./pkgs/simgrid/simgrid324.nix { inherit debug; };
+  simgrid-325 = pkgs-2111.callPackage ./pkgs/simgrid/simgrid325.nix { inherit debug; };
+  simgrid-326 = pkgs-2111.callPackage ./pkgs/simgrid/simgrid326.nix { inherit debug; };
   simgrid-327 = pkgs.callPackage ./pkgs/simgrid/simgrid327.nix { inherit debug; };
   simgrid-328 = pkgs.callPackage ./pkgs/simgrid/simgrid328.nix { inherit debug; };
   simgrid-329 = pkgs.callPackage ./pkgs/simgrid/simgrid329.nix { inherit debug; };
@@ -170,7 +218,7 @@ rec {
   #slurm-bsc-simulator-v14 = slurm-bsc-simulator.override { version="14"; };
 
   slurm-multiple-slurmd = pkgs.slurm.overrideAttrs (oldAttrs: {
-    configureFlags = oldAttrs.configureFlags ++ ["--enable-multiple-slurmd" "--enable-silent-rules"];
+    configureFlags = oldAttrs.configureFlags ++ [ "--enable-multiple-slurmd" "--enable-silent-rules" ];
     meta.platforms = pkgs.lib.lists.intersectLists pkgs.rdma-core.meta.platforms
       pkgs.ghc.meta.platforms;
   });

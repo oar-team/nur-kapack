@@ -10,33 +10,33 @@ let
 in
 {
 ###### interface
-  
-  meta.maintainers = [];
+
+  meta.maintainers = [ maintainers.augu5te ];
 
   options = {
     services.ear = {
-      
+
       package = mkOption {
         type = types.package;
         default = pkgs.nur.repos.kapack.ear;
         defaultText = "pkgs.nur.repos.kapack.ear";
       };
-      
+
       database = {
         enable = mkEnableOption "EAR Database";
-        
+
         type = mkOption {
           type = types.enum [ "mysql" "postgres" ];
           example = "mysql";
           default = "mysql";
           description = "Database engine to use.";
         };
-                
+
         host = mkOption {
           type = types.str;
           default = "eardb";
           description = ''
-            Host of the postgresql server. 
+            Host of the postgresql server.
           '';
         };
 
@@ -53,14 +53,14 @@ in
           DBCommandsPassw=password
         '';
         };
-        
+
         dbname = mkOption {
           type = types.str;
           default = "ear";
           description = "Name of the postgresql database";
         };
       };
-      
+
       eargmHost = mkOption {
         type = types.str;
           default = "eargm";
@@ -72,19 +72,19 @@ in
           default = "energy_rapl.so";
           description = "Energy plugin";
       };
-      
+
       energyModel = mkOption {
           type = types.str;
           default = "avx512_model.so";
           description = "Energy model";
       };
-      
+
       powercapPlugin = mkOption {
           type = types.str;
           default = "inm.so";
           description = "Powercap plugin";
       };
-      
+
       extraConfig = mkOption {
         type = types.attrs;
         default = {};
@@ -95,14 +95,23 @@ in
           Extra configuration options that will replace default.
         '';
       };
+      extraConfigCommands = mkOption {
+          default = "";
+          example = "touch /etc/foo";
+          type = types.lines;
+          description = ''
+          Shell commands to be executed just after EAR Config file creation (can be use to amend it).
+          '';
+        };      
       daemon = {
         enable = mkEnableOption "EAR Daemon (EARD)";
       };
-
+      ear_commands = {
+        enable = mkEnableOption "EAR commands for users (eacct)";
+      };
       global_manager = {
         enable = mkEnableOption "EAR Global Manager (EARGM)";
       };
-      
       db_manager = {
         enable = mkEnableOption "EAR Database Manager (EARDBD)";
       };
@@ -112,23 +121,24 @@ in
   config =  mkIf ( cfg.daemon.enable ||
                    cfg.global_manager.enable ||
                    cfg.db_manager.enable ||
+                   cfg.ear_commands.enable ||
                    cfg.database.enable) {
-    
+
     environment.etc =  mkMerge [
       { "ear/ear-base.conf" = { mode = "0600"; source = earBaseConf; };}
-      
+
       (mkIf cfg.database.enable {
         "ear/ear-db.sql" = { mode = "0666"; source = ./ear-db.sql; };
       })
     ];
-    
+
     environment.systemPackages =  [ pkgs.nur.repos.kapack.ear ];
     environment.variables.EAR_ETC = "/etc";
     environment.variables.EAR_TMP = "/var/lib/ear";
-    
-      
+
+
     security.wrappers = { }; #TODO
-    
+
     systemd.services.ear-conf-init = {
       wantedBy = [ "network.target" ];
       before = [ "network.target" ];
@@ -138,6 +148,8 @@ in
 
         cat ${cfg.database.passwordFile} >> /etc/ear/ear.conf
         cat /etc/ear/ear-base.conf >> /etc/ear/ear.conf
+
+        ${cfg.extraConfigCommands}
       '';
     };
 
@@ -163,7 +175,7 @@ in
       path = [ pkgs.mariadb config.services.mysql.package ];
       wantedBy = [ "multi-user.target" ];
       serviceConfig.Type = "oneshot";
-      
+
       script = ''
         source ${cfg.database.passwordFile}
         mkdir -p /var/lib/ear
@@ -270,11 +282,11 @@ in
            chmod ugo +rwx  /var/lib/ear
         fi
        '';
-    };  
+    };
 
     ##################
     # Global Manager section
-    
+
     systemd.services.eargmd = mkIf (cfg.global_manager.enable) {
       wantedBy = [ "multi-user.target" ];
       after = [ "network.target"];
@@ -292,7 +304,7 @@ in
           chmod ugo +rwx  /var/lib/ear
         fi
        '';
-    }; 
+    };
 
     ##################
     # Daemon section
@@ -302,7 +314,7 @@ in
       after = [ "network.target"];
       description ="EARD - Energy Aware Runtime Daemon";
       environment.EAR_ETC = "/etc";
-      path = [ pkgs.kmod ]; 
+      path = [ pkgs.kmod ];
       serviceConfig = {
         ExecStart = "${cfg.package}/bin/eard 1";
         KillMode = "process";
@@ -319,6 +331,6 @@ in
           chmod ugo +rwx  /var/lib/ear
         fi
        '';
-    }; 
+    };
   };
 }

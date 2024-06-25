@@ -11,13 +11,13 @@ in
 
 stdenv.mkDerivation rec {
   pname = "elastisim";
-  version = "1e967c";
+  version = "master";
 
   src = fetchFromGitHub {
     owner  = "elastisim";
     repo   = "elastisim";
-    rev    = "1e967ce8e965fedce08da0e0edffe9f99161ca0a";
-    sha256 = "sha256-yMScmVE6FAE5PWUAKZkbGAuCXZ6OCZsbjlKzvOnIcjQ=";
+    rev    = "${version}";
+    sha256 = "sha256-WWHXp3aLJ5X8RV6wbkaujX+C949mO6VLxEPuBfHA9tU=";
   };
 
   propagatedBuildInputs = [ ];
@@ -41,8 +41,8 @@ stdenv.mkDerivation rec {
     longDescription = ''
     '';
     homepage = "https://github.com/elastisim/elastisim";
-    license = licenses.bsd3;
-    maintainers = [];
+    license = licenses.lgpl2Plus;
+    maintainers = with maintainers; [ adfaure ];
     platforms = platforms.all;
     broken = false;
   };

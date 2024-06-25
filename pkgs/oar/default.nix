@@ -1,4 +1,4 @@
-{ lib, pkgs, fetchFromGitHub, python3Packages, poetry, zeromq, procset, pybatsim, remote_pdb }:
+{ lib, pkgs, fetchFromGitHub, python3Packages, poetry, zeromq, procset, pybatsim, remote_pdb  }:
 
 python3Packages.buildPythonPackage rec {
   pname = "oar";
@@ -8,10 +8,9 @@ python3Packages.buildPythonPackage rec {
   src = fetchFromGitHub {
     owner = "oar-team";
     repo = "oar3";
-    rev = "4618f6b2a6e3974739edf1ef7b0fdb1d9f6576fd";
-    sha256 = "sha256-/akiREogSmixxAqztY5c+rNUZqDnu87iVig0E2jaHgY=";
+    rev = "7b94ee4043071e40b99a52d8a09d404bff512208";
+    sha256 = "sha256-oDBLDwgdJjjsaA9HOgQidVfot9EC7V8HQkqrmrAu1BI=";
   };
-  patches = [ ./0001-bs-loosen-pyzmq-version-constraint.patch ];
 
   nativeBuildInputs = [
     poetry
@@ -19,6 +18,7 @@ python3Packages.buildPythonPackage rec {
   ];
 
   propagatedBuildInputs = with python3Packages; [
+    poetry-core
     pyzmq
     requests
     alembic
@@ -38,6 +38,13 @@ python3Packages.buildPythonPackage rec {
     pyyaml
     ptpython
     python-multipart
+    importlib-metadata
+    clustershell
+    rich
+    httpx
+    python-jose
+    passlib
+    bcrypt
   ];
 
   doCheck = false;
@@ -45,6 +52,9 @@ python3Packages.buildPythonPackage rec {
     cp -r setup $out
     cp -r oar/tools $out
     cp -r visualization_interfaces $out
+
+    mkdir -p $out/admission_rules.d
+    cp -r etc/oar/admission_rules.d/0*.py $out/admission_rules.d
   '';
 
   meta = {

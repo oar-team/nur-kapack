@@ -183,8 +183,8 @@ Policy=min_energy Settings=0.05 DefaultPstate=1 Privileged=0
 # These nodes are is island0 and will use default values for DB connection (line 0 for island0) and default tag
 #Island=0 Nodes=node1[1-2]
 
-# Will use default tag 
-#Island=1 Nodes=node11[01-80] DBIP=node1181 DBSECIP=node1182 
+# Will use default tag
+#Island=1 Nodes=node11[01-80] DBIP=node1181 DBSECIP=node1182
 '';
 vars =  mapAttrsToList (name: value: name) cfg.extraConfig;
 commentedVars = map (value: "#" + value) vars;
