@@ -86,6 +86,8 @@ rec {
   
   #Time-X EuroHPC project: dynres (mpi and dynamicity)
   pmix-dynres = pkgs.callPackage ./pkgs/pmix-dynres { };
+  pypmix-dynres = pkgs.python3.pkgs.toPythonModule pmix-dynres;
+  
   prrte-dynres = pkgs.callPackage ./pkgs/prrte-dynres { pmix = pmix-dynres; };
   openmpi-dynres = pkgs.callPackage ./pkgs/openmpi-dynres { fortranSupport = true; pmix = pmix-dynres; prrte = prrte-dynres; };
   miniapps-dynres = pkgs.callPackage ./pkgs/miniapps-dynres { inherit openmpi-dynres; };
