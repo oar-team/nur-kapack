@@ -6,7 +6,7 @@
 , dyn_psets 
 }:
 
-python3.pkgs.buildPythonApplication rec {
+python3.pkgs.buildPythonPackage rec {
   pname = "dyn-rm";
   version = "main-2024-06-13";
   pyproject = true;
