@@ -128,6 +128,8 @@ rec {
 
   npb = pkgs.callPackage ./pkgs/npb { };
 
+  netpipe = pkgs.callPackage ./pkgs/netpipe { };
+
   go-swagger = pkgs.callPackage ./pkgs/go-swagger { };
 
   gocov = pkgs.callPackage ./pkgs/gocov { };
