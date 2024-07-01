@@ -719,10 +719,10 @@ PROXY_TRAEFIK_RULES_FILE="/etc/oar/proxy/rules_oar_traefik.toml"
 PROXY_TRAEFIK_ENTRYPOINT="http://localhost:5000"
 
 # Option for jwt auth with restapi
-API_SECRET_KEY="3f22a0a65212bfb6cdf0dc4b39be189b3c89c6c2c8ed0d1655e0df837145208b"
-API_SECRET_ALGORITHM="HS256" 
-API_ACCESS_TOKEN_EXPIRE_MINUTES = 524160 # One year
-  '';
+#API_SECRET_KEY="3f22a0a65212bfb6cdf0dc4b39be189b3c89c6c2c8ed0d1655e0df837145208b"
+#API_SECRET_ALGORITHM="HS256" 
+#API_ACCESS_TOKEN_EXPIRE_MINUTES=524160 # One year
+'';
 
 vars =  mapAttrsToList (name: value: name) cfg.extraConfig;
 commentedVars = map (value: "#" + value) vars;
