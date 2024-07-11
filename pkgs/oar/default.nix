@@ -1,4 +1,4 @@
-{ lib, pkgs, fetchFromGitHub, python3Packages, poetry, zeromq, procset, pybatsim, remote_pdb  }:
+{ lib, pkgs, fetchFromGitHub, python3Packages, poetry, zeromq, procset, pybatsim, remote_pdb, oar-plugins, enablePlugins ? false}:
 
 python3Packages.buildPythonPackage rec {
   pname = "oar";
@@ -8,8 +8,8 @@ python3Packages.buildPythonPackage rec {
   src = fetchFromGitHub {
     owner = "oar-team";
     repo = "oar3";
-    rev = "7b94ee4043071e40b99a52d8a09d404bff512208";
-    sha256 = "sha256-oDBLDwgdJjjsaA9HOgQidVfot9EC7V8HQkqrmrAu1BI=";
+    rev = "09883186779a764bb2db429c93347e263ca32a86";
+    sha256 = "sha256-RJrdnLQhvfkqlS6oUqilT8tIWKbPsvgj6XJXKr4j6gk=";
   };
 
   nativeBuildInputs = [
@@ -45,7 +45,7 @@ python3Packages.buildPythonPackage rec {
     python-jose
     passlib
     bcrypt
-  ];
+  ] ++ lib.optional enablePlugins oar-plugins;
 
   doCheck = false;
   postInstall = ''
@@ -58,7 +58,7 @@ python3Packages.buildPythonPackage rec {
   '';
 
   meta = {
-    broken = true;
+    broken = false;
     homepage = "https://github.com/oar-team/oar3";
     description = "OAR: a Versatile Resource and Job Manager";
     license = lib.licenses.lgpl21;

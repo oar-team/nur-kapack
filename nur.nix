@@ -106,7 +106,7 @@ rec {
   # examon embeds Mosquito v1.5.3 which has openssl < 1.1.0 dependency
   openssl_1_0_2 = pkgs-2111.openssl_1_0_2; # pkgs.callPackage ./pkgs/openssl_1_0_2 { };
 
-  flatbuffers = pkgs.callPackage ./pkgs/flatbuffers/2.0.nix { };
+  #flatbuffers = pkgs.callPackage ./pkgs/flatbuffers/2.0.nix { };
 
   likwid = pkgs.callPackage ./pkgs/likwid { };
 
@@ -123,7 +123,10 @@ rec {
   miniapps-dynres = pkgs.callPackage ./pkgs/miniapps-dynres { inherit openmpi-dynres; };
   dyn_rm-dynres = pkgs.callPackage ./pkgs/dyn_rm-dynres { pmix = pmix-dynres; inherit openmpi-dynres dyn_psets ; };
   dyn_psets =  pkgs.callPackage ./pkgs/dyn_psets { inherit openmpi-dynres; };
-  
+
+  pytest-redis = pkgs.python3.pkgs.callPackage ./pkgs/pytest-redis { inherit mirakuru port-for; };
+  mirakuru = pkgs.python3.pkgs.callPackage ./pkgs/mirakuru { };
+  port-for = pkgs.python3.pkgs.callPackage ./pkgs/port-for { };
   python3Packages = rec {
     melissa = pkgs.python3.pkgs.callPackage ./pkgs/python-modules/melissa {};
   };
@@ -174,7 +177,7 @@ rec {
 
   cigri = pkgs.callPackage ./pkgs/cigri { };
 
-  oar = pkgs.callPackage ./pkgs/oar { inherit procset pybatsim remote_pdb; };
+  oar = pkgs.callPackage ./pkgs/oar { inherit procset pybatsim remote_pdb oar-plugins; };
   
   oar-plugins = pkgs.callPackage ./pkgs/oar-plugins { inherit procset pybatsim remote_pdb oar; };
 
@@ -183,7 +186,9 @@ rec {
   oar3 = oar;
   oar3-plugins = oar-plugins;
 
-
+  #oar-with-plugins = oar.override { enablePlugins = true; };
+  oar-with-plugins = pkgs.callPackage ./pkgs/oar { inherit procset pybatsim remote_pdb oar-plugins; enablePlugins = true; };
+    
   rsg-030 = pkgs.callPackage ./pkgs/remote-simgrid/rsg030.nix { inherit debug; simgrid = simgrid-326; };
   rsg = rsg-030;
 
