@@ -12,8 +12,8 @@ stdenv.mkDerivation rec {
 
   src = fetchgit {
     url = "https://gitlab.inria.fr/cigri-ctrl/feedforward-approach/cigri-src.git";
-    rev = "155612539fa468f20eef477285efea9a2c702513";
-    sha256 = "sha256-3ulPKbEhvnPji5MKOxWzHyacMEXm3X/cd8ZfVkyDUXc=";
+    rev = "90e103ce8eb8a9f7f518425674e5df39b7a5849d";
+    sha256 = "sha256-GPzAgY8NozOYzLABJP8urnttMV5uCXuZ7tvUF5LkRZo=";
   };
 
   buildInputs = [ rubyEnv rubyEnv.wrappedRuby rubyEnv.bundler bash perl ];
