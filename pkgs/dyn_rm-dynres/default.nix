@@ -3,21 +3,21 @@
 , fetchFromGitLab
 , pmix
 , openmpi-dynres
-, dyn_psets 
+, dyn_psets
 }:
 
 python3.pkgs.buildPythonPackage rec {
   pname = "dyn-rm";
   version = "main-2024-06-13";
   pyproject = true;
-  
+
   src = fetchFromGitLab {
     domain = "gitlab.inria.fr";
     group = "dynres";
     owner = "dyn-procs";
     repo = "dyn_rm";
-    rev = "cbcc09150a1194f46b7138a61cfe9ab85a9df58d";
-    hash = "sha256-8FtOEjqPa3OJp+AxqogdgKrDx5se2Evl6OZt9LLB680=";
+    rev = "cbb5e224554aac98d04d26e4c3ad057787cdf85a";
+    hash = "sha256-Vu0gAIlY2IFqIoxxnY1b/ZScyDn6TscllVWXXqMxagM=";
   };
 
   nativeBuildInputs = [
@@ -26,16 +26,16 @@ python3.pkgs.buildPythonPackage rec {
     openmpi-dynres
     dyn_psets
   ];
-  
+
   propagatedBuildInputs = [
     python3.pkgs.numpy
     python3.pkgs.pyyaml
     pmix
     dyn_psets
   ];
-  
+
   doCheck = false;
-  
+
   preBuild = ''
     substituteInPlace examples/timestamps/timestamps.c --replace "long ts1, ts2" "long ts1 = 0, ts2 = 0"
     substituteInPlace examples/Makefile --replace "-L./timestamps" "-L$out/examples/timestamps"
@@ -49,7 +49,7 @@ python3.pkgs.buildPythonPackage rec {
     cp -a run_test_dynrm.py submissions topology_files $out/examples
     cd ..
   '';
-  
+
   meta = with lib; {
     description = "";
     homepage = "https://gitlab.inria.fr/dynres/dyn-procs/dyn_rm";
