@@ -8,7 +8,7 @@
 
 python3.pkgs.buildPythonPackage rec {
   pname = "dyn-rm";
-  version = "main-2024-06-13";
+  version = "0.0.1";
   pyproject = true;
 
   src = fetchFromGitLab {
@@ -39,6 +39,18 @@ python3.pkgs.buildPythonPackage rec {
   preBuild = ''
     substituteInPlace examples/timestamps/timestamps.c --replace "long ts1, ts2" "long ts1 = 0, ts2 = 0"
     substituteInPlace examples/Makefile --replace "-L./timestamps" "-L$out/examples/timestamps"
+
+    substituteInPlace examples/submissions/sleep_expand_dynrm_nb.batch --replace "/opt/hpc/build/dyn_rm/examples/output" "/tmp"
+    substituteInPlace examples/submissions/sleep_expand_dynrm_nb.batch --replace "build" $out/examples  
+
+    substituteInPlace examples/submissions/sleep_replace_dynrm_nb_bs_1.batch --replace "/opt/hpc/build/dyn_rm/examples/output" "/tmp"  
+    substituteInPlace examples/submissions/sleep_replace_dynrm_nb_bs_1.batch --replace "build" $out/examples
+
+    substituteInPlace examples/submissions/sleep_replace_dynrm_nb_gs_1.batch --replace "/opt/hpc/build/dyn_rm/examples/output" "/tmp"
+    substituteInPlace examples/submissions/sleep_replace_dynrm_nb_gs_1.batch --replace "build" $out/examples
+
+    substituteInPlace examples/submissions/mix1.mix --replace "/opt/hpc/build/dyn_rm" $out
+
     cd examples
     mkdir build
     make timestamps
