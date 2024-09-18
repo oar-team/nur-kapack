@@ -12,7 +12,10 @@ python3Packages.buildPythonPackage rec {
     sha256 = "sha256-9cTMpNvOh8wlvNdBnhkR7xNPYq8+knZaQXDCJiuDu/A=";
   };
 
-  nativeBuildInputs = [ poetry ];
+  nativeBuildInputs = [
+    poetry
+    python3Packages.poetry-core
+  ];
 
   buildInputs = with python3Packages; [ ]; # oar ];
 
