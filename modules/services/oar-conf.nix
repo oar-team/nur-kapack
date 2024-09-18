@@ -237,7 +237,7 @@ SCHEDULER_GANTT_HOLE_MINIMUM_TIME="30"
 
 # You can add an order preference on resources assigned by the
 # system(SQL ORDER syntax)
-SCHEDULER_RESOURCE_ORDER="scheduler_priority ASC, state_num ASC, available_upto DESC, suspended_jobs ASC, network_address ASC, resource_id ASC"
+SCHEDULER_RESOURCE_ORDER="scheduler_priority ASC, state_num ASC, available_upto DESC, suspended_jobs ASC, resource_id ASC, network_address ASC"
 
 # If next line is uncommented then OAR will automatically update the value of 
 # "scheduler_priority" field corresponding to the besteffort jobs.
@@ -717,6 +717,11 @@ PROXY="traefik"
 OAR_PROXY_BASE_URL="/proxy"
 PROXY_TRAEFIK_RULES_FILE="/etc/oar/proxy/rules_oar_traefik.toml"
 PROXY_TRAEFIK_ENTRYPOINT="http://localhost:5000"
+
+# Option for jwt auth with restapi
+API_SECRET_KEY="3f22a0a65212bfb6cdf0dc4b39be189b3c89c6c2c8ed0d1655e0df837145208b"
+API_SECRET_ALGORITHM="HS256" 
+API_ACCESS_TOKEN_EXPIRE_MINUTES=524160 # One year
   '';
 
 vars =  mapAttrsToList (name: value: name) cfg.extraConfig;
@@ -1109,7 +1114,7 @@ $CONF['label_right_align'] = 105; // default: 105
 $CONF['hierarchy_left_align'] = 110; // default: 110
 $CONF['gantt_left_align'] = 160; // default: 160
 $CONF['gantt_min_width'] = 900; // default: 900
-$CONF['gantt_min_height'] = 100; // default: 100
+$CONF['gantt_min_height'] = 300; // default: 100
 $CONF['gantt_min_job_width_for_label'] = 40; // default: 40
 $CONF['min_state_duration'] = 2; // default: 2
 

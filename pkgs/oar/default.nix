@@ -1,4 +1,4 @@
-{ lib, pkgs, fetchFromGitHub, python3Packages, poetry, zeromq, procset, pybatsim, remote_pdb  }:
+{ lib, pkgs, fetchFromGitHub, python3Packages, poetry, zeromq, procset, pybatsim, remote_pdb, oar-plugins, enablePlugins ? false}:
 
 python3Packages.buildPythonPackage rec {
   pname = "oar";
@@ -8,20 +8,17 @@ python3Packages.buildPythonPackage rec {
   src = fetchFromGitHub {
     owner = "oar-team";
     repo = "oar3";
-    rev = "5824e2df834b04081b8f29b1714bda800a6bbf16";
-    sha256 = "sha256-IFMbGczsr/Ewj6d0Lv/ZP0fLwYa2Xspdlqto5n9i7yc=";
+    rev = "09883186779a764bb2db429c93347e263ca32a86";
+    sha256 = "sha256-RJrdnLQhvfkqlS6oUqilT8tIWKbPsvgj6XJXKr4j6gk=";
   };
-  
-  #patches = [
-  #  ./0001-fix-rest-api-resources.patch
-  #  ./0002-location-for-type-in-jobs.patch
-  #  ./0003-events-for-get-jobs.patch
-  #  ./0004-resubmit-job-id.patch
-  #];
 
-  nativeBuildInputs = [ poetry ];
+  nativeBuildInputs = [
+    poetry
+    python3Packages.poetry-core
+  ];
 
   propagatedBuildInputs = with python3Packages; [
+    poetry-core
     pyzmq
     requests
     alembic
@@ -44,7 +41,11 @@ python3Packages.buildPythonPackage rec {
     importlib-metadata
     clustershell
     rich
-  ];
+    httpx
+    python-jose
+    passlib
+    bcrypt
+  ] ++ lib.optional enablePlugins oar-plugins;
 
   doCheck = false;
   postInstall = ''
