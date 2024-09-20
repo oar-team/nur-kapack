@@ -3,9 +3,10 @@
   inputs = {
     flake-utils.url = "github:numtide/flake-utils";
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-23.05";
+    nixpkgs2205.url = "github:NixOS/nixpkgs/90a3274d58c69f3baca93bd502ccc459a45c4bf1";
     nixpkgs2111.url = "github:NixOS/nixpkgs/nixos-21.11";
   };
-  outputs = { self, nixpkgs, nixpkgs2111, flake-utils }:
+  outputs = { self, nixpkgs, nixpkgs2205, nixpkgs2111, flake-utils }:
     let
       systems = [
         "x86_64-linux"
@@ -23,12 +24,16 @@
           inherit system;
           config.allowBroken = true; # FIXME
         };
+        pkgs-2205 = import nixpkgs2205 {
+          inherit system;
+          config.allowBroken = true; # FIXME
+        };
         pkgs-2111 = import nixpkgs2111 {
           inherit system;
           config.allowBroken = true; # FIXME
         };
       in {
-        packages = (filterPackages system (import ./nur.nix { inherit pkgs pkgs-2111; }));
+        packages = (filterPackages system (import ./nur.nix { inherit pkgs pkgs-2205 pkgs-2111; }));
       }) // {
         nixosModules =
           builtins.mapAttrs (name: path: import path) (import ./modules);

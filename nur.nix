@@ -5,6 +5,12 @@
       sha256 = "0d643wp3l77hv2pmg2fi7vyxn4rwy0iyr8djcw1h5x72315ck9ik";
     })
     { }
+ , pkgs-2205 ? import
+    (fetchTarball {
+      url = "https://github.com/NixOS/nixpkgs/archive/22.05.tar.gz";
+      sha256 = "0d643wp3l77hv2pmg2fi7vyxn4rwy0iyr8djcw1h5x72315ck9ik";
+    })
+    { }
 , pkgs-2111 ? import
     (fetchTarball {
       url = "https://github.com/NixOS/nixpkgs/archive/21.11.tar.gz";
@@ -186,7 +192,7 @@ rec {
   oar3 = oar;
   oar3-plugins = oar-plugins;
   
-  postgresql = import ./pkgs/postgresql/default.nix pkgs;
+  postgresql = import ./pkgs/postgresql/default.nix pkgs-2205;
 
   #oar-with-plugins = oar.override { enablePlugins = true; };
   oar-with-plugins = pkgs.callPackage ./pkgs/oar { inherit procset pybatsim remote_pdb oar-plugins; enablePlugins = true; };
