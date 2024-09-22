@@ -77,7 +77,7 @@ DETACH_JOB_FROM_SERVER="1"
 #MAX_CONCURRENT_JOBS_STARTING_OR_TERMINATING=25
 
 # Command to use to connect to other nodes (default is "ssh" in the PATH)
-OPENSSH_CMD="${pkgs.openssh}/bin/ssh -p 6667"
+OPENSSH_CMD="${pkgs.openssh}/bin/ssh -p 6667 -e none"
 
 # Set the timeout value for each ssh connection (default is 120)
 #OAR_SSH_CONNECTION_TIMEOUT="200"
@@ -594,36 +594,39 @@ GET_CURRENT_CPUSET_CMD="cat /proc/self/cpuset | sed -e 's@^/oardocker/node[[:dig
 #
 # The following variable must be set to enable the use of oarsh on frontend
 # machines. On other machines (compute nodes), it does not need to be set.
-OARSH_OARSTAT_CMD="/usr/local/bin/oarstat"
+OARSH_OARSTAT_CMD="/run/wrappers/bin/oarstat"
+# Configuration for module: user, api
 
 # The following variable gives the OpenSSH options which the oarsh command must
 # understand in order to parse user commands.
 # The value of OPENSSH_OPTSTR must match the option string of OpenSSH ssh
-# command installed on the system (mind checking it is up-to-date, as OpenSSH 
-# development is very active), which can be found in the ssh.c file of the 
+# command installed on the system (mind checking it is up-to-date, as OpenSSH
+# development is very active), which can be found in the ssh.c file of the
 # OpenSSH sources. For instance, the following command extracts the option
 # string of OpenSSH 7.2p2 :
 #
-# $ cd path/to/openssh/sources/ 
+# $ cd path/to/openssh/sources/
 # $ grep getopt -A1 ssh.c | sed 's/.*"\(.\+\)".*/\1/' | xargs | sed 's/ //g'
-# 1246ab:c:e:fgi:kl:m:no:p:qstvxACD:E:F:GI:KL:MNO:PQ:R:S:TVw:W:XYy
-#
-OPENSSH_OPTSTR="1246ab:c:e:fgi:kl:m:no:p:qstvxACD:E:F:GI:KL:MNO:PQ:R:S:TVw:W:XYy"
+# 1246ab:c:e:fgi:kl:m:no:p:qstvxACD:E:F:GI:J:KL:MNO:PQ:R:S:TVw:W:XYy
+OPENSSH_OPTSTR="1246ab:c:e:fgi:kl:m:no:p:qstvxAB:CD:E:F:GI:J:KL:MNO:PQ:R:S:TVw:W:XYy"
+# Configuration for module: server, user, api, node
 
 # The following variable sets the OpenSSH options which oarsh actually uses.
-# Any option which is filtered out from the OPENSSH_OPTSTR variable above is 
+# Any option which is filtered out from the OPENSSH_OPTSTR variable above is
 # just ignored (see oarsh -v for debug)
 # WARNING: if not fitlered out, some options may allow root exploit using oarsh.
-# At least the following OpenSSH options are recommanded to be fitlered out: 
+# At least the following OpenSSH options are recommanded to be fitlered out:
 #  -a -A -i -l -o -p -E -F -G -I -w
-OPENSSH_OPTSTR_FILTERED="1246b:c:e:fgkm:nqstvxCD:KL:MNO:PQ:R:S:TVW:XYy"
+OPENSSH_OPTSTR_FILTERED="1246b:c:fm:nqstvxBCNPQ:TVXYy"
+# Configuration for module: server, user, api, node
 
-# The following variable forces OpenSSH configuration options for the ssh call 
+# The following variable forces OpenSSH configuration options for the ssh call
 # made by in oarsh, so that, for security reasons, they cannot be set by the
 # user (whenever "o:" is not filtered out in the OPENSSH_OPTSTR_FILTERED
 # variable above).
 # WARNING: for security, do not change unless you know what you are doing
-OARSH_OPENSSH_DEFAULT_OPTIONS="-oProxyCommand=none -oPermitLocalCommand=no -oUserKnownHostsFile=/var/lib/oar/.ssh/known_hosts"
+OARSH_OPENSSH_DEFAULT_OPTIONS="-e none -oProxyCommand=none -oPermitLocalCommand=no -oUserKnownHostsFile=/var/lib/oar/.ssh/known_hosts"
+# Configuration for module: server, user, api, node
 
 # If the following variable is set to a value which is not 0, oarsh will act
 # like a normal ssh, **without** the CPUSET isolation mechanism.
@@ -632,7 +635,10 @@ OARSH_OPENSSH_DEFAULT_OPTIONS="-oProxyCommand=none -oPermitLocalCommand=no -oUse
 # provides users with a mechanism which allows to connect to compute nodes
 # without having to care of their ssh configuration (e.g. key setup)
 #OARSH_BYPASS_WHOLE_SECURITY="0"
+# Configuration for module: user, api, node
 
+###########
+# OARSTAT #
 ###############################################################################
 
 # Default oarstat output format.
