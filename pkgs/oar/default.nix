@@ -1,4 +1,4 @@
-{ lib, pkgs, fetchFromGitHub, python3Packages, poetry, zeromq, procset, pybatsim, remote_pdb, oar-plugins, enablePlugins ? false}:
+{ lib, pkgs, fetchFromGitHub, python3Packages, poetry, zeromq, procset, pybatsim, remote_pdb, oar-plugins, enablePlugins ? false }:
 
 python3Packages.buildPythonPackage rec {
   pname = "oar";
@@ -8,8 +8,8 @@ python3Packages.buildPythonPackage rec {
   src = fetchFromGitHub {
     owner = "oar-team";
     repo = "oar3";
-    rev = "09883186779a764bb2db429c93347e263ca32a86";
-    sha256 = "sha256-RJrdnLQhvfkqlS6oUqilT8tIWKbPsvgj6XJXKr4j6gk=";
+    rev = "1248a587e22726cfd9036b51390c224ef48c147b";
+    sha256 = "sha256-YktJM+j+y2eqZuDHzwVCp0qNQ1n3UkB8reY2iW3HUlE=";
   };
 
   nativeBuildInputs = [
