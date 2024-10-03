@@ -1,20 +1,20 @@
 { lib, stdenv, fetchFromGitHub, autoreconfHook, doxygen, numactl
 , rdma-core, libbfd, libiberty, perl, zlib, symlinkJoin, pkg-config
 , config
-, autoAddDriverRunpath
-, enableCuda ? config.cudaSupport
+#, autoAddDriverRunpath
+, enableCuda ? false
 , cudaPackages
-, enableRocm ? config.rocmSupport
-, rocmPackages
+, enableRocm ? false
+#, rocmPackages
 }:
 
 let
-  rocmList = with rocmPackages; [ rocm-core rocm-runtime rocm-device-libs clr ];
+  # rocmList = with rocmPackages; [ rocm-core rocm-runtime rocm-device-libs clr ];
 
-  rocm = symlinkJoin {
-    name = "rocm";
-    paths = rocmList;
-  };
+  # rocm = symlinkJoin {
+  #   name = "rocm";
+  #   paths = rocmList;
+  # };
 
 in
 stdenv.mkDerivation rec {
@@ -37,7 +37,7 @@ stdenv.mkDerivation rec {
   ]
   ++ lib.optionals enableCuda [
     cudaPackages.cuda_nvcc
-    autoAddDriverRunpath
+    #autoAddDriverRunpath ######### TODO not available in 23.05/23.11
   ];
 
   buildInputs = [
@@ -51,7 +51,7 @@ stdenv.mkDerivation rec {
     cudaPackages.cuda_cudart
     cudaPackages.cuda_nvml_dev
 
-  ] ++ lib.optionals enableRocm rocmList;
+  ]; # ++ lib.optionals enableRocm rocmList;
 
   LDFLAGS = lib.optionals enableCuda [
     # Fake libnvidia-ml.so (the real one is deployed impurely)
@@ -64,8 +64,8 @@ stdenv.mkDerivation rec {
     "--with-rc"
     "--with-dm"
     "--with-verbs=${lib.getDev rdma-core}"
-  ] ++ lib.optionals enableCuda [ "--with-cuda=${cudaPackages.cuda_cudart}" ]
-  ++ lib.optional enableRocm "--with-rocm=${rocm}";
+  ] ++ lib.optionals enableCuda [ "--with-cuda=${cudaPackages.cuda_cudart}" ];
+  #++ lib.optional enableRocm "--with-rocm=${rocm}";
 
   postInstall = ''
     find $out/lib/ -name "*.la" -exec rm -f \{} \;
