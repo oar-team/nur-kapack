@@ -11,7 +11,7 @@ buildGoModule rec {
     sha256 = "14dsbabp1h31zzx7xlzg604spk3k3a0wpyq9xsrpqr8hz425h9xv";
   };
 
-  vendorSha256 = "1hkfj18sshn8z0w1njgrwzchagxz1fmpq26a1wsf47xd64ydzwi1";
+  vendorHash = "1hkfj18sshn8z0w1njgrwzchagxz1fmpq26a1wsf47xd64ydzwi1";
 
   meta = with lib; {
     description = "Coverage testing tool for The Go Programming Language.";
