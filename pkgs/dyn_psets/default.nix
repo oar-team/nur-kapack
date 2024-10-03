@@ -1,5 +1,10 @@
-{ lib, stdenv, fetchFromGitLab, openmpi-dynres, autoconf, automake
-} :
+{ lib
+, stdenv
+, fetchFromGitLab
+, openmpi-dynres
+, autoconf
+, automake
+}:
 
 stdenv.mkDerivation rec {
   pname = "dyn_psets";
@@ -9,16 +14,16 @@ stdenv.mkDerivation rec {
     group = "dynres";
     owner = "applications";
     repo = pname;
-    rev = "90dc85c6da1e68e97ba953403779130e36b68cb1";
-    sha256 = "sha256-01hB8TKbwRzWMp3znldgF8qheiPZQPmyLkm9Taj6Ozg=";
+    rev = "05b4f0b788d729de3d37fb1a15dacd32028a0dbe";
+    sha256 = "sha256-vlRwtMDSPlFCYvj3/YWV0MLP+gIx5FTnWVBu/T8wCW4=";
   };
-  
+
   nativeBuildInputs = [
     openmpi-dynres
     autoconf
     automake
   ];
-  
+
   preConfigure = ''
     ./autogen.sh
   '';

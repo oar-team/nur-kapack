@@ -113,17 +113,30 @@ rec {
   melissa = pkgs.callPackage ./pkgs/melissa { };
   melissa-launcher = pkgs.callPackage ./pkgs/melissa-launcher { inherit melissa; };
   melissa-heat-pde = pkgs.callPackage ./pkgs/melissa-heat-pde { inherit melissa; };
-  
+
+  #
   #Time-X EuroHPC project: dynres (mpi and dynamicity)
-  pmix-dynres = pkgs.callPackage ./pkgs/pmix-dynres { };
+  #
+  pmix-dynres = pkgs.callPackage ./pkgs/pmix-dynres { inherit oac; };
   pypmix-dynres = pkgs.python3.pkgs.toPythonModule pmix-dynres;
   
-  prrte-dynres = pkgs.callPackage ./pkgs/prrte-dynres { pmix = pmix-dynres; };
-  openmpi-dynres = pkgs.callPackage ./pkgs/openmpi-dynres { fortranSupport = true; pmix = pmix-dynres; prrte = prrte-dynres; };
+  prrte-dynres = pkgs.callPackage ./pkgs/prrte-dynres { pmix = pmix-dynres; inherit oac; };
+  openmpi-dynres = pkgs.callPackage ./pkgs/openmpi-dynres { fortranSupport = true; pmix = pmix-dynres; prrte = prrte-dynres; ucc = ucc_1_3; ucx = ucx_1_17;  inherit oac; };
   miniapps-dynres = pkgs.callPackage ./pkgs/miniapps-dynres { inherit openmpi-dynres; };
-  dyn_rm-dynres = pkgs.callPackage ./pkgs/dyn_rm-dynres { pmix = pmix-dynres; inherit openmpi-dynres dyn_psets ; };
-  dyn_psets =  pkgs.callPackage ./pkgs/dyn_psets { inherit openmpi-dynres; };
+  dyn_rm-dynres = pkgs.callPackage ./pkgs/dyn_rm-dynres { pmix = pmix-dynres; pypmix = pypmix-dynres; inherit openmpi-dynres dyn_psets ; };
+  dyn_psets = pkgs.callPackage ./pkgs/dyn_psets { inherit openmpi-dynres; };
 
+  oac =  pkgs.callPackage ./pkgs/oac { };
+
+  ucc_1_3 = pkgs.callPackage ./pkgs/ucc { ucx = ucx_1_17; };
+  ucx_1_17 = pkgs.callPackage ./pkgs/ucx { };
+
+    
+  ####################
+
+  
+  dynrm-oar = pkgs.callPackage ./pkgs/dynrm-oar { dyn_rm = dyn_rm-dynres; };
+  
   pytest-redis = pkgs.python3.pkgs.callPackage ./pkgs/pytest-redis { inherit mirakuru port-for; };
   mirakuru = pkgs.python3.pkgs.callPackage ./pkgs/mirakuru { };
   port-for = pkgs.python3.pkgs.callPackage ./pkgs/port-for { };

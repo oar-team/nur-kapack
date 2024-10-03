@@ -2,6 +2,7 @@
 , python3
 , fetchFromGitLab
 , dyn_rm
+, poetry  
 }:
 
 python3.pkgs.buildPythonPackage rec {
@@ -11,19 +12,22 @@ python3.pkgs.buildPythonPackage rec {
 
   src = fetchFromGitLab {
     domain = "gitlab.inria.fr";
-    group = "OAR";
-    #owner = "";
-    repo = "dynrm_oar";
-    rev = "cbb5e224554aac98d04d26e4c3ad047787cdf85a";
-    hash = "sha256-Vu1gAIlY2IFqIoxxnY1b/ZScyDn6TscllVWXXqMxagM=";
+    owner = "OAR";
+    #group = "";
+    repo = "dynrm-oar";
+    rev = "e325e7ba79c6dfb7d25aa7bff90892f71087e68f";
+    hash = "sha256-abtg68+khxywOBdweEA2q18pjihCZGYuy2RmKwSQfoQ=";
   };
 
   nativeBuildInputs = [
-    python3.pkgs.setuptools
-    python3.pkgs.wheel
+    poetry
+    python3.pkgs.poetry-core
+    #python3.pkgs.wheel
   ];
 
   propagatedBuildInputs = [
+    python3.pkgs.poetry-core
+    python3.pkgs.click
     dyn_rm
   ];
 

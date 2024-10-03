@@ -1,5 +1,22 @@
-{ lib, stdenv, fetchFromGitLab, perl, autoconf, automake, libtool, flex, libevent, hwloc, pmix
-} :
+{ lib
+, stdenv
+, fetchFromGitLab
+, perl
+, autoconf
+, removeReferencesTo
+  #, autoconf-archive
+, automake
+  #, pkg-config  
+, libtool
+, gitMinimal
+, flex
+, libevent
+, hwloc
+, pmix
+, python3
+, zlib
+, oac # to replace submodule
+}:
 
 stdenv.mkDerivation rec {
   pname = "prrte";
@@ -10,27 +27,52 @@ stdenv.mkDerivation rec {
     group = "dynres";
     owner = "dyn-procs";
     repo = pname;
-    rev = "31894a825c85aa2b6000d3c4b722b5a9d3852229";
-    sha256 = "sha256-3ZzuLEB497A47tlXg6s2JXBvZiYtoIrQ3XrDDt150m8";
+    rev = "ca4573259a3268a62ca6cf88ae9e0d703b853580";
+    sha256 = "sha256-IJyqQtmVW55mfWHZJzTxVLE2ZJ9d2LigIrlnQc5mScI=";
+    # fetchSubmodules = true; # does not work because oac is located at Github 
   };
-  
-  postPatch = ''
-    patchShebangs ./autogen.pl
-    patchShebangs ./config
-    substituteInPlace src/mca/ras/base/ras_base_allocate.c  --replace "prte_clean_output, ptr" "prte_clean_output, '%s', ptr"
-  '';
 
-  nativeBuildInputs = [ perl autoconf automake libtool flex ];
 
-  buildInputs = [ libevent hwloc pmix ];
-
-  configureFlags = [
-    "--with-pmix=${pmix}"
+  Outputs = [
+    "out"
+    "dev"
   ];
+
+  postPatch = ''
+    patchShebangs ./autogen.pl ./config
+    cp -a ${oac}/* config/oac/ #replace submodule
+  '';
 
   preConfigure = ''
     ./autogen.pl
   '';
+
+  postInstall = ''
+    moveToOutput "bin/prte_info" "''${!outputDev}"
+    # Fix a broken symlink, created due to FHS assumptions
+    rm "$out/bin/pcc"
+    ln -s ${lib.getDev pmix}/bin/pmixcc "''${!outputDev}"/bin/pcc
+
+    remove-references-to -t "''${!outputDev}" $(readlink -f $out/lib/libprrte${stdenv.hostPlatform.extensions.library})
+  '';
+
+  nativeBuildInputs = [
+    removeReferencesTo
+    perl
+    python3
+    autoconf
+    automake
+    libtool
+    flex
+    gitMinimal
+  ];
+
+  buildInputs = [
+    libevent
+    hwloc
+    zlib
+    pmix
+  ];
 
   enableParallelBuilding = true;
 
