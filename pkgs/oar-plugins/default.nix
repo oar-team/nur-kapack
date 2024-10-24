@@ -5,12 +5,15 @@ python3Packages.buildPythonPackage rec {
   version = "0.0.0a";
   format = "pyproject";
 
-  src = fetchFromGitHub {
-    owner = "oar-team";
-    repo = "oar3-plugins";
-    rev = "master";
-    sha256 = "sha256-FtU/1dxNXj08t+Greg/i0PQrVAoL/Rg0Bm4jbwRZLko=";
-  };
+  #src = /home/auguste/dev/oar3-plugin-dyn-rm;
+  src = /home/auguste/dev/oar3-plugins;
+
+  # src = fetchFromGitHub {
+  #   owner = "oar-team";
+  #   repo = "oar3-plugins";
+  #   rev = "323a6450eaf650570faf80a7e0cb1710df278de4";
+  #   sha256 = "sha256-23XuxmKbySkPhWWige2ObuLlmDJRnI8Kbxs3SYOOL9I=";
+  # };
 
   nativeBuildInputs = [ poetry ];
 

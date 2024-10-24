@@ -43,24 +43,18 @@
   oac # to replace submodule
 }:
 
-stdenv.mkDerivation (finalAttrs: {
+stdenv.mkDerivation rec {
   pname = "openmpi";
   version = "5.0.5";
 
-
-  src = fetchFromGitLab {
-    domain = "gitlab.inria.fr";
-    group = "dynres";
-    owner = "dyn-procs";
-    repo = "ompi";
-    rev = "94bd244264707338141e363ff63bf74f795c6aee";
-    sha256 = "sha256-T5bAWN8EMYnS39EimSJ5udESYmpGAFwmy9Rzqzd1wwk=";
-  };
-
-  
-  # src = fetchurl {
-  #   url = "https://www.open-mpi.org/software/ompi/v${lib.versions.majorMinor finalAttrs.version}/downloads/openmpi-${finalAttrs.version}.tar.bz2";
-  #   sha256 = "sha256-ZYjVfApL0pmiQQP04ZYFGynotV+9pJ4R1bPTIDCjJ3Y=";
+  src = ((import ./src.nix){ inherit fetchFromGitLab; }).src;
+  # src = fetchFromGitLab {
+  #   domain = "gitlab.inria.fr";
+  #   group = "dynres";
+  #   owner = "dyn-procs";
+  #   repo = "ompi";
+  #   rev = "94bd244264707338141e363ff63bf74f795c6aee";
+  #   sha256 = "sha256-T5bAWN8EMYnS39EimSJ5udESYmpGAFwmy9Rzqzd1wwk=";
   # };
 
   postPatch = ''
@@ -277,7 +271,7 @@ stdenv.mkDerivation (finalAttrs: {
     #   remove-references-to -t "''${!outputMan}" $(readlink -f $out/lib/libopen-pal${stdenv.hostPlatform.extensions.sharedLibrary})
     # ''
     # +
-    lib.optionalString (lib.elem "dev" finalAttrs.outputs) ''
+    lib.optionalString (lib.elem "dev" outputs) ''
       remove-references-to -t "''${!outputDev}" $out/bin/mpirun
       remove-references-to -t "''${!outputDev}" $(readlink -f $out/lib/libopen-pal${stdenv.hostPlatform.extensions.sharedLibrary})
 
@@ -312,4 +306,4 @@ stdenv.mkDerivation (finalAttrs: {
     license = lib.licenses.bsd3;
     platforms = lib.platforms.unix;
   };
-})
+}

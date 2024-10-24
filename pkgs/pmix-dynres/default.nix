@@ -1,35 +1,35 @@
-{ lib,
-  stdenv,
-  fetchFromGitLab,
-  perl,
-  autoconf,
-  automake,
-  removeReferencesTo,
-  libtool,
-  python3,
-  flex,
-  libevent,
-  targetPackages,
-  makeWrapper,
-  hwloc,
-  munge,
-  zlib,
-  pandoc,
-  gitMinimal,
-  oac # to replace submodule 
+{ lib
+, stdenv
+, fetchFromGitLab
+, perl
+, autoconf
+, automake
+, removeReferencesTo
+, libtool
+, python3
+, flex
+, libevent
+, targetPackages
+, makeWrapper
+, hwloc
+, munge
+, zlib
+, pandoc
+, gitMinimal
+, oac # to replace submodule 
 }:
 
-stdenv.mkDerivation (finalAttrs: {
+stdenv.mkDerivation rec {
   pname = "openpmix";
   version = "5.0.0a1";
-  
+
   src = fetchFromGitLab {
     domain = "gitlab.inria.fr";
     group = "dynres";
     owner = "dyn-procs";
-    repo = finalAttrs.pname;
-    rev = "3d666ed823da190054ca83ea0120b9f36f48bd10";
-    sha256 = "sha256-5oByXZL3tTkSeTx8VKQv+TGhCpL0jBw3zvamd722MJg=";
+    repo = pname;
+    rev = "94500335d44084010446fe9e4b802fdfae7fede0";
+    sha256 = "sha256-OJghOQgNw7WXT4feRaQ1sK7om+wXbcn8DkvVADIO9p0=";
     #fetchSubmodules = true; # does not work because oac is located at Github
   };
 
@@ -95,7 +95,7 @@ stdenv.mkDerivation (finalAttrs: {
           compiler=${targetPackages.stdenv.cc}/bin/${targetPackages.stdenv.cc.targetPrefix}cc
     '';
 
-  postFixup = lib.optionalString (lib.elem "dev" finalAttrs.outputs) ''
+  postFixup = lib.optionalString (lib.elem "dev" outputs) ''
     # The build info (parameters to ./configure) are hardcoded
     # into the library. This clears all references to $dev/include.
     remove-references-to -t "''${!outputDev}" $(readlink -f $out/lib/libpmix.so)
@@ -116,6 +116,6 @@ stdenv.mkDerivation (finalAttrs: {
     maintainers = [ maintainers.markuskowa ];
     platforms = platforms.linux;
   };
-})
+}
 
 
