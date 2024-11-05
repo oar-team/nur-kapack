@@ -31,18 +31,22 @@ stdenv.mkDerivation rec {
   doCheck = false;
 
   preBuild = ''
-    substituteInPlace submissions/sleep_expand_dynrm_nb.sh --replace "$SCRIPT_DIR/../build/" ""
-    substituteInPlace submissions/sleep_expand_dynrm_nb.sh --replace "$SCRIPT_DIR/../outout" "/tmp"
-    substituteInPlace submissions/sleep_replace_dynrm_nb_bs_1.sh --replace "$SCRIPT_DIR/../build/" ""
-    substituteInPlace submissions/sleep_replace_dynrm_nb_bs_1.sh --replace "$SCRIPT_DIR/../outout" "/tmp"
-    substituteInPlace submissions/sleep_replace_dynrm_nb_gs_1.sh --replace "$SCRIPT_DIR/../build/" ""
-    substituteInPlace submissions/sleep_replace_dynrm_nb_gs_1.sh --replace "$SCRIPT_DIR/../outout" "/tmp"
+    sed -i 's/$SCRIPT_DIR\/..\/build\///' submissions/sleep_expand_dynrm_nb.sh
+    sed -i 's/$SCRIPT_DIR\/..\/output/\/tmp/' submissions/sleep_expand_dynrm_nb.sh
+    sed -i 's/$SCRIPT_DIR\/..\/build\///' submissions/sleep_replace_dynrm_nb_bs_1.sh
+    sed -i 's/$SCRIPT_DIR\/..\/output/\/tmp/' submissions/sleep_replace_dynrm_nb_bs_1.sh
+    sed -i 's/$SCRIPT_DIR\/..\/build\///' submissions/sleep_replace_dynrm_nb_gs_1.sh
+    sed -i 's/$SCRIPT_DIR\/..\/output/\/tmp/' submissions/sleep_replace_dynrm_nb_gs_1.sh
+    
+    substituteInPlace submissions/mix1.mix --replace "/opt/hpc/build/dyn_rm/examples" $out
+    substituteInPlace submissions/mix2.mix --replace "/opt/hpc/build/dyn_rm/examples" $out
 
     make MPI=${openmpi-dynres} DYN_PSETS=${dyn_psets}
 
     mkdir -p $out/timestamps
     cp timestamps/libtimestamps.so $out/timestamps
-    cp build/bench_sleep $out
+    mkdir -p $out/bin
+    cp build/bench_sleep $out/bin
     cp -a run_test_dynrm.py submissions topology_files $out
     cd ..
   '';
