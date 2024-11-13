@@ -8,8 +8,8 @@ python3Packages.buildPythonPackage rec {
   src = fetchFromGitHub {
     owner = "oar-team";
     repo = "oar3";
-    rev = "d41ca47b09af6b97181a2c2480e16f2c41f10310";
-    sha256 = "sha256-XsEDpFMeFK7INcffpVWSsswFGyY+QCjBW6MrzGt7Bfo=";
+    rev = "7cda51ab84291a904cd5780f6908ba6ec2637248";
+    sha256 = "sha256-qH6YIZf54v8M78/M5uLLEBwxRQ6QLER30Okzd8gEdfA=";
   };
 
   nativeBuildInputs = [
