@@ -133,6 +133,8 @@ rec {
   ucc_1_3 = pkgs.callPackage ./pkgs/ucc { ucx = ucx_1_17; };
   ucx_1_17 = pkgs.callPackage ./pkgs/ucx { };
 
+  dmr = pkgs.callPackage ./pkgs/dmr { openmpi = openmpi-dynres; };
+  
     
   ####################
 
