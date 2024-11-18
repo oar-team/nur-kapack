@@ -22,10 +22,9 @@ stdenv.mkDerivation rec {
   buildPhase = "make lib sleep";
 
   installPhase = ''
+    make install INSTALL_DIR=$out
     mkdir -p $out/bin
-    cp sleepOf $out/bin
-    mkdir -p $out/lib
-    cp libdmr.so $out/lib
+    cp sleepOf $out/bin   
   ''; 
   
   meta = with lib; {

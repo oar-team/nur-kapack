@@ -134,8 +134,10 @@ rec {
   ucx_1_17 = pkgs.callPackage ./pkgs/ucx { };
 
   dmr = pkgs.callPackage ./pkgs/dmr { openmpi = openmpi-dynres; };
+  dmr_examples = pkgs.callPackage ./pkgs/dmr_examples {  openmpi = openmpi-dynres; inherit dmr timestamps data_redist; };
+  timestamps = pkgs.callPackage ./pkgs/timestamps { };
+  data_redist = pkgs.callPackage ./pkgs/data_redist { openmpi = openmpi-dynres; };
   
-    
   ####################
 
   
