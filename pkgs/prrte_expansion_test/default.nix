@@ -15,4 +15,4 @@ writers.writePython3Bin "prrte_expansion_test" {
         dyn_rm-dynres
         pypmix-dynres
       ];
-    } (lib.strings.fileContents "${dyn_rm-dynres.src}/dyn_rm/tests/prrte_expansion_test.py")
+    } (lib.fileContents "${dyn_rm-dynres.src}/dyn_rm/tests/prrte_expansion_test.py")
