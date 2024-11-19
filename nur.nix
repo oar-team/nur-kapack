@@ -121,12 +121,13 @@ rec {
   pypmix-dynres = pkgs.python3.pkgs.toPythonModule pmix-dynres;
   
   prrte-dynres = pkgs.callPackage ./pkgs/prrte-dynres { pmix = pmix-dynres; inherit oac; };
+  prrte-expansion-test = import ./pkgs/prrte_expansion_test { inherit dyn_rm-dynres pypmix-dynres; writers=pkgs.writers; lib=pkgs.lib; };
   openmpi-dynres = pkgs.callPackage ./pkgs/openmpi-dynres { fortranSupport = true; pmix = pmix-dynres; prrte = prrte-dynres; ucc = ucc_1_3; ucx = ucx_1_17;  inherit oac; };
   miniapps-dynres = pkgs.callPackage ./pkgs/miniapps-dynres { inherit openmpi-dynres; };
   dyn_rm-dynres = pkgs.callPackage ./pkgs/dyn_rm-dynres { pmix = pmix-dynres; pypmix = pypmix-dynres; inherit openmpi-dynres dyn_psets; };
   dyn_psets = pkgs.callPackage ./pkgs/dyn_psets { inherit openmpi-dynres; };
 
-  dyn_rm-examples-dynres = pkgs.callPackage ./pkgs/dyn_rm-examples-dynres { inherit dyn_rm-dynres openmpi-dynres dyn_psets; };
+  dyn_rm-examples-dynres = pkgs.callPackage ./pkgs/dyn_rm-examples-dynres { inherit dyn_rm-dynres openmpi-dynres dyn_psets pypmix-dynres; };
  
   oac =  pkgs.callPackage ./pkgs/oac { };
 
@@ -134,7 +135,7 @@ rec {
   ucx_1_17 = pkgs.callPackage ./pkgs/ucx { };
 
   dmr = pkgs.callPackage ./pkgs/dmr { openmpi = openmpi-dynres; };
-  dmr_examples = pkgs.callPackage ./pkgs/dmr_examples {  openmpi = openmpi-dynres; inherit dmr timestamps data_redist; };
+  dmr_examples = pkgs.callPackage ./pkgs/dmr_examples { openmpi = openmpi-dynres; inherit dmr timestamps data_redist dyn_rm-dynres pypmix-dynres; };
   timestamps = pkgs.callPackage ./pkgs/timestamps { };
   data_redist = pkgs.callPackage ./pkgs/data_redist { openmpi = openmpi-dynres; };
   
