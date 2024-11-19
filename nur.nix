@@ -140,6 +140,7 @@ rec {
   simgrid-332 = pkgs.callPackage ./pkgs/simgrid/simgrid332.nix { inherit debug; };
   simgrid-334 = pkgs.callPackage ./pkgs/simgrid/simgrid334.nix { inherit debug; };
   simgrid-335 = pkgs.callPackage ./pkgs/simgrid/simgrid335.nix { inherit debug; };
+  simgrid-336 = pkgs.callPackage ./pkgs/simgrid/simgrid336.nix { inherit debug; };
   simgrid-327light = simgrid-327.override { minimalBindings = true; withoutBin = true; withoutBoostPropagation = true; };
   simgrid-328light = simgrid-328.override { minimalBindings = true; withoutBin = true; withoutBoostPropagation = true; };
   simgrid-329light = simgrid-329.override { minimalBindings = true; withoutBin = true; withoutBoostPropagation = true; };
@@ -148,8 +149,9 @@ rec {
   simgrid-332light = simgrid-332.override { minimalBindings = true; withoutBin = true; withoutBoostPropagation = true; buildPythonBindings = false; };
   simgrid-334light = simgrid-334.override { minimalBindings = true; withoutBin = true; withoutBoostPropagation = true; buildPythonBindings = false; };
   simgrid-335light = simgrid-335.override { minimalBindings = true; withoutBin = true; withoutBoostPropagation = true; buildPythonBindings = false; };
-  simgrid = simgrid-335;
-  simgrid-light = simgrid-335light;
+  simgrid-336light = simgrid-336.override { minimalBindings = true; withoutBin = true; withoutBoostPropagation = true; buildPythonBindings = false; };
+  simgrid = simgrid-336;
+  simgrid-light = simgrid-336light;
 
   # Setting needed for nixos-19.03 and nixos-19.09
   slurm-bsc-simulator =
