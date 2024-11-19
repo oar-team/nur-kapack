@@ -138,7 +138,11 @@ rec {
   dmr_examples = pkgs.callPackage ./pkgs/dmr_examples { openmpi = openmpi-dynres; inherit dmr timestamps data_redist dyn_rm-dynres pypmix-dynres; };
   timestamps = pkgs.callPackage ./pkgs/timestamps { };
   data_redist = pkgs.callPackage ./pkgs/data_redist { openmpi = openmpi-dynres; };
-  
+
+  p4est-sc-dynres = pkgs.p4est-sc.override { mpi=openmpi-dynres; };
+  p4est-dynres = pkgs.p4est.override { p4est-sc=p4est-sc-dynres; };
+  p4est-dyn = pkgs.callPackage ./pkgs/p4est_dyn {inherit openmpi-dynres p4est-dynres; };
+  p4est-dyn-examples = pkgs.callPackage ./pkgs/p4est_dyn_examples {inherit openmpi-dynres p4est-dynres p4est-dyn timestamps dyn_rm-dynres pypmix-dynres; };
   ####################
 
   
