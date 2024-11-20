@@ -135,7 +135,7 @@ rec {
   ucx_1_17 = pkgs.callPackage ./pkgs/ucx { };
 
   dmr = pkgs.callPackage ./pkgs/dmr { openmpi = openmpi-dynres; };
-  dmr_examples = pkgs.callPackage ./pkgs/dmr_examples { openmpi = openmpi-dynres; inherit dmr timestamps data_redist dyn_rm-dynres pypmix-dynres; };
+  dmr-examples = pkgs.callPackage ./pkgs/dmr_examples { openmpi = openmpi-dynres; inherit dmr timestamps data_redist dyn_rm-dynres pypmix-dynres; };
   timestamps = pkgs.callPackage ./pkgs/timestamps { };
   data_redist = pkgs.callPackage ./pkgs/data_redist { openmpi = openmpi-dynres; };
 
@@ -143,6 +143,11 @@ rec {
   p4est-dynres = pkgs.p4est.override { p4est-sc=p4est-sc-dynres; };
   p4est-dyn = pkgs.callPackage ./pkgs/p4est_dyn {inherit openmpi-dynres p4est-dynres; };
   p4est-dyn-examples = pkgs.callPackage ./pkgs/p4est_dyn_examples {inherit openmpi-dynres p4est-dynres p4est-dyn timestamps dyn_rm-dynres pypmix-dynres; };
+
+  dynpetsc = pkgs.callPackage ./pkgs/dynpetsc {inherit openmpi-dynres sowing; }; 
+  sowing = pkgs.callPackage ./pkgs/sowing { };
+  dynpetsc-examples = pkgs.callPackage ./pkgs/dynpetsc_examples {inherit openmpi-dynres dynpetsc timestamps dyn_rm-dynres pypmix-dynres; };
+  
   ####################
 
   
