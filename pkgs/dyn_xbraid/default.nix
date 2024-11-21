@@ -15,8 +15,8 @@ stdenv.mkDerivation rec {
     group = "dynres";
     owner = "applications";
     repo = pname;
-    rev = "5a8172b428c5b096ddec9a4b50f7043e2edb8c33";
-    sha256 = "sha256-2f83C69Y1iYi2zK79+zWDbhNKwJhxdJFwMbl+jP9NKY=";
+    rev = "58b4cb2c38e5039610651b27ac9af759f4783526";
+    sha256 = "sha256-KdMwy1Cpi67LZw6HSIDmn5rDfxyprJwyHQxNCy9A2/0=";
   };
   
   nativeBuildInputs = [ autoreconfHook ];
