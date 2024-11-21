@@ -119,35 +119,30 @@ rec {
   #
   pmix-dynres = pkgs.callPackage ./pkgs/pmix-dynres { inherit oac; };
   pypmix-dynres = pkgs.python3.pkgs.toPythonModule pmix-dynres;
-  
   prrte-dynres = pkgs.callPackage ./pkgs/prrte-dynres { pmix = pmix-dynres; inherit oac; };
   prrte-expansion-test = import ./pkgs/prrte_expansion_test { inherit dyn_rm-dynres pypmix-dynres; writers=pkgs.writers; lib=pkgs.lib; };
   openmpi-dynres = pkgs.callPackage ./pkgs/openmpi-dynres { fortranSupport = true; pmix = pmix-dynres; prrte = prrte-dynres; ucc = ucc_1_3; ucx = ucx_1_17;  inherit oac; };
   miniapps-dynres = pkgs.callPackage ./pkgs/miniapps-dynres { inherit openmpi-dynres; };
   dyn_rm-dynres = pkgs.callPackage ./pkgs/dyn_rm-dynres { pmix = pmix-dynres; pypmix = pypmix-dynres; inherit openmpi-dynres dyn_psets; };
   dyn_psets = pkgs.callPackage ./pkgs/dyn_psets { inherit openmpi-dynres; };
-
   dyn_rm-examples-dynres = pkgs.callPackage ./pkgs/dyn_rm-examples-dynres { inherit dyn_rm-dynres openmpi-dynres dyn_psets pypmix-dynres; };
- 
   oac =  pkgs.callPackage ./pkgs/oac { };
-
   ucc_1_3 = pkgs.callPackage ./pkgs/ucc { ucx = ucx_1_17; };
   ucx_1_17 = pkgs.callPackage ./pkgs/ucx { };
-
   dmr = pkgs.callPackage ./pkgs/dmr { openmpi = openmpi-dynres; };
   dmr-examples = pkgs.callPackage ./pkgs/dmr_examples { openmpi = openmpi-dynres; inherit dmr timestamps data_redist dyn_rm-dynres pypmix-dynres; };
   timestamps = pkgs.callPackage ./pkgs/timestamps { };
   data_redist = pkgs.callPackage ./pkgs/data_redist { openmpi = openmpi-dynres; };
-
   p4est-sc-dynres = pkgs.p4est-sc.override { mpi=openmpi-dynres; };
   p4est-dynres = pkgs.p4est.override { p4est-sc=p4est-sc-dynres; };
   p4est-dyn = pkgs.callPackage ./pkgs/p4est_dyn {inherit openmpi-dynres p4est-dynres; };
   p4est-dyn-examples = pkgs.callPackage ./pkgs/p4est_dyn_examples {inherit openmpi-dynres p4est-dynres p4est-dyn timestamps dyn_rm-dynres pypmix-dynres; };
-
   dynpetsc = pkgs.callPackage ./pkgs/dynpetsc {inherit openmpi-dynres sowing; }; 
   sowing = pkgs.callPackage ./pkgs/sowing { };
   dynpetsc-examples = pkgs.callPackage ./pkgs/dynpetsc_examples {inherit openmpi-dynres dynpetsc timestamps dyn_rm-dynres pypmix-dynres; };
-  
+  xbraid = pkgs.callPackage ./pkgs/xbraid { inherit openmpi-dynres; };
+  dyn-xbraid =  pkgs.callPackage ./pkgs/dyn_xbraid { inherit openmpi-dynres xbraid dmr; };
+  dyn-xbraid-examples = pkgs.callPackage ./pkgs/dyn_xbraid_examples {inherit openmpi-dynres xbraid dyn-xbraid dmr timestamps dyn_rm-dynres pypmix-dynres; };
   ####################
 
   
