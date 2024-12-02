@@ -1,7 +1,7 @@
 # If called without explicitly setting the 'pkgs' arg, a pinned nixpkgs version is used by default.
 { pkgs ? import (fetchTarball {
-    url = "https://github.com/NixOS/nixpkgs/archive/22.05.tar.gz";
-    sha256 = "0d643wp3l77hv2pmg2fi7vyxn4rwy0iyr8djcw1h5x72315ck9ik";
+    url = "https://github.com/NixOS/nixpkgs/archive/branch-off-24.11.tar.gz";
+    sha256 = "1gx0hihb7kcddv5h0k7dysp2xhf1ny0aalxhjbpj2lmvj7h9g80a";
   }) {}
 , debug ? false
 }:
@@ -58,7 +58,7 @@ rec {
 
   colmet-collector = pkgs.callPackage ./pkgs/colmet-collector { };
 
-  dcdb = pkgs.callPackage ./pkgs/dcdb { inherit scylladb-cpp-driver bacnet-stack mosquitto-dcdb; };
+  #dcdb = pkgs.callPackage ./pkgs/dcdb { inherit scylladb-cpp-driver bacnet-stack mosquitto-dcdb; };
 
   distem = pkgs.callPackage ./pkgs/distem { };
 
@@ -84,7 +84,7 @@ rec {
 
   npb =  pkgs.callPackage ./pkgs/npb { };
 
-  go-swagger  = pkgs.callPackage ./pkgs/go-swagger { };
+  #go-swagger  = pkgs.callPackage ./pkgs/go-swagger { };
 
   gocov = pkgs.callPackage ./pkgs/gocov { };
 
@@ -95,7 +95,7 @@ rec {
 
   iterators = pkgs.callPackage ./pkgs/iterators { };
 
-  kube-batch = pkgs.callPackage ./pkgs/kube-batch { };
+  #kube-batch = pkgs.callPackage ./pkgs/kube-batch { };
 
   loguru = pkgs.callPackage ./pkgs/loguru { inherit debug; };
 
@@ -178,6 +178,7 @@ rec {
     ];
     meta.platforms = pkgs.lib.lists.intersectLists pkgs.rdma-core.meta.platforms
       pkgs.ghc.meta.platforms;
+    meta.broken = true;
   });
 
   ssh-python = pkgs.callPackage ./pkgs/ssh-python { };
