@@ -178,6 +178,7 @@ rec {
     ];
     meta.platforms = pkgs.lib.lists.intersectLists pkgs.rdma-core.meta.platforms
       pkgs.ghc.meta.platforms;
+    meta.broken = true;
   });
 
   ssh-python = pkgs.callPackage ./pkgs/ssh-python { };
