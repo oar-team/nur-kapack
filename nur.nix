@@ -58,7 +58,7 @@ rec {
 
   colmet-collector = pkgs.callPackage ./pkgs/colmet-collector { };
 
-  dcdb = pkgs.callPackage ./pkgs/dcdb { inherit scylladb-cpp-driver bacnet-stack mosquitto-dcdb; };
+  #dcdb = pkgs.callPackage ./pkgs/dcdb { inherit scylladb-cpp-driver bacnet-stack mosquitto-dcdb; };
 
   distem = pkgs.callPackage ./pkgs/distem { };
 
@@ -84,7 +84,7 @@ rec {
 
   npb =  pkgs.callPackage ./pkgs/npb { };
 
-  go-swagger  = pkgs.callPackage ./pkgs/go-swagger { };
+  #go-swagger  = pkgs.callPackage ./pkgs/go-swagger { };
 
   gocov = pkgs.callPackage ./pkgs/gocov { };
 
@@ -95,7 +95,7 @@ rec {
 
   iterators = pkgs.callPackage ./pkgs/iterators { };
 
-  kube-batch = pkgs.callPackage ./pkgs/kube-batch { };
+  #kube-batch = pkgs.callPackage ./pkgs/kube-batch { };
 
   loguru = pkgs.callPackage ./pkgs/loguru { inherit debug; };
 
