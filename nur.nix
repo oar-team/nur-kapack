@@ -1,7 +1,7 @@
 # If called without explicitly setting the 'pkgs' arg, a pinned nixpkgs version is used by default.
 { pkgs ? import (fetchTarball {
-    url = "https://github.com/NixOS/nixpkgs/archive/22.05.tar.gz";
-    sha256 = "0d643wp3l77hv2pmg2fi7vyxn4rwy0iyr8djcw1h5x72315ck9ik";
+    url = "https://github.com/NixOS/nixpkgs/archive/branch-off-24.11.tar.gz";
+    sha256 = "1gx0hihb7kcddv5h0k7dysp2xhf1ny0aalxhjbpj2lmvj7h9g80a";
   }) {}
 , debug ? false
 }:
