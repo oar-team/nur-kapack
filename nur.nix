@@ -52,6 +52,8 @@ rec {
 
   bacnet-stack = pkgs.callPackage ./pkgs/bacnet-stack { };
 
+  alumet = pkgs.callPackage ./pkgs/alumet { };
+  
   colmet = pkgs.callPackage ./pkgs/colmet { };
 
   colmet-rs = pkgs.callPackage ./pkgs/colmet-rs { };
