@@ -28,6 +28,11 @@ in
         description = "Path to tools used by provided script";
       };
       
+      wants =  mkOption {
+        type = types.listOf types.str;
+        default = [ ];
+        description = "Waits for the service before starting";
+      };
     };
   };
 
@@ -37,6 +42,7 @@ in
     systemd.services.my-startup = {
       description = "My startup";
       wantedBy = [ "multi-user.target" ];
+      wants = cfg.wants;
       after = [ "network.target"];
       path = cfg.path;
       serviceConfig.Type = "oneshot";

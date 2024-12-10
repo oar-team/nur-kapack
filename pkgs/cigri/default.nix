@@ -8,12 +8,13 @@ let
   };
 in
 stdenv.mkDerivation rec {
-  name = "cigri-3.0.0";
+  name = "cigri-3.2.1";
 
   src = fetchgit {
-    url = "https://gitlab.inria.fr/cigri-ctrl/feedforward-approach/cigri-src.git";
-    rev = "90e103ce8eb8a9f7f518425674e5df39b7a5849d";
-    sha256 = "sha256-GPzAgY8NozOYzLABJP8urnttMV5uCXuZ7tvUF5LkRZo=";
+    url = "https://github.com/oar-team/cigri";
+    # url = "https://gitlab.inria.fr/cigri-ctrl/feedforward-approach/cigri-src.git";
+    rev = "e20d34a2733d35e458e99491eca5a3068e573fc9";
+    sha256 = "sha256-dQuhkM/uYcpvXJ4T7/NvGS1qzRrVtcHAidxjtZtG/uE=";
   };
 
   buildInputs = [ rubyEnv rubyEnv.wrappedRuby rubyEnv.bundler bash perl ];
