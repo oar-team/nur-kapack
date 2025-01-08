@@ -70,6 +70,8 @@ rec {
 
   bacnet-stack = pkgs.callPackage ./pkgs/bacnet-stack { };
 
+  #alumet = pkgs.callPackage ./pkgs/alumet { };
+  
   colmet = pkgs.callPackage ./pkgs/colmet { inherit libpowercap; };
 
   colmet-rs = pkgs.callPackage ./pkgs/colmet-rs { };
@@ -92,7 +94,6 @@ rec {
   evalys = pkgs.callPackage ./pkgs/evalys { inherit procset; };
 
   execo = pkgs.callPackage ./pkgs/execo { };
-
 
   flower = pkgs.callPackage ./pkgs/flower { inherit iterators; };
 
