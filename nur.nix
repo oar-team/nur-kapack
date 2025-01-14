@@ -143,7 +143,10 @@ rec {
   dynpetsc-examples = pkgs.callPackage ./pkgs/dynpetsc_examples {inherit openmpi-dynres dynpetsc timestamps dyn_rm-dynres pypmix-dynres; };
   xbraid = pkgs.callPackage ./pkgs/xbraid { inherit openmpi-dynres; };
   dyn-xbraid =  pkgs.callPackage ./pkgs/dyn_xbraid { inherit openmpi-dynres xbraid dmr; };
-  dyn-xbraid-examples = pkgs.callPackage ./pkgs/dyn_xbraid_examples {inherit openmpi-dynres xbraid dyn-xbraid dmr timestamps dyn_rm-dynres pypmix-dynres; };
+  dyn-xbraid-examples = pkgs.callPackage ./pkgs/dyn_xbraid_examples { inherit openmpi-dynres xbraid dyn-xbraid dmr timestamps dyn_rm-dynres pypmix-dynres; };
+  benchmarks-dynres =  pkgs.callPackage ./pkgs/benchmarks-dynres {inherit execo; };
+
+  
   ####################
 
   
