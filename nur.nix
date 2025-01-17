@@ -126,7 +126,7 @@ rec {
   miniapps-dynres = pkgs.callPackage ./pkgs/miniapps-dynres { inherit openmpi-dynres; };
   dyn_rm-dynres = pkgs.callPackage ./pkgs/dyn_rm-dynres { pmix = pmix-dynres; pypmix = pypmix-dynres; inherit openmpi-dynres dyn_psets; };
   dyn_psets = pkgs.callPackage ./pkgs/dyn_psets { inherit openmpi-dynres; };
-  dyn_rm-examples-dynres = pkgs.callPackage ./pkgs/dyn_rm-examples-dynres { inherit dyn_rm-dynres openmpi-dynres dyn_psets pypmix-dynres; };
+  dyn_rm-examples-dynres = pkgs.callPackage ./pkgs/dyn_rm-examples-dynres { inherit dyn_rm-dynres openmpi-dynres dyn_psets pypmix-dynres timestamps; };
   oac =  pkgs.callPackage ./pkgs/oac { };
   ucc_1_3 = pkgs.callPackage ./pkgs/ucc { ucx = ucx_1_17; };
   ucx_1_17 = pkgs.callPackage ./pkgs/ucx { };

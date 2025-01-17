@@ -27,8 +27,8 @@ stdenv.mkDerivation rec {
     group = "dynres";
     owner = "dyn-procs";
     repo = pname;
-    rev = "bac048e85e9301255e8e587725b498541c46b395";
-    sha256 = "sha256-acNA3tXkZR+sWU6pPvDeEiHR6nnh4oL/7RYCdPbn5KY=";
+    rev = "a291981324da6f34e97c93b5b13924040b6ae822";
+    sha256 = "sha256-NBJ74LXLIbd47ZgxRGD+B68MpErPxZq2TQnHy3QWins=";
     # fetchSubmodules = true; # does not work because oac is located at Github 
   };
 

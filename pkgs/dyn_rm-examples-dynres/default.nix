@@ -6,7 +6,8 @@
 , openmpi-dynres
 , dyn_psets
 , writers
-, pypmix-dynres   
+, pypmix-dynres
+, timestamps
 }:
 
 stdenv.mkDerivation rec {
@@ -18,16 +19,18 @@ stdenv.mkDerivation rec {
     group = "dynres";
     owner = "applications";
     repo = "dynrm_examples";
-    rev = "c356d13bd8b8228a257974cf65f028a2bd5fc2af";
-    hash = "sha256-AHOxyVzJF1T15ruJ+SjpJnc8btJFSyCsNjHxy9fFtmw=";
+    rev = "2ba6de49e07de651c6ed6bcb777d730138f05bf1";
+    hash = "sha256-mlR4b9LOLP+vG04tLxouf4/e7oGFK2twqsHT8YFTTRo=";
   };
 
   nativeBuildInputs = [
     dyn_psets
+    timestamps
   ];
 
   propagatedBuildInputs = [
     openmpi-dynres
+    
   ];
 
   doCheck = false;
@@ -42,29 +45,49 @@ stdenv.mkDerivation rec {
     substituteInPlace mix1.mix --replace "/opt/hpc/build/dyn_rm/examples" $out
     substituteInPlace mix2.mix --replace "/opt/hpc/build/dyn_rm/examples" $out
     cd ..      
-    make MPI=${openmpi-dynres} DYN_PSETS=${dyn_psets}
+    make MPI=${openmpi-dynres} DYN_PSETS=${dyn_psets}  TIMESTAMPS=${timestamps}
   '';
 
-  installPhase = let
-    run_test_dynrm = writers.writePython3Bin "run_test_dynrm" {
-      # Need to fix run_test_dynrm.py
-      flakeIgnore = [
-        "E127" "E203" "E222" "E225" "E226" "E231" "E251" "E261" "E271"
-        "E302" "E303" "F401" "F403" "F405" "E501" "W291" "W292" "W293" ];
-      libraries = [
-        dyn_rm-dynres
-        pypmix-dynres
-      ];
-    } (lib.fileContents "${src}/run_test_dynrm.py");
-  in
-  ''
-    mkdir -p $out/timestamps
-    cp timestamps/libtimestamps.so $out/timestamps
-    mkdir -p $out/bin
-    cp build/bench_sleep $out/bin
-    cp -r submissions topology_files $out
-    ln -s ${run_test_dynrm}/bin/run_test_dynrm $out/run_test_dynrm
-  '';
+  installPhase =
+    let
+      run_test_dynrm = writers.writePython3Bin "run_test_dynrm"
+        {
+          # Need to fix run_test_dynrm.py
+          flakeIgnore = [
+            "E127"
+            "E203"
+            "E222"
+            "E225"
+            "E226"
+            "E231"
+            "E251"
+            "E261"
+            "E271"
+            "E302"
+            "E303"
+            "F401"
+            "F403"
+            "F405"
+            "E501"
+            "W291"
+            "W292"
+            "W293"
+          ];
+          libraries = [
+            dyn_rm-dynres
+            pypmix-dynres
+          ];
+        }
+        (lib.fileContents "${src}/run_test_dynrm.py");
+    in
+    ''
+      #mkdir -p $out/timestamps
+      #cp timestamps/libtimestamps.so $out/timestamps
+      mkdir -p $out/bin
+      cp build/bench_sleep $out/bin
+      cp -r submissions topology_files $out
+      ln -s ${run_test_dynrm}/bin/run_test_dynrm $out/run_test_dynrm
+    '';
 
   meta = with lib; {
     description = "";

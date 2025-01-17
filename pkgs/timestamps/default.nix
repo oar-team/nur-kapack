@@ -1,6 +1,7 @@
 { lib
 , stdenv
 , fetchFromGitLab
+, gfortran  
 }:
 
 stdenv.mkDerivation rec {
@@ -11,17 +12,22 @@ stdenv.mkDerivation rec {
     group = "dynres";
     owner = "utils";
     repo = pname;
-    rev = "ba91e90504b85ddf6e48fab6b66f0e5db7b14b4e";
-    sha256 = "sha256-tzBmCoG0B0RdUWMQdgZC2nSDuzMNmqraTk/7bNwtLxM=";
+    rev = "6a455809a44321f058a8249d9656cb7f537f35f3";
+    sha256 = "sha256-y6F5dSq4iNi+vAmiJObVn/IEzgWy1n5MCipnrG4cR80=";
   };
 
+  nativeBuildInputs = [
+    gfortran
+  ];
+
+  
   buildPhase = "make all";
 
   installPhase = ''
-      mkdir -p $out
-      make all install INSTALL_DIR=$out
-  ''; 
-  
+    mkdir -p $out
+    make all install INSTALL_DIR=$out
+  '';
+
   meta = with lib; {
     description = "This library provides a simple utility to create timestamps in iterative, dynamic applications.";
     homepage = "https://gitlab.inria.fr/dynres/utils/timestamps";

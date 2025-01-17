@@ -1,10 +1,10 @@
 { lib
 , stdenv
-,  autoreconfHook
+, autoreconfHook
 , fetchFromGitLab
-, openmpi-dynres  
+, openmpi-dynres
 , xbraid
-, dmr  
+, dmr
 }:
 
 stdenv.mkDerivation rec {
@@ -15,17 +15,17 @@ stdenv.mkDerivation rec {
     group = "dynres";
     owner = "applications";
     repo = pname;
-    rev = "58b4cb2c38e5039610651b27ac9af759f4783526";
-    sha256 = "sha256-GD1DOAy1PkI0Z5n4sf7skJwSUyso0TUCECgPhrR9Vbc";
+    rev = "710b338457ef002f33d1b4055454c83492c26627";
+    sha256 = "sha256-PWpgnEToFVD3BUVZz6/YL7+/A3d67JsjCLh9cEdWjtc=";
   };
-  
+
   nativeBuildInputs = [ autoreconfHook ];
-  
+
   buildInputs = [
     openmpi-dynres
     xbraid
   ];
-  
+
   configureFlags = [
     #"--with-mpi=${lib.getDev openmpi-dynres}"
     "--enable-debug"
@@ -33,7 +33,7 @@ stdenv.mkDerivation rec {
     "--with-xbraid=${xbraid}"
     "--with-dmr=${dmr}"
   ];
-  
+
   meta = with lib; {
     description = "Dynamic Resource Extensions for Xbraid.";
     homepage = "https://gitlab.inria.fr/dynres/applications/dyn_xbraid";

@@ -1,7 +1,7 @@
 { lib
 , stdenv
 , fetchFromGitLab
-, openmpi-dynres  
+, openmpi-dynres
 , p4est-dynres
 , autoreconfHook
 }:
@@ -14,16 +14,16 @@ stdenv.mkDerivation rec {
     group = "dynres";
     owner = "applications";
     repo = pname;
-    rev = "61b45404f74290b27d77ca8a3d965eb2ed275e68";
-    sha256 = "sha256-YboVZI0U2bOeyxD3Zzam/WeBoktRCZXbya17KzqkCCE=";
+    rev = "b2bcbe5145a8ea6a4c26d8cd18e194fb0cc0c34b";
+    sha256 = "sha256-qpG4WAb8+22OxA3qD4/V+q7hvbLwyhPg0nBhVJBxXxY=";
   };
 
   nativeBuildInputs = [
-    openmpi-dynres  
+    openmpi-dynres
     p4est-dynres
     autoreconfHook
   ];
-  
+
   enableParallelBuilding = true;
 
   configureFlags = [

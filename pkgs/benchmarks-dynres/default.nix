@@ -2,12 +2,12 @@
 , stdenv
 , python3
 , fetchFromGitLab
-#, dyn_rm-dynres
-#, openmpi-dynres
-#, dyn_psets
-, execo  
+  #, dyn_rm-dynres
+  #, openmpi-dynres
+  #, dyn_psets
+, execo
 , writers
-#, pypmix-dynres
+  #, pypmix-dynres
 , python3Packages
 
 }:
@@ -16,16 +16,16 @@ python3Packages.buildPythonApplication rec {
   pname = "benchmarks-dynres";
   version = "0.0.1";
   pyproject = true;
-  
+
   src = fetchFromGitLab {
     domain = "gitlab.inria.fr";
     group = "dynres";
     owner = "applications";
     repo = "benchmarks";
-    rev = "2c484e7e3e2e81c184c600e2d3786b8b962c620b";
-    hash = "sha256-T/lrzsnP9aYO+FCKbcbQK9NCbfh3rInma8wgXS2DgNs=";
+    rev = "3da1a72bcd11eb71e27493b69970ac82b4ab896c";
+    hash = "sha256-7lBvM+wT6IqIUHaVfb9qwqjhhpPNIvQpGLv6hXAMdY4=";
   };
-  
+
   postPatch = ''
     cat <<EOF >> pyproject.toml
     [build-system]
@@ -57,12 +57,12 @@ python3Packages.buildPythonApplication rec {
     poetry-core
   ];
 
-    propagatedBuildInputs = with python3Packages; [
+  propagatedBuildInputs = with python3Packages; [
     #setuptools
     pyyaml
     execo
   ];
-  
+
   meta = with lib; {
     description = "";
     homepage = "https://gitlab.inria.fr/dynres/applications/dynrm_examples";

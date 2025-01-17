@@ -11,8 +11,8 @@ stdenv.mkDerivation rec {
     domain = "gitlab.bsc.es";
     owner = "siserte";
     repo = pname;
-    rev = "f443123b52cfad490d1cf6987837cbaa7e152ef8";
-    sha256 = "sha256-ylShp7QEfxaGC5hWoRvP/YXIxo5CXEUiC/W5vs2Djto=";
+    rev = "2d27d4d108bbaa20e3794eefa8f43746bb9a0424";
+    sha256 = "sha256-+2cpAZkEK3qCTci/v5RjbnMU6MVlBrqnHk9PMTScwcg=";
   };
 
   nativeBuildInputs = [
@@ -25,8 +25,8 @@ stdenv.mkDerivation rec {
     make install INSTALL_DIR=$out
     mkdir -p $out/bin
     cp sleepOf $out/bin   
-  ''; 
-  
+  '';
+
   meta = with lib; {
     description = "The European PILOT";
     homepage = "https://gitlab.bsc.es/siserte/dmr";
