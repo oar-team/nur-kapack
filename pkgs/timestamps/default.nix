@@ -1,7 +1,7 @@
 { lib
 , stdenv
 , fetchFromGitLab
-, gfortran  
+, gfortran
 }:
 
 stdenv.mkDerivation rec {
@@ -12,15 +12,15 @@ stdenv.mkDerivation rec {
     group = "dynres";
     owner = "utils";
     repo = pname;
-    rev = "6a455809a44321f058a8249d9656cb7f537f35f3";
-    sha256 = "sha256-y6F5dSq4iNi+vAmiJObVn/IEzgWy1n5MCipnrG4cR80=";
+    rev = "142fd741c5ef3e724378008323ba4778a914cb52";
+    sha256 = "sha256-Sq/zPsdCS93nj+am7WWokYCbSqi7MG2t6t12zQHVO/Y=";
   };
 
   nativeBuildInputs = [
     gfortran
   ];
 
-  
+
   buildPhase = "make all";
 
   installPhase = ''

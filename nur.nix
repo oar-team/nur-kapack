@@ -74,7 +74,7 @@ rec {
   
   colmet = pkgs.callPackage ./pkgs/colmet { inherit libpowercap; };
 
-  colmet-rs = pkgs.callPackage ./pkgs/colmet-rs { };
+  #colmet-rs = pkgs.callPackage ./pkgs/colmet-rs { };
 
   colmet-collector = pkgs.callPackage ./pkgs/colmet-collector { };
 
@@ -144,9 +144,13 @@ rec {
   xbraid = pkgs.callPackage ./pkgs/xbraid { inherit openmpi-dynres; };
   dyn-xbraid =  pkgs.callPackage ./pkgs/dyn_xbraid { inherit openmpi-dynres xbraid dmr; };
   dyn-xbraid-examples = pkgs.callPackage ./pkgs/dyn_xbraid_examples { inherit openmpi-dynres xbraid dyn-xbraid dmr timestamps dyn_rm-dynres pypmix-dynres; };
+
+  hypre = pkgs.callPackage ./pkgs/hypre { inherit openmpi-dynres; }; #TO REMOVE when update to >= 24.11 
+  libpfasst = pkgs.callPackage ./pkgs/libpfasst { inherit openmpi-dynres timestamps hypre; };
+  libpfasst-app = pkgs.callPackage ./pkgs/libpfasst_app { inherit  openmpi-dynres timestamps hypre libpfasst dyn_rm-dynres pypmix-dynres; }; 
+    
   benchmarks-dynres =  pkgs.callPackage ./pkgs/benchmarks-dynres {inherit execo; };
 
-  
   ####################
 
   
@@ -242,11 +246,11 @@ rec {
   simgrid-light = simgrid-334light;
 
   # Setting needed for nixos-19.03 and nixos-19.09
-  slurm-bsc-simulator =
-    if pkgs ? libmysql
-    then pkgs.callPackage ./pkgs/slurm-simulator { libmysqlclient = pkgs.libmysql; }
-    else pkgs.callPackage ./pkgs/slurm-simulator { };
-  slurm-bsc-simulator-v17 = slurm-bsc-simulator;
+  #slurm-bsc-simulator =
+  #  if pkgs ? libmysql
+  #  then pkgs.callPackage ./pkgs/slurm-simulator { libmysqlclient = pkgs.libmysql; }
+  #  else pkgs.callPackage ./pkgs/slurm-simulator { };
+  #slurm-bsc-simulator-v17 = slurm-bsc-simulator;
 
   #slurm-bsc-simulator-v14 = slurm-bsc-simulator.override { version="14"; };
 

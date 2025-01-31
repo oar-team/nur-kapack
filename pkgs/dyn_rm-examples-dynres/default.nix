@@ -19,8 +19,8 @@ stdenv.mkDerivation rec {
     group = "dynres";
     owner = "applications";
     repo = "dynrm_examples";
-    rev = "2ba6de49e07de651c6ed6bcb777d730138f05bf1";
-    hash = "sha256-mlR4b9LOLP+vG04tLxouf4/e7oGFK2twqsHT8YFTTRo=";
+    rev = "2fa8f2868bf2fb382323a8019f3829234ccb0b49";
+    hash = "sha256-FEqfyB8LT62ISspczatpDzOBNwdQ1e5gEhEV3xDN/6Q=";
   };
 
   nativeBuildInputs = [
@@ -30,7 +30,7 @@ stdenv.mkDerivation rec {
 
   propagatedBuildInputs = [
     openmpi-dynres
-    
+
   ];
 
   doCheck = false;
