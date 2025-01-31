@@ -48,6 +48,12 @@ python3Packages.buildPythonApplication rec {
     substituteInPlace generate_experiments.py --replace 'if __name__ == "__main__":' "def main():"
     substituteInPlace run_experiments.py --replace 'if __name__ == "__main__":' "def main():"
 
+    for f in generate_experiments.py plot_experiments.py run_experiments.py
+    do
+      echo file to change $f
+      substituteInPlace $f --replace 'environ["BENCHMARKS_SC25_ROOT"] = dirname(__file__)' '#environ["BENCHMARKS_SC25_ROOT"] = dirname(__file__)'
+    done
+
     mv generate_experiments.py experiments/__main__.py
     mv run_experiments.py utils/__main__.py 
   '';
