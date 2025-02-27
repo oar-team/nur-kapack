@@ -17,8 +17,8 @@ python3.pkgs.buildPythonPackage rec {
     group = "dynres";
     owner = "dyn-procs";
     repo = "dyn_rm";
-    rev = "3660382e985d040111dcf264c0ed17308460de1a";
-    hash = "sha256-2KF7zNuug6XkndOIlL0t59AdAHsCyb9OSSjIsJrVAh8=";
+    rev = "4129aeb469f10adb651f45922ea776763e880bd0";
+    hash = "sha256-a6bgl3TvPXToA/uCxIXuyEzMuSEPYF3dqPWhdQsBuqk=";
   };
 
   nativeBuildInputs = [

@@ -1,12 +1,12 @@
 { lib
 , stdenv
 , fetchFromGitLab
-, openmpi-dynres  
+, openmpi-dynres
 , openblas
 , python3
 , gfortran
 , pkg-config
-, sowing 
+, sowing
 }:
 
 stdenv.mkDerivation rec {
@@ -17,8 +17,8 @@ stdenv.mkDerivation rec {
     group = "dynres";
     owner = "applications";
     repo = pname;
-    rev = "d2439464652a554df6805e9369c43a11f1a9bd4c";
-    sha256 = "sha256-3b7p5XXo5jeLIvlbeJJp/CpwxylATMKma1EHQ0ihqws=";
+    rev = "4fe36ab455e93039c51b2718663817d97eacb193";
+    sha256 = "sha256-ihIbzzc4vGPIvjGXf17nQbAI16xrcvyVvNHSk1DXMr4=";
   };
 
   nativeBuildInputs = [
@@ -35,24 +35,24 @@ stdenv.mkDerivation rec {
   ];
   #buildInputs = [ blas lapack ];
 
-  
+
   #enableParallelBuilding = true;
   preConfigure = ''
     patchShebangs ./lib/petsc/bin
   '';
-  
+
   configureFlags = [
     "--with-blaslapack-include=${lib.getDev openblas}/include"
-    "--with-blaslapack-lib=${openblas}/lib/libopenblas.so" 
+    "--with-blaslapack-lib=${openblas}/lib/libopenblas.so"
     "--known-64-bit-blas-indices=0"
     "--with-mpi-dir=${lib.getDev openmpi-dynres}"
     "--with-debugging=0"
     "--with-mpi=1"
     "--with-mpiexec=${openmpi-dynres}/bin/mpiexec"
   ];
-  
+
   configureScript = "python ./configure";
-  
+
   meta = with lib; {
     description = "Dynamic version of PETSc numerical library.";
     homepage = "https://gitlab.inria.fr/dynres/applications/p4est_dyn";
