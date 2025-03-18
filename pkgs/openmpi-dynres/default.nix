@@ -53,7 +53,7 @@ stdenv.mkDerivation rec {
   #   group = "dynres";
   #   owner = "dyn-procs";
   #   repo = "ompi";
-  #   rev = "94bd244264707338141e363ff63bf74f795c6aee";
+  #   rev = "87925c07b76978dc323921d336fb2595bbef29ae";
   #   sha256 = "sha256-T5bAWN8EMYnS39EimSJ5udESYmpGAFwmy9Rzqzd1wwk=";
   # };
 

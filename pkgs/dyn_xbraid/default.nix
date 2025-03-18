@@ -15,8 +15,8 @@ stdenv.mkDerivation rec {
     group = "dynres";
     owner = "applications";
     repo = pname;
-    rev = "710b338457ef002f33d1b4055454c83492c26627";
-    sha256 = "sha256-PWpgnEToFVD3BUVZz6/YL7+/A3d67JsjCLh9cEdWjtc=";
+    rev = "f14616223f0865ce43eb17548bc69932f476886c";
+    sha256 = "sha256-OBaJaCsXFlQoVPcyT2l8qcHaJBz8dSy1Fs2eUNAxN+k=";
   };
 
   nativeBuildInputs = [ autoreconfHook ];
@@ -28,7 +28,7 @@ stdenv.mkDerivation rec {
 
   configureFlags = [
     #"--with-mpi=${lib.getDev openmpi-dynres}"
-    "--enable-debug"
+    #"--enable-debug"
     "--with-mpi=${openmpi-dynres}"
     "--with-xbraid=${xbraid}"
     "--with-dmr=${dmr}"

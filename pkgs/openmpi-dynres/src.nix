@@ -4,7 +4,8 @@
     group = "dynres";
     owner = "dyn-procs";
     repo = "ompi";
-    rev = "87925c07b76978dc323921d336fb2595bbef29ae";
-    sha256 = "sha256-XTUwqKzEshA/a64roaFhLmqG/6nqS/9/QujILVXNTg4=";
+    rev = "798e35daef82fc3317e17f39bed0654d7e9f3d09";
+    sha256 = "sha256-Xn2NJokOM4JnHwaV+qjlXFtY+asavzQ7CT0T5wb2iME=";
   };
 }
+

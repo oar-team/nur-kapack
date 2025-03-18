@@ -19,8 +19,8 @@ stdenv.mkDerivation rec {
     group = "dynres";
     owner = "applications";
     repo = pname;
-    rev = "d156768db53f133b2a117f48d76b6d9176700c4e";
-    sha256 = "sha256-AYRz5zpbmPILcirTvyvGDEHj7AUVhF5NqFrNQUHqkQ0=";
+    rev = "7206238c6378d31a634b86e35271101ea4011b4f";
+    sha256 = "sha256-cn/etXK1txynArkp4pObF9GWTL/az2VdviaarLoOm80=";
   };
 
   nativeBuildInputs = [
@@ -39,7 +39,7 @@ stdenv.mkDerivation rec {
       sed -i 's/$SCRIPT_DIR\/..\/output/\/tmp/g' $prog_script
     done
     cd ..
-    REDIST_PATH=${data_redist} DMR_PATH=${dmr} TIMESTAMPS_PATH=${timestamps} MKL_PATH=${mkl} make all
+    make all REDIST=${data_redist} DMR=${dmr} TIMESTAMPS=${timestamps} MKL=${mkl}
   '';
   
   installPhase = let

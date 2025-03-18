@@ -32,8 +32,8 @@ stdenv.mkDerivation rec {
         sed -i 's/$SCRIPT_DIR\/..\/build\///g' petsc_ts.sh
         cd ..
         make all MPI=${openmpi-dynres} \
-          DYN_PETSC=${dynpetsc} \
-    			TIMESTAMPS=${timestamps}
+		DYN_PETSC=${dynpetsc} \
+		TIMESTAMPS=${timestamps}
   '';
 
   installPhase =

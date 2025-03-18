@@ -22,7 +22,7 @@ stdenv.mkDerivation (finalAttrs: {
 
   configureFlags = [
     "--enable-mpi"
-    "--enable-shared"
+    #"--enable-shared"
   ];
 
   preBuild = ''

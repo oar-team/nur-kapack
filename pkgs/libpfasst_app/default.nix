@@ -18,8 +18,8 @@ stdenv.mkDerivation rec {
     group = "dynres";
     owner = "applications";
     repo = pname;
-    rev = "2cefe8bfbf18cafa35643bac3b18d5af46ac816d";
-    sha256 = "sha256-fzvRgnrb8nIuR6hniwL1K5vRyQ4DRZUoDGt4E7FxN70=";
+    rev = "120ed912e34383506dcbf13bdc993ff377280af8";
+    sha256 = "sha256-1Gw02RDYbnFe1p3Whbhh60/oeAe5ZiKdHXncpVG9k6M=";
   };
 
   nativeBuildInputs = [
@@ -33,14 +33,10 @@ stdenv.mkDerivation rec {
 
         cd submissions
         sed -i 's/$SCRIPT_DIR\/..\/build\///g' libpfasst.sh
-        cd ../app
+        cd ..
         mkdir build
-        make all -d
-          MPI=${openmpi-dynres} \
-          HYPRE=${hypre}/lib/libHYPRE.a \ 
-				  LIBPFASST=${libpfasst}/lib/libpfasst.a \
-    			TIMESTAMPS=${timestamps}
-          INSTALL_DIR=./
+        make all MPI=${openmpi-dynres} HYPRE=${hypre} LIBPFASST=${libpfasst} TIMESTAMPS=${timestamps}
+        #cd ..
   '';
 
   installPhase =

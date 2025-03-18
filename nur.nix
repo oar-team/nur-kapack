@@ -144,7 +144,7 @@ rec {
   xbraid = pkgs.callPackage ./pkgs/xbraid { inherit openmpi-dynres; };
   dyn-xbraid =  pkgs.callPackage ./pkgs/dyn_xbraid { inherit openmpi-dynres xbraid dmr; };
   dyn-xbraid-examples = pkgs.callPackage ./pkgs/dyn_xbraid_examples { inherit openmpi-dynres xbraid dyn-xbraid dmr timestamps dyn_rm-dynres pypmix-dynres; };
-
+  mpdata3d = pkgs.callPackage ./pkgs/mpdata3d { inherit  openmpi-dynres timestamps dyn_psets dyn_rm-dynres pypmix-dynres; };
   hypre = pkgs.callPackage ./pkgs/hypre { inherit openmpi-dynres; }; #TO REMOVE when update to >= 24.11 
   libpfasst = pkgs.callPackage ./pkgs/libpfasst { inherit openmpi-dynres timestamps hypre; };
   libpfasst-app = pkgs.callPackage ./pkgs/libpfasst_app { inherit  openmpi-dynres timestamps hypre libpfasst dyn_rm-dynres pypmix-dynres; }; 

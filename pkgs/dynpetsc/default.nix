@@ -17,8 +17,8 @@ stdenv.mkDerivation rec {
     group = "dynres";
     owner = "applications";
     repo = pname;
-    rev = "4fe36ab455e93039c51b2718663817d97eacb193";
-    sha256 = "sha256-ihIbzzc4vGPIvjGXf17nQbAI16xrcvyVvNHSk1DXMr4=";
+    rev = "b9c46891939f33192a8aa87e0a322319cac4aef2";
+    sha256 = "sha256-mWgh2qt3+kTHzRl0PSU9KLhi8lmA2+G8k1eVdYMFrNg=";
   };
 
   nativeBuildInputs = [
@@ -46,12 +46,12 @@ stdenv.mkDerivation rec {
     "--with-blaslapack-lib=${openblas}/lib/libopenblas.so"
     "--known-64-bit-blas-indices=0"
     "--with-mpi-dir=${lib.getDev openmpi-dynres}"
-    "--with-debugging=0"
+    "--with-debugging=1"
     "--with-mpi=1"
     "--with-mpiexec=${openmpi-dynres}/bin/mpiexec"
   ];
 
-  configureScript = "python ./configure";
+  configureScript = "./configure";
 
   meta = with lib; {
     description = "Dynamic version of PETSc numerical library.";
