@@ -51,7 +51,7 @@ stdenv.mkDerivation rec {
     "--with-mpiexec=${openmpi-dynres}/bin/mpiexec"
   ];
 
-  configureScript = "./configure";
+  configureScript = "python ./configure";
 
   meta = with lib; {
     description = "Dynamic version of PETSc numerical library.";
