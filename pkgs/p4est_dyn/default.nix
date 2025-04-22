@@ -14,8 +14,8 @@ stdenv.mkDerivation rec {
     group = "dynres";
     owner = "applications";
     repo = pname;
-    rev = "3a8600d3f33769a5899972dcda819c9ceb38f305";
-    sha256 = "sha256-nFCFsuTzlXlHEM3n4UcttdjooZykx8uziNqgPgsdPCA=";
+    rev = "d85630217bdaed84543e83bd18ba43d4dea3b326";
+    sha256 = "sha256-0721eTBeJ1pwdlkOpKTLz/aWc2AI5G9i8WoAWZBYNLg=";
   };
 
   nativeBuildInputs = [

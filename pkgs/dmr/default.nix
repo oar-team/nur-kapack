@@ -11,8 +11,8 @@ stdenv.mkDerivation rec {
     domain = "gitlab.bsc.es";
     owner = "siserte";
     repo = pname;
-    rev = "41c25383130dff11d57dcc3df86bc33fcb1f345b";
-    sha256 = "sha256-jT6iyg7Zr7CtlZ6fMorFuCAX7D62hzHY370yxI/WThE=";
+    rev = "f5c3e5fe0dadf482b9f7171d50c6f51740559746";
+    sha256 = "sha256-BwOZcRsfJcuP0zXZD5bMlW/qIT4pfUB8eOFYLU1o8ZI=";
   };
 
   nativeBuildInputs = [
