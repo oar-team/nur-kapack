@@ -22,8 +22,8 @@ python3Packages.buildPythonApplication rec {
     group = "dynres";
     owner = "applications";
     repo = "benchmarks";
-    rev = "5b9b987813aa3e6b06d19bc89acbca8ee443330a";
-    hash = "sha256-NwagbByKOJf88v1FBKgO6NzE4p7qETRQl2N4qvoKd/E=";
+    rev = "aa49325c4814b83cd0f6ee203ba4edbb5a5d82ea";
+    hash = "sha256-2NJxdC4XJLa5akH/Db9y9HGMWW8wuS/rrYnTivs0OSY=";
   };
 
   postPatch = ''
