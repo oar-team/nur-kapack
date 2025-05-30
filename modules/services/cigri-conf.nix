@@ -34,6 +34,8 @@ STRESS_FACTOR="0.8"
 #############################################################################
 ## LOGGING OPTIONS
 #############################################################################
+# PID file for the main cigri process (almighty)
+PID_FILE = "/run/cigri/almighty.pid"
 #File where to log (STDOUT AND STDERR are accepted as  well)
 LOG_FILE = "${cfg.server.logfile}"
 # loglevel as supported by the ruby logger (FATAL, ERROR, WARN, INFO, DEBUG)
