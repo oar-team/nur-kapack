@@ -128,6 +128,14 @@ in
         web = {
           enable = mkEnableOption "Web server to serve rest-api";
         };
+
+        cycleDuration = mkOption {
+          type = types.int;
+          default = 15;
+          description = ''
+            Sampling period of CiGri
+          '';
+        };
       
       };
       
