@@ -1,8 +1,6 @@
 |attr|package|description|
 |:-----|:------|:------|
 |alumet|alumet-0.8.3|ALUMET: Unified and Modular Measurement Framework|
-|batsched|batsched-1.4.0|Batsim C++ scheduling algorithms.|
-|batsched-140|batsched-1.4.0|Batsim C++ scheduling algorithms.|
 |batsim|batsim-4.2.0|An infrastructure simulator that focuses on resource management techniques.|
 |batsim-410|batsim-4.1.0|An infrastructure simulator that focuses on resource management techniques.|
 |batsim-420|batsim-4.2.0|An infrastructure simulator that focuses on resource management techniques.|

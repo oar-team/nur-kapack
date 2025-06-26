@@ -28,9 +28,6 @@ rec {
 
   haskellPackages = import ./pkgs/haskellPackages { inherit pkgs; };
 
-  batsched-140 = pkgs.callPackage ./pkgs/batsched/batsched140.nix { inherit loguru redox debug; intervalset = intervalsetlight; };
-  batsched = batsched-140;
-
   # Need to switch from 'buildGoPackage' to 'buildGoModule'
   #batexpe = pkgs.callPackage ./pkgs/batexpe { };
 
