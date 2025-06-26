@@ -208,8 +208,6 @@ rec {
 
   wait-for-it = pkgs.callPackage ./pkgs/wait-for-it { };
 
-  wirerope = pkgs.callPackage ./pkgs/wirerope { };
-
   # Need to switch from 'buildGoPackage' to 'buildGoModule'
   #yamldiff = pkgs.callPackage ./pkgs/yamldiff { };
 }
