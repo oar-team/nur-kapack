@@ -1,10 +1,6 @@
 |attr|package|description|
 |:-----|:------|:------|
 |alumet|alumet-0.8.3|ALUMET: Unified and Modular Measurement Framework|
-|batsim|batsim-4.2.0|An infrastructure simulator that focuses on resource management techniques.|
-|batsim-410|batsim-4.1.0|An infrastructure simulator that focuses on resource management techniques.|
-|batsim-420|batsim-4.2.0|An infrastructure simulator that focuses on resource management techniques.|
-|batsim-docker|docker-image-batsim.tar.gz||
 |batsky|batsky-0.1.0||
 |cgvg|cgvg-1.6.3|Commandline tools for searching and browsing sourcecode|
 |cigri|cigri-3.2.2|CiGri: a Lightweight Grid Middleware|
@@ -43,24 +39,6 @@
 |redox|redox|Modern, asynchronous, and wicked fast C++11 client for Redis|
 |remote_pdb|python3.13-remote-pdb-2.0.0|Remote vanilla PDB (over TCP sockets).|
 |simgrid|simgrid-4.0|Framework for the simulation of distributed applications|
-|simgrid-327|simgrid-3.27|Framework for the simulation of distributed applications|
-|simgrid-327light|simgrid-3.27|Framework for the simulation of distributed applications|
-|simgrid-328|simgrid-3.28|Framework for the simulation of distributed applications|
-|simgrid-328light|simgrid-3.28|Framework for the simulation of distributed applications|
-|simgrid-329|simgrid-3.29|Framework for the simulation of distributed applications|
-|simgrid-329light|simgrid-3.29|Framework for the simulation of distributed applications|
-|simgrid-330|simgrid-3.30|Framework for the simulation of distributed applications|
-|simgrid-330light|simgrid-3.30|Framework for the simulation of distributed applications|
-|simgrid-331|simgrid-3.31|Framework for the simulation of distributed applications|
-|simgrid-331light|simgrid-3.31|Framework for the simulation of distributed applications|
-|simgrid-332|simgrid-3.32|Framework for the simulation of distributed applications|
-|simgrid-332light|simgrid-3.32|Framework for the simulation of distributed applications|
-|simgrid-334|simgrid-3.34|Framework for the simulation of distributed applications|
-|simgrid-334light|simgrid-3.34|Framework for the simulation of distributed applications|
-|simgrid-335|simgrid-3.35|Framework for the simulation of distributed applications|
-|simgrid-335light|simgrid-3.35|Framework for the simulation of distributed applications|
-|simgrid-336|simgrid-3.36|Framework for the simulation of distributed applications|
-|simgrid-336light|simgrid-3.36|Framework for the simulation of distributed applications|
 |simgrid-400|simgrid-4.0|Framework for the simulation of distributed applications|
 |simgrid-400light|simgrid-4.0|Framework for the simulation of distributed applications|
 |simgrid-light|simgrid-4.0|Framework for the simulation of distributed applications|
