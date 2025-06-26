@@ -43,8 +43,6 @@ rec {
 
   batsky = pkgs.callPackage ./pkgs/batsky { };
 
-  cli11 = pkgs.callPackage ./pkgs/cli11 { };
-
   cgvg = pkgs.callPackage ./pkgs/cgvg { };
 
   cpp-driver = pkgs.callPackage ./pkgs/cpp-driver {};
