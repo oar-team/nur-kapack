@@ -1,4 +1,4 @@
-{ lib, python3Packages, fetchFromGitLab, ansible, python-grid5000, iotlabsshcli
+{ lib, python3Packages, fetchFromGitLab, ansible, python-grid5000, iotlabsshcli, enoslib-ansible
 , distem, iotlabcli }:
 
 python3Packages.buildPythonPackage rec {
@@ -15,6 +15,7 @@ python3Packages.buildPythonPackage rec {
   propagatedBuildInputs = with python3Packages;
     [ cryptography ansible sshtunnel rich jsonschema packaging ipywidgets ] ++ [
       python-grid5000
+      enoslib-ansible
     ] ++ optional-dependencies.all ++ optional-dependencies.chameleon
     ++ optional-dependencies.iotlab ++ optional-dependencies.vagrant
     ++ optional-dependencies.distem;
