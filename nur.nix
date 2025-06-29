@@ -65,7 +65,8 @@ rec {
 
   ear =  pkgs.callPackage ./pkgs/ear { };
 
-  enoslib = pkgs.callPackage ./pkgs/enoslib { inherit iotlabcli iotlabsshcli distem python-grid5000; };
+  enoslib-ansible = pkgs.callPackage ./pkgs/enoslib-ansible { };
+  enoslib = pkgs.callPackage ./pkgs/enoslib { inherit iotlabcli iotlabsshcli distem python-grid5000 enoslib-ansible; };
 
   evalys = pkgs.callPackage ./pkgs/evalys { inherit procset; };
 
