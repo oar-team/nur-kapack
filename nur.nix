@@ -65,7 +65,7 @@ rec {
 
   ear =  pkgs.callPackage ./pkgs/ear { };
 
-  enoslib = pkgs.callPackage ./pkgs/enoslib { inherit execo iotlabsshcli distem python-grid5000; };
+  enoslib = pkgs.callPackage ./pkgs/enoslib { inherit iotlabcli iotlabsshcli distem python-grid5000; };
 
   evalys = pkgs.callPackage ./pkgs/evalys { inherit procset; };
 
