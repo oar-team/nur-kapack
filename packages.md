@@ -9,6 +9,7 @@
 |dispath|dispath-0.1.0|Display PATH-like environment variables, one entry per line.|
 |distem|python3.13-distem-0.0.5||
 |enoslib|python3.13-enoslib-10.1.0||
+|enoslib-ansible|python3.13-enoslib-ansible-10.1.0.0||
 |evalys|python3.13-evalys-4.0.7|Infrastructure Performance Evaluation Toolkit Edit|
 |execo|python3.13-execo-2.8.2|Execo|
 |flower|python3.13-flower-1.16.0|A Friendly Federated Learning Framework.|
