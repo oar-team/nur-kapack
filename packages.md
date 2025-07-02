@@ -2,7 +2,6 @@
 |:-----|:------|:------|
 |alumet|alumet-0.8.4|ALUMET: Unified and Modular Measurement Framework|
 |batsky|batsky-0.1.0||
-|cgvg|cgvg-1.6.3|Commandline tools for searching and browsing sourcecode|
 |cigri|cigri-3.2.2|CiGri: a Lightweight Grid Middleware|
 |colmet|colmet-0.6.10.dev0|Collecting metrics about process running in cpuset and in a distributed environnement|
 |colmet-collector|colmet-collector-0.0.1|Metrics collector for Rust version of Colmet (colmet-rs)|
