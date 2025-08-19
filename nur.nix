@@ -127,7 +127,7 @@ rec {
 
   cigri = pkgs.callPackage ./pkgs/cigri { };
 
-  oar = pkgs.callPackage ./pkgs/oar { inherit procset pybatsim remote_pdb oar-plugins; };
+  oar = pkgs.callPackage ./pkgs/oar { inherit procset pybatsim remote_pdb oar-plugins oar-scheduler-redox; };
 
   oar-plugins = pkgs.callPackage ./pkgs/oar-plugins { inherit procset pybatsim remote_pdb oar; };
   
@@ -138,9 +138,9 @@ rec {
   oar3-plugins = oar-plugins;
 
   #oar-with-plugins = oar.override { enablePlugins = true; };
-  oar-with-plugins = pkgs.callPackage ./pkgs/oar { inherit procset pybatsim remote_pdb oar-plugins; enablePlugins = true; };
+  oar-with-plugins = pkgs.callPackage ./pkgs/oar { inherit procset pybatsim remote_pdb oar-scheduler-redox oar-plugins; enablePlugins = true; };
 
-  oar-scheduler-redox = pkgs.callPackage ./pkgs/oar-scheduler-redox { inherit procset; };
+  oar-scheduler-redox = pkgs.callPackage ./pkgs/oar-scheduler-redox { };
 
   # simgrid-327 = pkgs.callPackage ./pkgs/simgrid/simgrid327.nix { inherit debug; };
   # simgrid-328 = pkgs.callPackage ./pkgs/simgrid/simgrid328.nix { inherit debug; };

@@ -1,4 +1,4 @@
-{ lib, pkgs, fetchFromGitHub, python3Packages, poetry, zeromq, procset, pybatsim, remote_pdb, oar-plugins, enablePlugins ? false }:
+{ lib, pkgs, fetchFromGitHub, python3Packages, poetry, zeromq, procset, pybatsim, remote_pdb, oar-scheduler-redox, oar-plugins, enablePlugins ? false }:
 
 python3Packages.buildPythonPackage rec {
   pname = "oar";
@@ -47,6 +47,7 @@ python3Packages.buildPythonPackage rec {
     passlib
     bcrypt
     setuptools
+    oar-scheduler-redox
   ] ++ lib.optional enablePlugins oar-plugins;
 
   doCheck = false;
