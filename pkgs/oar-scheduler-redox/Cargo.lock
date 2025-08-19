@@ -904,7 +904,9 @@ dependencies = [
 name = "oar3-scheduler-lib"
 version = "0.1.0"
 dependencies = [
+ "env_logger",
  "indexmap",
+ "log",
  "oar3-scheduler",
  "pyo3",
 ]

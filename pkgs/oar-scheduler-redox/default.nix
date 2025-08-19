@@ -29,6 +29,8 @@ python3Packages.buildPythonPackage rec {
   # find a better way to indicate where to operate
   configurePhase = ''cd oar3-scheduler-lib'';
 
+
+  
   cargoDeps = pkgs.rustPlatform.importCargoLock {
     lockFile = ./Cargo.lock;
   };
