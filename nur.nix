@@ -140,6 +140,7 @@ rec {
   #oar-with-plugins = oar.override { enablePlugins = true; };
   oar-with-plugins = pkgs.callPackage ./pkgs/oar { inherit procset pybatsim remote_pdb oar-plugins; enablePlugins = true; };
 
+  oar-scheduler-redox = pkgs.callPackage ./pkgs/oar-scheduler-redox { inherit procset; };
 
   # simgrid-327 = pkgs.callPackage ./pkgs/simgrid/simgrid327.nix { inherit debug; };
   # simgrid-328 = pkgs.callPackage ./pkgs/simgrid/simgrid328.nix { inherit debug; };
@@ -150,6 +151,7 @@ rec {
   # simgrid-334 = pkgs.callPackage ./pkgs/simgrid/simgrid334.nix { inherit debug; };
   # simgrid-335 = pkgs.callPackage ./pkgs/simgrid/simgrid335.nix { inherit debug; };
   # simgrid-336 = pkgs.callPackage ./pkgs/simgrid/simgrid336.nix { inherit debug; };
+
   simgrid-400 = pkgs.callPackage ./pkgs/simgrid/simgrid400.nix { inherit debug; };
   # simgrid-327light = simgrid-327.override { minimalBindings = true; withoutBin = true; withoutBoostPropagation = true; };
   # simgrid-328light = simgrid-328.override { minimalBindings = true; withoutBin = true; withoutBoostPropagation = true; };
