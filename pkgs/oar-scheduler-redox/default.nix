@@ -9,8 +9,8 @@ python3Packages.buildPythonPackage rec {
     domain = "gitlab.inria.fr";
     owner = "OAR";
     repo = "stages/cgrenner-oar3-rust-scheduler";
-    rev = "2e355c19f4d8e59eebfd2de7a2532ca080009d9f";
-    sha256 = "sha256-+j9kaQdbcd26HKThgvGgyU4cE2CYiGaCwWF4BhKePKg=";
+    rev = "3dda56387ffd0f99805756c13c2a914af3b6e858";
+    sha256 = "sha256-l6vYPwNBqUvVdMoAOdVivdpRa5qkt9ogsmoCZ3dF40Q=";
   };
 
   nativeBuildInputs = with pkgs; [
@@ -27,10 +27,8 @@ python3Packages.buildPythonPackage rec {
   #];
 
   # find a better way to indicate where to operate
-  configurePhase = ''cd oar3-scheduler-lib'';
+  configurePhase = ''cd oar-scheduler-redox'';
 
-
-  
   cargoDeps = pkgs.rustPlatform.importCargoLock {
     lockFile = ./Cargo.lock;
   };
