@@ -901,6 +901,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "oar-scheduler-hooks"
+version = "0.1.0"
+dependencies = [
+ "log",
+ "oar-scheduler-core",
+]
+
+[[package]]
 name = "oar-scheduler-redox"
 version = "0.1.0"
 dependencies = [
@@ -908,6 +916,7 @@ dependencies = [
  "indexmap",
  "log",
  "oar-scheduler-core",
+ "oar-scheduler-hooks",
  "pyo3",
 ]
 
