@@ -890,8 +890,10 @@ name = "oar-scheduler-core"
 version = "0.1.0"
 dependencies = [
  "auto_bench_fct",
+ "chrono",
  "env_logger",
  "indexmap",
+ "lazy_static",
  "log",
  "prettytable-rs",
  "pyo3",
