@@ -9,8 +9,8 @@ python3Packages.buildPythonPackage rec {
     domain = "gitlab.inria.fr";
     owner = "OAR";
     repo = "stages/cgrenner-oar3-rust-scheduler";
-    rev = "00c7478dc2a520a479717d910b56307f0206efb9";
-    sha256 = "sha256-k+Yw4fOsWYw033TLhVk2NSiprfYpUKY8cWSoFMuO3OQ=";
+    rev = "f4d54c9ae87d2cc033b56375349b4ff7b6ce1cfc";
+    sha256 = "sha256-kO037UKf1JdWDswoCnrHF9/brnRFF/c6P1vvEnXpINg=";
   };
 
   nativeBuildInputs = with pkgs; [
