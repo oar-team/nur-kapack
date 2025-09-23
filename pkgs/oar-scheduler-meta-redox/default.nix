@@ -11,7 +11,10 @@ rustPlatform.buildRustPackage rec {
     rev = "99f667c822eaac4adc5f73142ee5fdffd4290f5d";
     sha256 = "sha256-cvuBpvPulYBlMyw1p0OLJwZI3aDeSXDGmP0EZ+kddgQ=";
   };
-
+  
+  buildType = "debug";
+  dontStrip = true;
+  
   # find a better way to indicate where to operate
   #configurePhase = ''cd oar-scheduler-meta'';
   cargoBuildFlags = [ "--package" "oar-scheduler-meta" ];
