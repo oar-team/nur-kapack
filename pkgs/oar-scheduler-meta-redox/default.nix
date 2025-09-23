@@ -8,8 +8,8 @@ rustPlatform.buildRustPackage rec {
     domain = "gitlab.inria.fr";
     owner = "OAR";
     repo = "stages/cgrenner-oar3-rust-scheduler";
-    rev = "feefeb2b6f8e51d32a93f88d54603483b99423be";
-    sha256 = "sha256-HEfoEZQRaHyrrvir6d056a3nPyEzKJsKhJrEgw3CBL0=";
+    rev = "99f667c822eaac4adc5f73142ee5fdffd4290f5d";
+    sha256 = "sha256-cvuBpvPulYBlMyw1p0OLJwZI3aDeSXDGmP0EZ+kddgQ=";
   };
 
   # find a better way to indicate where to operate
