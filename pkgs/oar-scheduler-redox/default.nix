@@ -1,16 +1,15 @@
-{ lib, pkgs, fetchFromGitLab, python3Packages, ... }:
+{ lib, pkgs, fetchFromGitHub, python3Packages, ... }:
 
 python3Packages.buildPythonPackage rec {
   pname = "oar-scheduler-redox";
   version = "0.0.1";
   pyproject = true;
 
-  src = fetchFromGitLab {
-    domain = "gitlab.inria.fr";
-    owner = "OAR";
-    repo = "stages/cgrenner-oar3-rust-scheduler";
-    rev = "99f667c822eaac4adc5f73142ee5fdffd4290f5d";
-    sha256 = "sha256-cvuBpvPulYBlMyw1p0OLJwZI3aDeSXDGmP0EZ+kddgQ=";
+  src = fetchFromGitHub {
+    owner = "oar-team";
+    repo = "oar-scheduler-redox";
+    rev = "015bdbde61a41e6de2380d6ab8385e13e991ce81";
+    sha256 = "sha256-ElM08wGgmyajTikaHJ2DCuwx7KWWJksVCiB+vP+1YtY=";
   };
 
   nativeBuildInputs = with pkgs; [
