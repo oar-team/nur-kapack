@@ -11,8 +11,8 @@ rustPlatform.buildRustPackage rec {
     sha256 = "sha256-ElM08wGgmyajTikaHJ2DCuwx7KWWJksVCiB+vP+1YtY=";
   };
 
-  buildType = "debug";
-  dontStrip = true;
+  #buildType = "debug"; # only for dev
+  #dontStrip = true; # only for dev
 
   # find a better way to indicate where to operate
   #configurePhase = ''cd oar-scheduler-meta'';
@@ -20,16 +20,11 @@ rustPlatform.buildRustPackage rec {
   cargoInstallFlags = [ "--package" "oar-scheduler-meta" ];
 
   cargoHash = "sha256-Va6VXEqwX/k620k5W4Q+5mAGsf+FJkVdPtGCv5XiYac=";
-  #sha256-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX=";
-
-  # cargoDeps = pkgs.rustPlatform.importCargoLock {
-  #   lockFile = ./Cargo.lock;
-  # };
 
   doCheck = false;
 
   meta = {
-    homepage = "https://gitlab.inria.fr/OAR/stages/cgrenner-oar3-rust-scheduler";
+    homepage = "https://github.com/oar-team/oar-scheduler-redox";
     description = "Rust scheduler implementation for OAR3";
     license = lib.licenses.gpl3;
     longDescription = "";

@@ -17,14 +17,6 @@ python3Packages.buildPythonPackage rec {
     rustPlatform.maturinBuildHook
   ];
 
-  #propagatedBuildInputs = with pkgs.python3Packages; [
-  #  kapack-pkgs.oar
-  #];
-
-  #propagatedBuildInputs = with pkgs-unstable.python3Packages; [
-  #  kapack-pkgs.oar
-  #];
-
   # find a better way to indicate where to operate
   configurePhase = ''cd oar-scheduler-redox'';
 
@@ -33,7 +25,7 @@ python3Packages.buildPythonPackage rec {
   };
 
   meta = {
-    homepage = "https://gitlab.inria.fr/OAR/stages/cgrenner-oar3-rust-scheduler";
+    homepage = "https://github.com/oar-team/oar-scheduler-redox";
     description = "Rust scheduler implementation for OAR3";
     license = lib.licenses.gpl3;
     longDescription = "";
