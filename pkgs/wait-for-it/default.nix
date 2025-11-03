@@ -12,7 +12,7 @@ stdenv.mkDerivation rec {
   };
 
   phases = [ "unpackPhase" "installPhase" ];
-  
+
   installPhase = ''
     mkdir -p $out/bin
     cp wait-for-it.sh $out/bin

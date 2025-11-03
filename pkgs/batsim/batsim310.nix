@@ -1,6 +1,19 @@
-{ stdenv, lib, fetchFromGitLab
-, meson, ninja, pkg-config
-, simgrid, intervalset, boost, rapidjson, redox, hiredis, libev, zeromq, docopt_cpp, pugixml
+{ stdenv
+, lib
+, fetchFromGitLab
+, meson
+, ninja
+, pkg-config
+, simgrid
+, intervalset
+, boost
+, rapidjson
+, redox
+, hiredis
+, libev
+, zeromq
+, docopt_cpp
+, pugixml
 , debug ? false
 }:
 
@@ -46,7 +59,7 @@ stdenv.mkDerivation rec {
 
   mesonBuildType = if debug then "debug" else "release";
   CXXFLAGS = if debug then "-O0" else "";
-  hardeningDisable = if debug then [ "fortify" ] else [];
+  hardeningDisable = if debug then [ "fortify" ] else [ ];
   dontStrip = debug;
 
   meta = with lib; {

@@ -1,8 +1,9 @@
-{ lib, pkgs, fetchgit, python3Packages}:
+{ lib, pkgs, fetchgit, python3Packages }:
 
 python3Packages.buildPythonPackage rec {
   name = "procset-${version}";
   version = "v1.0";
+  format = "setuptools";
 
   src = fetchgit {
     url = "https://gitlab.inria.fr/bleuse/procset.py.git";
@@ -20,9 +21,9 @@ python3Packages.buildPythonPackage rec {
       used as a small python library to manage sets of resources, and is especially
       useful when writing schedulers.'';
     description = ''Toolkit to manage sets of closed intervals.'';
-    homepage    = "https://gitlab.inria.fr/bleuse/procset.py";
-    platforms   = platforms.all;
-    license     = licenses.lgpl3;
-    broken      = false;
+    homepage = "https://gitlab.inria.fr/bleuse/procset.py";
+    platforms = platforms.all;
+    license = licenses.lgpl3;
+    broken = false;
   };
 }

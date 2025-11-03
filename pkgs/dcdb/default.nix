@@ -1,7 +1,7 @@
-{ config, stdenv, scylladb-cpp-driver, lib, fetchurl, fetchgit, snap7,  boost170, cassandra, libuv, openssl, mosquitto-dcdb, libgcrypt, bacnet-stack, libgpg-error, freeipmi, net-snmp, opencv, mariadb-connector-c, mariadb, wget, git , unzip}:
+{ config, stdenv, scylladb-cpp-driver, lib, fetchurl, fetchgit, snap7, boost170, cassandra, libuv, openssl, mosquitto-dcdb, libgcrypt, bacnet-stack, libgpg-error, freeipmi, net-snmp, opencv, mariadb-connector-c, mariadb, wget, git, unzip }:
 
 stdenv.mkDerivation rec {
-  pname =  "dcdb";
+  pname = "dcdb";
   version = "0.5";
 
   src = fetchurl {

@@ -1,9 +1,24 @@
-{ stdenv, lib, fetchFromGitLab, cmake, perl, python3, boost
-, fortranSupport ? false, gfortran
-, buildDocumentation ? false, transfig, ghostscript, doxygen
-, buildJavaBindings ? false, openjdk
-, buildPythonBindings ? false, python3Packages
-, modelCheckingSupport ? false, libunwind, libevent, elfutils # Inside elfutils: libelf and libdw
+{ stdenv
+, lib
+, fetchFromGitLab
+, cmake
+, perl
+, python3
+, boost
+, fortranSupport ? false
+, gfortran
+, buildDocumentation ? false
+, transfig
+, ghostscript
+, doxygen
+, buildJavaBindings ? false
+, openjdk
+, buildPythonBindings ? false
+, python3Packages
+, modelCheckingSupport ? false
+, libunwind
+, libevent
+, elfutils # Inside elfutils: libelf and libdw
 , minimalBindings ? false
 , debug ? false
 , optimize ? (!debug)
@@ -39,8 +54,8 @@ stdenv.mkDerivation rec {
     ++ optionals buildDocumentation [ transfig ghostscript doxygen ]
     ++ optionals modelCheckingSupport [ libunwind libevent elfutils ];
 
-  outputs = ["out"]
-    ++ optionals buildPythonBindings ["python"];
+  outputs = [ "out" ]
+    ++ optionals buildPythonBindings [ "python" ];
 
   # "Release" does not work. non-debug mode is Debug compiled with optimization
   cmakeBuildType = "Debug";
@@ -103,7 +118,7 @@ stdenv.mkDerivation rec {
   '';
 
   # improve debuggability if requested
-  hardeningDisable = if debug then [ "fortify" ] else [];
+  hardeningDisable = if debug then [ "fortify" ] else [ ];
   dontStrip = debug;
 
   meta = {

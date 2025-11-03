@@ -1,7 +1,7 @@
 { stdenv, lib, fetchFromGitHub, cmake, libuv, openssl, zlib }:
 
 stdenv.mkDerivation rec {
-  pname =  "scylladb-cpp-driver";
+  pname = "scylladb-cpp-driver";
   version = "2.16.2b";
 
   src = fetchFromGitHub {

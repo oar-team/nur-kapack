@@ -23,7 +23,7 @@ buildGoPackage rec {
     broken = false;
 
     longDescription = ''
-       A CLI tool to diff two YAML files.
+      A CLI tool to diff two YAML files.
     '';
   };
 }

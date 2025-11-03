@@ -1,9 +1,9 @@
 { stdenv, lib, fetchFromGitHub, cmake, libuv, openssl, zlib }:
 
 stdenv.mkDerivation rec {
-  name =  "cpp-driver-${version}";
+  name = "cpp-driver-${version}";
   version = "2.15.2";
-  
+
 
   src = fetchFromGitHub {
     owner = "datastax";
@@ -13,7 +13,7 @@ stdenv.mkDerivation rec {
   };
 
   buildInputs = [ cmake libuv openssl zlib ];
-  
+
   cmakeFlags = [ "-DLIBUV_ROOT_DIR=${libuv}" ];
 
   meta = with lib; {

@@ -11,10 +11,10 @@ rustPlatform.buildRustPackage rec {
     sha256 = "sha256-bO1eoH/gTK0gNuj36OhvUUwsmJYAOblz4BGt4PCe/g4=";
   };
 
-  buildInputs = [];
-  nativeBuildInputs = [];
+  buildInputs = [ ];
+  nativeBuildInputs = [ ];
 
-  cargoHash = "sha256-QbY6PicJObGxHVMvU9QPt01ykHN8soEhZvJAfdXbTXA=";
+  cargoHash = "sha256-Wypf8SjEYDgYAH3b5H0/WrieD7OVqV8s5waItfS4sXc=";
 
   meta = with lib; {
     homepage = https://github.com/mpoquet/dispath;

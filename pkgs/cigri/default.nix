@@ -1,16 +1,16 @@
 { stdenv, lib, pkgs, fetchFromGitHub, bundlerEnv, ruby, bash, perl }:
 let
   rubyEnv = bundlerEnv rec {
-  name = "cigri-env";
-  inherit ruby;
-  # gemdir  = ./.;
-  gemfile = ./Gemfile;
-  lockfile = ./Gemfile.lock;
-  gemset = ./gemset.nix;
-  #groups = [ "default" "unicorn" "test" ]; # TODO not used
-};
-  in
-    stdenv.mkDerivation rec {
+    name = "cigri-env";
+    inherit ruby;
+    # gemdir  = ./.;
+    gemfile = ./Gemfile;
+    lockfile = ./Gemfile.lock;
+    gemset = ./gemset.nix;
+    #groups = [ "default" "unicorn" "test" ]; # TODO not used
+  };
+in
+stdenv.mkDerivation rec {
   name = "cigri-3.2.2";
   src = fetchFromGitHub {
     owner = "oar-team";
@@ -18,12 +18,15 @@ let
     rev = "3.2.2";
     sha256 = "sha256-qeDTT9Ca1Pd2Amg08J3PwuG+OfqxJkGQJCZIz8LcLA0=";
   };
-  
+
   buildInputs = [
-    rubyEnv rubyEnv.wrappedRuby rubyEnv.bundler
-    bash perl
+    rubyEnv
+    rubyEnv.wrappedRuby
+    rubyEnv.bundler
+    bash
+    perl
   ];
-  
+
   buildPhase = ''
     # TODO warning /var/cigri/state can be overriden /modules/services/cigri.nix configuration 
     substituteInPlace modules/almighty.rb \
@@ -39,7 +42,7 @@ let
     $out/share/cigri/sbin/newcluster "'"$@"' > $out/sbin/newcluster
     chmod 755 $out/sbin/newcluster
   '';
-    
+
   postInstall = ''
     cp -r database $out
   '';
@@ -48,7 +51,7 @@ let
   passthru = {
     inherit rubyEnv;
   };
-  
+
   meta = with lib; {
     homepage = "https://github.com/oar-team/cigri";
     description = "CiGri: a Lightweight Grid Middleware";

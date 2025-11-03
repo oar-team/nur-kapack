@@ -1,9 +1,24 @@
-{ stdenv, lib, fetchFromGitLab, cmake, perl, python3, boost
-, fortranSupport ? false, gfortran
-, buildDocumentation ? false, fig2dev, ghostscript, doxygen
-, buildJavaBindings ? false, openjdk
-, buildPythonBindings ? false, python3Packages
-, modelCheckingSupport ? false, libunwind, libevent, elfutils # Inside elfutils: libelf and libdw
+{ stdenv
+, lib
+, fetchFromGitLab
+, cmake
+, perl
+, python3
+, boost
+, fortranSupport ? false
+, gfortran
+, buildDocumentation ? false
+, fig2dev
+, ghostscript
+, doxygen
+, buildJavaBindings ? false
+, openjdk
+, buildPythonBindings ? false
+, python3Packages
+, modelCheckingSupport ? false
+, libunwind
+, libevent
+, elfutils # Inside elfutils: libelf and libdw
 , minimalBindings ? false
 , debug ? false
 , optimize ? (!debug)
@@ -99,7 +114,7 @@ stdenv.mkDerivation rec {
     # manually install the python binding if requested.
     mkdir -p $python/lib/python${lib.versions.majorMinor python3.version}/site-packages/
     cp ./lib/simgrid.cpython*.so $python/lib/python${lib.versions.majorMinor python3.version}/site-packages/
-   '';
+  '';
 
   # improve debuggability if requested
   hardeningDisable = lib.optionals debug [ "fortify" ];

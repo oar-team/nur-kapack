@@ -1,6 +1,13 @@
-{ stdenv, lib, fetchgit
-, ninja, meson, pkg-config
-, simgrid, boost, docopt_cpp, protobuf
+{ stdenv
+, lib
+, fetchgit
+, ninja
+, meson
+, pkg-config
+, simgrid
+, boost
+, docopt_cpp
+, protobuf
 , debug ? false
 }:
 
@@ -23,7 +30,7 @@ stdenv.mkDerivation rec {
 
   mesonBuildType = if debug then "debug" else "release";
   CXXFLAGS = if debug then "-O0" else "";
-  hardeningDisable = if debug then [ "fortify" ] else [];
+  hardeningDisable = if debug then [ "fortify" ] else [ ];
   dontStrip = debug;
 
   meta = with lib; {

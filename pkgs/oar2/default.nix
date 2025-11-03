@@ -5,30 +5,30 @@ stdenv.mkDerivation rec {
   version = "2.5.10+g5k7";
 
   src = fetchFromGitHub {
-        owner = "oar-team";
-        repo = "oar";
-        rev = "76ccf2e691e2d662e94c93e2f8e62090bae32cb8";
-        sha256 = "sha256-RbwsHG0GFQeyO3YpvuPoAD+ttItrCxGxGFRv9JB7YqU=";
+    owner = "oar-team";
+    repo = "oar";
+    rev = "76ccf2e691e2d662e94c93e2f8e62090bae32cb8";
+    sha256 = "sha256-RbwsHG0GFQeyO3YpvuPoAD+ttItrCxGxGFRv9JB7YqU=";
   };
 
   #src = /home/auguste/dev/oar2;
-  
+
   nativeBuildInputs = [ makeWrapper ];
 
   buildInputs = with perlPackages; [ perl JSON YAML DBI DBDPg DBDmysql SortVersions ];
-  
-  preConfigure = ''
-   substituteInPlace Makefile --replace /bin/bash ${pkgs.bash}/bin/bash
-   find -type f | xargs sed -i 's@/usr/bin/perl@${perl}/bin/perl@' || true #remove
 
-   export PREFIX="$out"
-   export BINDIR="$out/bin"
-   export PERLLIBDIR="$out/lib"
-   export EXAMPLEDIR="$out/examples" 
-   export OARDIR="$out/oar" 
-   export OARCONFDIR="$out/etc"
- '';
-  
+  preConfigure = ''
+    substituteInPlace Makefile --replace /bin/bash ${pkgs.bash}/bin/bash
+    find -type f | xargs sed -i 's@/usr/bin/perl@${perl}/bin/perl@' || true #remove
+
+    export PREFIX="$out"
+    export BINDIR="$out/bin"
+    export PERLLIBDIR="$out/lib"
+    export EXAMPLEDIR="$out/examples" 
+    export OARDIR="$out/oar" 
+    export OARCONFDIR="$out/etc"
+  '';
+
   buildPhase = ''
     make server-build
     make node-build

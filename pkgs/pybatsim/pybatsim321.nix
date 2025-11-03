@@ -5,10 +5,10 @@ python3Packages.buildPythonPackage rec {
   version = "3.2.1";
   format = "pyproject";
 
-    src = python3Packages.fetchPypi {
-      inherit pname version;
-      sha256 = "1gxvjnriklllj4qmiyvg8cf9ilwkpsh4p37kihgwgrgzgxr658ab";
-    };
+  src = python3Packages.fetchPypi {
+    inherit pname version;
+    sha256 = "1gxvjnriklllj4qmiyvg8cf9ilwkpsh4p37kihgwgrgzgxr658ab";
+  };
   patches = [ ./321-0001-bs-loosen-pyzmq-version-constraint.patch ];
 
   buildInputs = with python3Packages; [

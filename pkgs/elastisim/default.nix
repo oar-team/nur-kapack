@@ -1,4 +1,11 @@
-{ stdenv, lib, fetchFromGitHub, cmake, simgrid, cppzmq, python3, zeromq
+{ stdenv
+, lib
+, fetchFromGitHub
+, cmake
+, simgrid
+, cppzmq
+, python3
+, zeromq
 , debug ? false
 , optimize ? (!debug)
 }:
@@ -14,9 +21,9 @@ stdenv.mkDerivation rec {
   version = "1e967c";
 
   src = fetchFromGitHub {
-    owner  = "elastisim";
-    repo   = "elastisim";
-    rev    = "1e967ce8e965fedce08da0e0edffe9f99161ca0a";
+    owner = "elastisim";
+    repo = "elastisim";
+    rev = "1e967ce8e965fedce08da0e0edffe9f99161ca0a";
     sha256 = "sha256-yMScmVE6FAE5PWUAKZkbGAuCXZ6OCZsbjlKzvOnIcjQ=";
   };
 
@@ -42,7 +49,7 @@ stdenv.mkDerivation rec {
     '';
     homepage = "https://github.com/elastisim/elastisim";
     license = licenses.bsd3;
-    maintainers = [];
+    maintainers = [ ];
     platforms = platforms.all;
     broken = true;
   };

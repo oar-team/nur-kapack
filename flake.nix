@@ -1,34 +1,25 @@
 {
-  description = " My personal NUR repository";
-  inputs = {
-    flake-utils.url = "github:numtide/flake-utils";
-    nixpkgs.url = "github:nixos/nixpkgs?ref=branch-off-24.11";
-  };
-  outputs = { self, nixpkgs, flake-utils }:
-    let
-      systems = [
-        "x86_64-linux"
-        "i686-linux"
-        "x86_64-darwin"
-        "aarch64-linux"
-        "aarch64-darwin"
-        "armv6l-linux"
-        "armv7l-linux"
-      ];
-      inherit (flake-utils.lib) eachSystem filterPackages;
-
-    in eachSystem systems (system:
-      let
-        pkgs = import nixpkgs {
-          inherit system;
-          config.allowBroken = true; # FIXME
+  outputs = inputs: inputs.autopilot.lib.mkFlake
+    {
+      inherit inputs;
+      autopilot = {
+        parts.path = ./modules/flake;
+        nixpkgs.config.allowUnfree = true;
+        lib = {
+          path = ./lib;
+          extender = inputs.nixpkgs.lib;
+          extensions = with inputs; [ autopilot.lib parts.lib ];
         };
-      in {
-        packages = (filterPackages system (import ./nur.nix { inherit pkgs; }));
-        lib = import ./lib { inherit pkgs; };
-      }) // {
-        nixosModules =
-          builtins.mapAttrs (name: path: import path) (import ./modules);
-        overlay = import ./overlay.nix;
       };
+    }
+    { systems = import inputs.systems; };
+
+  inputs.nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+  inputs.parts.url = "github:hercules-ci/flake-parts";
+  inputs.parts.inputs.nixpkgs-lib.follows = "nixpkgs";
+  inputs.systems.url = "github:nix-systems/default";
+  inputs.autopilot.url = "github:stepbrobd/autopilot";
+  inputs.autopilot.inputs.nixpkgs.follows = "nixpkgs";
+  inputs.autopilot.inputs.parts.follows = "parts";
+  inputs.autopilot.inputs.systems.follows = "systems";
 }

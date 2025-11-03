@@ -47,6 +47,7 @@ python3Packages.buildPythonPackage rec {
     python-jose
     passlib
     bcrypt
+    setuptools
   ] ++ lib.optional enablePlugins oar-plugins;
 
   doCheck = false;

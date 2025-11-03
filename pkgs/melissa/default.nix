@@ -1,7 +1,7 @@
 { stdenv, lib, fetchFromGitLab, bash, cmake, pkg-config, gfortran, python3, zeromq, openmpi, libsodium, ghc }: # pandoc, ghc }:
 
 stdenv.mkDerivation rec {
-  pname =  "melissa";
+  pname = "melissa";
   version = "0.7.1";
 
   src = fetchFromGitLab {

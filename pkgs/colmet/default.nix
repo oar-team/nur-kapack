@@ -3,6 +3,7 @@
 python3Packages.buildPythonApplication rec {
   name = "colmet-${version}";
   version = "0.6.10.dev0";
+  format = "setuptools";
 
   src = fetchFromGitHub {
     owner = "oar-team";
@@ -33,9 +34,9 @@ python3Packages.buildPythonApplication rec {
 
   meta = with lib; {
     description = "Collecting metrics about process running in cpuset and in a distributed environnement";
-    homepage    = https://github.com/oar-team/colmet;
-    platforms   = powercap.meta.platforms;
-    licence     = licenses.gpl2;
+    homepage = https://github.com/oar-team/colmet;
+    platforms = powercap.meta.platforms;
+    licence = licenses.gpl2;
     longDescription = ''
     '';
   };

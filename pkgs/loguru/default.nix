@@ -1,4 +1,6 @@
-{ stdenv, lib, fetchFromGitHub
+{ stdenv
+, lib
+, fetchFromGitHub
 , debug ? false
 , optimize ? (!debug)
 }:
@@ -23,24 +25,24 @@ stdenv.mkDerivation rec {
   '';
 
   installPhase = ''
-    mkdir -p $out/lib
-    cp libloguru.so $out/lib/
+        mkdir -p $out/lib
+        cp libloguru.so $out/lib/
 
-    mkdir -p $out/include
-    cp ./loguru.hpp $out/include/
+        mkdir -p $out/include
+        cp ./loguru.hpp $out/include/
 
-    mkdir -p $out/lib/pkgconfig
-    cat <<EOF >>$out/lib/pkgconfig/loguru.pc
-prefix=$out
-libdir=$out/lib
-includedir=$out/include
+        mkdir -p $out/lib/pkgconfig
+        cat <<EOF >>$out/lib/pkgconfig/loguru.pc
+    prefix=$out
+    libdir=$out/lib
+    includedir=$out/include
 
-Name: loguru
-Description: A lightweight and flexible C++ logging library.
-Version: ${version}
-Libs: -L$out/lib -lloguru
-Cflags: -I$out/include
-EOF
+    Name: loguru
+    Description: A lightweight and flexible C++ logging library.
+    Version: ${version}
+    Libs: -L$out/lib -lloguru
+    Cflags: -I$out/include
+    EOF
   '';
 
   meta = with lib; {

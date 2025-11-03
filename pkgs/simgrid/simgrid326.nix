@@ -1,9 +1,24 @@
-{ stdenv, lib, fetchFromGitLab, cmake, perl, python3, boost
-, fortranSupport ? false, gfortran
-, buildDocumentation ? false, transfig, ghostscript, doxygen
-, buildJavaBindings ? false, openjdk
-, buildPythonBindings ? false, python3Packages
-, modelCheckingSupport ? false, libunwind, libevent, elfutils # Inside elfutils: libelf and libdw
+{ stdenv
+, lib
+, fetchFromGitLab
+, cmake
+, perl
+, python3
+, boost
+, fortranSupport ? false
+, gfortran
+, buildDocumentation ? false
+, transfig
+, ghostscript
+, doxygen
+, buildJavaBindings ? false
+, openjdk
+, buildPythonBindings ? false
+, python3Packages
+, modelCheckingSupport ? false
+, libunwind
+, libevent
+, elfutils # Inside elfutils: libelf and libdw
 , minimalBindings ? false
 , debug ? false
 , optimize ? (!debug)

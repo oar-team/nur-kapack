@@ -1,4 +1,11 @@
-{ stdenv, lib, fetchgit, meson, ninja, pkg-config, boost, gtest
+{ stdenv
+, lib
+, fetchgit
+, meson
+, ninja
+, pkg-config
+, boost
+, gtest
 , debug ? false
 , withoutBoostPropagation ? false
 }:
@@ -23,7 +30,7 @@ stdenv.mkDerivation rec {
 
   mesonBuildType = if debug then "debug" else "release";
   CXXFLAGS = if debug then "-O0" else "";
-  hardeningDisable = if debug then [ "fortify" ] else [];
+  hardeningDisable = if debug then [ "fortify" ] else [ ];
   dontStrip = debug;
 
   meta = with lib; {

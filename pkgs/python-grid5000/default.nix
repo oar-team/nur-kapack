@@ -3,6 +3,8 @@
 python3Packages.buildPythonPackage rec {
   pname = "python-grid5000";
   version = "1.2.4";
+  format = "setuptools";
+
   src = fetchFromGitLab {
     domain = "gitlab.inria.fr";
     owner = "msimonin";
