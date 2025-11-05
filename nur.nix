@@ -200,8 +200,6 @@ rec {
 
   starpu = pkgs.callPackage ./pkgs/starpu { };
 
-  wait-for-it = pkgs.callPackage ./pkgs/wait-for-it { };
-
   # Need to switch from 'buildGoPackage' to 'buildGoModule'
   #yamldiff = pkgs.callPackage ./pkgs/yamldiff { };
 }
