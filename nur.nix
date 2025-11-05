@@ -26,8 +26,6 @@ rec {
     '';
   });
 
-  haskellPackages = import ./pkgs/haskellPackages { inherit pkgs; };
-
   # Need to switch from 'buildGoPackage' to 'buildGoModule'
   #batexpe = pkgs.callPackage ./pkgs/batexpe { };
 
