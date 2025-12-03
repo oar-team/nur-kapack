@@ -4,6 +4,8 @@ python3Packages.buildPythonPackage rec {
   pname = "remote-pdb";
   version = "2.0.0";
   name = "${pname}-${version}";
+  pyproject = true;
+  build-system = [ python3Packages.setuptools ];
 
   src = fetchurl {
     url = "https://files.pythonhosted.org/packages/be/de/d8923fb412117ea28a89751cb5712c68ad47326cbe15bdcf257022557f93/remote-pdb-2.0.0.tar.gz";

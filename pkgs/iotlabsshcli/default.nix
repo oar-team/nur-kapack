@@ -3,6 +3,8 @@
 python3Packages.buildPythonPackage rec {
   pname = "iotlabsshcli";
   version = "1.1.0";
+  pyproject = true;
+  build-system = [ python3Packages.setuptools ];
   src = fetchFromGitHub {
     owner = "iot-lab";
     repo = "ssh-cli-tools";

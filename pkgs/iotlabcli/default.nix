@@ -3,6 +3,8 @@
 python3Packages.buildPythonPackage rec {
   pname = "iotlabcli";
   version = "3.3.0";
+  pyproject = true;
+  build-system = [ python3Packages.setuptools ];
   src = python3Packages.fetchPypi {
     inherit pname version;
     sha256 = "sha256-5IHWTzaRrc9WSLFDWyA7VDkisYoV9ITRpirjbSLPf34=";

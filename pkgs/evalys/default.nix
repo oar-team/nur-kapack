@@ -3,6 +3,8 @@ python3Packages.buildPythonPackage rec {
   pname = "evalys";
   version = "4.0.7";
   name = "${pname}-${version}";
+  pyproject = true;
+  build-system = [ python3Packages.setuptools ];
 
   src = python3Packages.fetchPypi {
     inherit pname version;
