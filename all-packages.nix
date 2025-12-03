@@ -1,18 +1,7 @@
-# If called without explicitly setting the 'pkgs' arg, a pinned nixpkgs version is used by default.
-{ pkgs ? import (fetchTarball {
-    url = "https://github.com/NixOS/nixpkgs/archive/branch-off-24.11.tar.gz";
-    sha256 = "1gx0hihb7kcddv5h0k7dysp2xhf1ny0aalxhjbpj2lmvj7h9g80a";
-  }) {}
-, debug ? false
-}:
+{ pkgs, debug ? false }:
 
 rec {
   # The `lib`, `modules`, and `overlay` names are special
-  lib = import ./lib { inherit pkgs; }; # functions
-  modules = import ./modules; # NixOS modules
-  overlays = import ./overlays; # nixpkgs overlays
-  inherit pkgs;
-
   glibc-batsky = pkgs.glibc.overrideAttrs (attrs: {
     meta.broken = true;
     patches = attrs.patches ++ [ ./pkgs/glibc-batsky/clock_gettime.patch
