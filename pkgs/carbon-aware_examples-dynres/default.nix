@@ -19,8 +19,8 @@ stdenv.mkDerivation rec {
     group = "dynres";
     owner = "applications";
     repo = "carbonaware_examples";
-    rev = "26d8d4dd817c0c6d0908ae4447255ad448a041dd";
-    hash = "sha256-+plMt+If1YuHn0kzyp5ldBSUfOnyf/tgp9/e1LkKdrw=";
+    rev = "fe67e525be4dee0bb2f55f40c3a510f1943c133c";
+    hash = "sha256-+plMt+If1YuHn0kzyp5ldBSUfOnyf/tsp9/e1LkKdrw=";
   };
 
   nativeBuildInputs = [
