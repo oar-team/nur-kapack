@@ -18,9 +18,9 @@ stdenv.mkDerivation rec {
     domain = "gitlab.inria.fr";
     group = "dynres";
     owner = "applications";
-    repo = "carbonaware_examples";
-    rev = "fe67e525be4dee0bb2f55f40c3a510f1943c133c";
-    hash = "sha256-+plMt+If1YuHn0kzyp5ldBSUfOnyf/tsp9/e1LkKdrw=";
+    repo = "carbonaware-examples";
+    rev = "10de42c12717dc23373093cb6bdcd6c75ff73540";
+    hash = "sha1-VKAaSIvp0NkCSEYzQrFKgZR1H1M=";
   };
 
   nativeBuildInputs = [
