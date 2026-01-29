@@ -1,0 +1,242 @@
+{
+    "gcg": {
+        "cargoLocks": null,
+        "date": null,
+        "extract": null,
+        "name": "gcg",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": true,
+            "name": null,
+            "owner": "scipopt",
+            "repo": "gcg",
+            "rev": "v360",
+            "sha256": "sha256-MRgsmP9LuTpS/FEPBNJSrIbYlUGh8EOEcbbl0MVEiRA=",
+            "type": "github"
+        },
+        "version": "v360"
+    },
+    "ipopt": {
+        "cargoLocks": null,
+        "date": null,
+        "extract": null,
+        "name": "ipopt",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "coin-or",
+            "repo": "Ipopt",
+            "rev": "releases/3.14.16",
+            "sha256": "sha256-ZuiZZMq7NzOm6CCJgMBgEWs8PEfM3pVr2yOWbS42l8U=",
+            "type": "github"
+        },
+        "version": "releases/3.14.16"
+    },
+    "mip-dd": {
+        "cargoLocks": null,
+        "date": null,
+        "extract": null,
+        "name": "mip-dd",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "scipopt",
+            "repo": "MIP-DD",
+            "rev": "v1.0.0",
+            "sha256": "sha256-1xUBhBq0Ie4MG65GW4UrWKcRj1Po/uT7Z1tptu7DTL0=",
+            "type": "github"
+        },
+        "version": "v1.0.0"
+    },
+    "mumps-harness": {
+        "cargoLocks": null,
+        "date": null,
+        "extract": null,
+        "name": "mumps-harness",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "coin-or-tools",
+            "repo": "ThirdParty-Mumps",
+            "rev": "releases/3.0.7",
+            "sha256": "sha256-4P/aR2oUKU5l3eTVs8twQHS3fyPDD7rkAcFc20ZzZHU=",
+            "type": "github"
+        },
+        "version": "releases/3.0.7"
+    },
+    "papilo": {
+        "cargoLocks": null,
+        "date": null,
+        "extract": null,
+        "name": "papilo",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "scipopt",
+            "repo": "papilo",
+            "rev": "v2.2.1",
+            "sha256": "sha256-NMzFXyrmewnPLodohBE0AMhjSln7yEJcnIxxhDjfT0U=",
+            "type": "github"
+        },
+        "version": "v2.2.1"
+    },
+    "pygcgopt": {
+        "cargoLocks": null,
+        "date": "2024-03-08",
+        "extract": null,
+        "name": "pygcgopt",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "scipopt",
+            "repo": "PyGCGOpt",
+            "rev": "6e2e51aabd11d3cb4ebdf79992c3618758801016",
+            "sha256": "sha256-1nf5ctEBDR9ZFEOPcHFa+9qnytWkiydZaP8RZhG2XXY=",
+            "type": "github"
+        },
+        "version": "6e2e51aabd11d3cb4ebdf79992c3618758801016"
+    },
+    "pyscipopt": {
+        "cargoLocks": null,
+        "date": null,
+        "extract": null,
+        "name": "pyscipopt",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "scipopt",
+            "repo": "PySCIPOpt",
+            "rev": "v5.0.1",
+            "sha256": "sha256-zfebn7jhvDndWAn+eB0q+2iOjPIqY143bbaKePl4FSQ=",
+            "type": "github"
+        },
+        "version": "v5.0.1"
+    },
+    "pysoplex": {
+        "cargoLocks": null,
+        "date": "2024-02-27",
+        "extract": null,
+        "name": "pysoplex",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "scipopt",
+            "repo": "PySoPlex",
+            "rev": "0def0a370ea08d1f1f34b0e5a2e03f7e5881ac9c",
+            "sha256": "sha256-8/bndwQ0aUSMl3XTZctfW3SH85IIrlCln6+9cQGuU9Q=",
+            "type": "github"
+        },
+        "version": "0def0a370ea08d1f1f34b0e5a2e03f7e5881ac9c"
+    },
+    "scip": {
+        "cargoLocks": null,
+        "date": null,
+        "extract": null,
+        "name": "scip",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": true,
+            "name": null,
+            "owner": "scipopt",
+            "repo": "scip",
+            "rev": "v901",
+            "sha256": "sha256-WCudyGop5QQZaMQpKHGFQg1fUXHQRohxRlEpsmMVrDY=",
+            "type": "github"
+        },
+        "version": "v901"
+    },
+    "scippp": {
+        "cargoLocks": null,
+        "date": null,
+        "extract": null,
+        "name": "scippp",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "scipopt",
+            "repo": "SCIPpp",
+            "rev": "1.2.0",
+            "sha256": "sha256-RbxIgATECLJCopShm98+ogfFoCv2yWH1/1QcZyo9GKo=",
+            "type": "github"
+        },
+        "version": "1.2.0"
+    },
+    "soplex": {
+        "cargoLocks": null,
+        "date": null,
+        "extract": null,
+        "name": "soplex",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": true,
+            "leaveDotGit": true,
+            "name": null,
+            "owner": "scipopt",
+            "repo": "soplex",
+            "rev": "release-701",
+            "sha256": "sha256-n8NfMXr6ALFQEgVLk9Nxx724tqFAk17bMZ6YgjUagg8=",
+            "type": "github"
+        },
+        "version": "release-701"
+    },
+    "vipr": {
+        "cargoLocks": null,
+        "date": "2024-05-07",
+        "extract": null,
+        "name": "vipr",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "scipopt",
+            "repo": "vipr",
+            "rev": "65fda95f4412c1395bfd65ce706f84103d4afe54",
+            "sha256": "sha256-glbEBfj17bolh9YrjrAkWRo5JMJbu7ph5R+oRDzjdgA=",
+            "type": "github"
+        },
+        "version": "65fda95f4412c1395bfd65ce706f84103d4afe54"
+    }
+}

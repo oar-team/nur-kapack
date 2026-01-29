@@ -149,14 +149,15 @@ rec {
   hypre = pkgs.callPackage ./pkgs/hypre { inherit openmpi-dynres; }; #TO REMOVE when update to >= 24.11 
   libpfasst = pkgs.callPackage ./pkgs/libpfasst { inherit openmpi-dynres timestamps hypre; };
   libpfasst-app = pkgs.callPackage ./pkgs/libpfasst_app { inherit  openmpi-dynres timestamps hypre libpfasst dyn_rm-dynres pypmix-dynres; }; 
-  mpi4py-dynres = pkgs.callPackage ./pkgs/mpi4py-dynres { inherit  openmpi-dynres; };
-  scalapack-dynres = pkgs.callPackage ./pkgs/scalapack-dynres { };
-  superlu_dist-dynres = pkgs.callPackage ./pkgs/superlu_dist-dynres { };  
-  gptune-dynres = pkgs.callPackage ./pkgs/gptune-dynres { inherit openmpi-dynres mpi4py-dynres scalapack-dynres; };
-  gptune-examples-dynres = pkgs.callPackage ./pkgs/gptune-examples-dynres { inherit openmpi-dynres mpi4py-dynres gptune-dynres timestamps dyn_rm-dynres pypmix-dynres; };
-
+  #mpi4py-dynres = pkgs.callPackage ./pkgs/mpi4py-dynres { inherit  openmpi-dynres; };
+  #scalapack-dynres = pkgs.callPackage ./pkgs/scalapack-dynres { };
+  #superlu_dist-dynres = pkgs.callPackage ./pkgs/superlu_dist-dynres { };  
+  #gptune-dynres = pkgs.callPackage ./pkgs/gptune-dynres { inherit openmpi-dynres mpi4py-dynres scalapack-dynres; };
+  #gptune-examples-dynres = pkgs.callPackage ./pkgs/gptune-examples-dynres { inherit openmpi-dynres mpi4py-dynres gptune-dynres timestamps dyn_rm-dynres pypmix-dynres; };
+  scipPkgs = pkgs.callPackage ./pkgs/scipPkgs { };
+  dyn_rm_ca-dynres = pkgs.callPackage ./pkgs/dyn_rm_ca-dynres { pmix = pmix-dynres; pypmix = pypmix-dynres; pyscipopt = scipPkgs.pyscipopt; inherit openmpi-dynres dyn_psets; };
   benchmarks-dynres =  pkgs.callPackage ./pkgs/benchmarks-dynres {inherit execo; };
-  benchmarks-gptune-dynres = pkgs.callPackage ./pkgs/benchmarks-gptune-dynres {inherit execo; };
+  #benchmarks-gptune-dynres = pkgs.callPackage ./pkgs/benchmarks-gptune-dynres {inherit execo; };
 
   ####################
 

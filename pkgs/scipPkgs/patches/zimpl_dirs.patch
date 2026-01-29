@@ -1,0 +1,17 @@
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index 0e22346..52dfadc 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -147,11 +147,7 @@ set_target_properties(libzimpl-pic PROPERTIES
+ install(FILES ${headers} DESTINATION include/zimpl)
+ 
+ # install the binary and the library to appropriate locations and add them to an export group
+-install(TARGETS libzimpl zimpl libzimpl-pic EXPORT zimpl-targets
+-        LIBRARY DESTINATION lib
+-        ARCHIVE DESTINATION lib
+-        RUNTIME DESTINATION bin
+-        INCLUDES DESTINATION include)
++install(TARGETS libzimpl zimpl libzimpl-pic EXPORT zimpl-targets)
+ 
+ # Add library targets to the build-tree export set
+ export(TARGETS libzimpl libzimpl-pic

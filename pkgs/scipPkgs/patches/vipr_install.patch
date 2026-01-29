@@ -1,0 +1,19 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 5b602d5..ccfd548 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -86,6 +86,7 @@ if(VIPRCOMP)
+          target_link_libraries(viprcomp ${libs})
+          target_link_libraries(viprcomp  TBB::tbb)
+          message(STATUS "Soplex found.")
++			install(TARGETS viprcomp viprincomp)
+ 		else()
+ 			message(STATUS "viprcomp not installed, because SoPlex could not be found.")
+ 			set(VIPR_HAVE_SOPLEX 0)
+@@ -98,3 +99,5 @@ endif()
+ 
+ configure_file("${PROJECT_SOURCE_DIR}/CMakeConfig.hpp.in"
+                "${PROJECT_BINARY_DIR}/CMakeConfig.hpp")
++
++install(TARGETS viprttn vipr2html viprchk viprchk_parallel)
+\ No newline at end of file

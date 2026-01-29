@@ -1,0 +1,40 @@
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index a69e8f6f..c2325370 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -147,7 +147,7 @@ add_dependencies(libsoplex-pic soplex_update_githash)
+ target_include_directories(libsoplex-pic PUBLIC
+     $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}>
+     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+-    $<INSTALL_INTERFACE:include>)
++    $<INSTALL_INTERFACE:${CMAKE_CURRENT_INCLUDE_DIR}>)
+ target_link_libraries(libsoplex-pic ${libs})
+ 
+ # create soplex library without pic
+@@ -165,7 +165,7 @@ add_dependencies(libsoplex soplex_update_githash)
+ target_include_directories(libsoplex PUBLIC
+     $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}>
+     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+-    $<INSTALL_INTERFACE:include>)
++    $<INSTALL_INTERFACE:${CMAKE_CURRENT_INCLUDE_DIR}>)
+ target_link_libraries(libsoplex ${libs})
+ 
+ # create C shared library
+@@ -187,7 +187,7 @@ endif()
+ target_include_directories(libsoplexshared PUBLIC
+     $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}>
+     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+-    $<INSTALL_INTERFACE:include>)
++    $<INSTALL_INTERFACE:${CMAKE_CURRENT_INCLUDE_DIR}>)
+ target_link_libraries(libsoplexshared libsoplex ${libs})
+ set_target_properties(libsoplexshared PROPERTIES CXX_VISIBILITY_PRESET default)
+ 
+@@ -228,7 +228,7 @@ install(FILES
+      ${PROJECT_SOURCE_DIR}/src/soplex/external/fmt/posix.h
+      ${PROJECT_SOURCE_DIR}/src/soplex/external/fmt/printf.h
+      ${PROJECT_SOURCE_DIR}/src/soplex/external/fmt/ranges.h
+- DESTINATION include/soplex/external/fmt)
++ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/soplex/external/fmt)
+ 
+ # install the binary and the library to appropriate lcoations and add them to an export group
+ install(TARGETS soplex libsoplex libsoplex-pic libsoplexshared EXPORT soplex-targets

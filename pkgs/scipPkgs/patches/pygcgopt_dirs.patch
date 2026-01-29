@@ -1,0 +1,97 @@
+diff --git a/setup.py b/setup.py
+index 088ce9f..a39038d 100644
+--- a/setup.py
++++ b/setup.py
+@@ -3,14 +3,19 @@ import os, platform, sys, re
+ 
+ # look for environment variable that specifies path to SCIP and GCG
+ scipoptdir = os.environ.get('SCIPOPTDIR', '').strip('"')
++scipincludedir = os.environ.get("SCIPINCLUDEDIR", "").strip('"')
++sciplibdir = os.environ.get("SCIPLIBDIR", "").strip('"')
++
+ gcgoptdir = os.environ.get('GCGOPTDIR', scipoptdir).strip('"')
++gcgincludedir = os.environ.get("GCGINCLUDEDIR", "").strip('"')
++gcglibdir = os.environ.get("GCGLIBDIR", "").strip('"')
+ 
+ extra_compile_args = []
+ extra_link_args = []
+ 
+ includedirs = []
+ 
+-for optdir in set([scipoptdir, gcgoptdir]):
++def add_include(optdir):
+     # determine include directory
+     if os.path.exists(os.path.join(optdir, 'src')):
+         # SCIP seems to be installed in place
+@@ -19,6 +24,16 @@ for optdir in set([scipoptdir, gcgoptdir]):
+         # assume that SCIP is installed on the system
+         includedirs.append(os.path.abspath(os.path.join(optdir, 'include')))
+ 
++if not scipincludedir:
++    add_include(scipoptdir)
++else:
++    includedirs.append(os.path.abspath(scipincludedir))
++
++if not gcgincludedir:
++    add_include(gcgoptdir)
++else:
++    includedirs.append(os.path.abspath(gcgincludedir))
++
+ if not gcgoptdir:
+     if platform.system() == 'Linux':
+         includedirs.append("/usr/include/gcg")
+@@ -27,28 +42,35 @@ includedirs = list(set(includedirs))
+ 
+ print('Using include path <%s>.' % ", ".join(includedirs))
+ 
+-
+-# determine scip library
+-if os.path.exists(os.path.join(scipoptdir, "lib", "shared", "libscip.so")):
+-    # SCIP seems to be created with make
+-    sciplibdir = os.path.abspath(os.path.join(scipoptdir, "lib", "shared"))
+-    sciplibname = "scip"
+-    extra_compile_args.append("-DNO_CONFIG_HEADER")
+-    # the following is a temporary hack to make it compile with SCIP/make:
+-    extra_compile_args.append("-DTPI_NONE")  # if other TPIs are used, please modify
++if not sciplibdir:
++    # determine scip library
++    if os.path.exists(os.path.join(scipoptdir, "lib", "shared", "libscip.so")):
++        # SCIP seems to be created with make
++        sciplibdir = os.path.abspath(os.path.join(scipoptdir, "lib", "shared"))
++        sciplibname = "scip"
++        extra_compile_args.append("-DNO_CONFIG_HEADER")
++        # the following is a temporary hack to make it compile with SCIP/make:
++        extra_compile_args.append("-DTPI_NONE")  # if other TPIs are used, please modify
++    else:
++        # assume that SCIP is installed on the system
++        sciplibdir = os.path.abspath(os.path.join(scipoptdir, "lib"))
++        sciplibname = "libscip" if platform.system() in ["Windows"] else "scip"
+ else:
+-    # assume that SCIP is installed on the system
+-    sciplibdir = os.path.abspath(os.path.join(scipoptdir, "lib"))
++    sciplibdir = os.path.abspath(sciplibdir)
+     sciplibname = "libscip" if platform.system() in ["Windows"] else "scip"
+-
+-# determine gcg library
+-if os.path.exists(os.path.join(gcgoptdir, "lib", "shared", "libgcg.so")):
+-    # SCIP seems to be created with make
+-    gcglibdir = os.path.abspath(os.path.join(gcgoptdir, "lib", "shared"))
+-    gcglibname = "gcg"
++    
++if not gcglibdir:
++    # determine gcg library
++    if os.path.exists(os.path.join(gcgoptdir, "lib", "shared", "libgcg.so")):
++        # SCIP seems to be created with make
++        gcglibdir = os.path.abspath(os.path.join(gcgoptdir, "lib", "shared"))
++        gcglibname = "gcg"
++    else:
++        # assume that SCIP is installed on the system
++        gcglibdir = os.path.abspath(os.path.join(gcgoptdir, "lib"))
++        gcglibname = "libgcg" if platform.system() in ["Windows"] else "gcg"
+ else:
+-    # assume that SCIP is installed on the system
+-    gcglibdir = os.path.abspath(os.path.join(gcgoptdir, "lib"))
++    gcglibdir = os.path.abspath(gcglibdir)
+     gcglibname = "libgcg" if platform.system() in ["Windows"] else "gcg"
+ 
+ print('Using SCIP library <%s> at <%s>.' % (sciplibname, sciplibdir))

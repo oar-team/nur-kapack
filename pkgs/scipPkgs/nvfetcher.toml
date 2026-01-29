@@ -1,0 +1,53 @@
+[gcg]
+src.github_tag = "scipopt/gcg"
+src.ignored = "v1801 v0903 v0902 v0901"
+fetch.github = "scipopt/gcg"
+git.leaveDotGit = true
+
+[ipopt]
+src.github = "coin-or/Ipopt"
+fetch.github = "coin-or/Ipopt"
+
+[mip-dd]
+src.github = "scipopt/MIP-DD"
+fetch.github = "scipopt/MIP-DD"
+
+[mumps-harness]
+src.github_tag = "coin-or-tools/ThirdParty-Mumps"
+fetch.github = "coin-or-tools/ThirdParty-Mumps"
+
+[papilo]
+src.github = "scipopt/papilo"
+fetch.github = "scipopt/papilo"
+
+[pygcgopt]
+src.git = "https://github.com/scipopt/PyGCGOpt.git" # v0.4.0 has not been released yet
+fetch.github = "scipopt/PyGCGOpt"
+
+[pyscipopt]
+src.github_tag = "scipopt/PySCIPOpt" #v5.0.0 does not have a release on github
+fetch.github = "scipopt/PySCIPOpt"
+
+[pysoplex]
+src.git = "https://github.com/scipopt/PySoPlex.git"
+src.branch = "master"
+fetch.github = "scipopt/PySoPlex"
+
+[scip]
+src.github = "scipopt/scip"
+fetch.github = "scipopt/scip"
+git.leaveDotGit = true
+
+[scippp]
+src.github = "scipopt/SCIPpp"
+fetch.github = "scipopt/SCIPpp"
+
+[soplex]
+src.github = "scipopt/soplex"
+fetch.github = "scipopt/soplex"
+git.fetchSubmodules = true # nvfetcher produces wrong hash otherwise (even though there are no submodules)
+git.leaveDotGit = true
+
+[vipr]
+src.git = "https://github.com/scipopt/vipr.git"
+fetch.github = "scipopt/vipr"

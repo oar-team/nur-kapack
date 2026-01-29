@@ -1,0 +1,22 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 12596c2d..7d3abb7f 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -125,7 +125,7 @@ endif()
+ target_include_directories(papilo INTERFACE
+    $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}>
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>
+-   $<INSTALL_INTERFACE:include>
++   $<INSTALL_INTERFACE:${CMAKE_CURRENT_INCLUDE_DIR}>
+    ${GMP_INCLUDE_DIRS}
+    ${Quadmath_INCLUDE_DIRS}
+    ${ROUNDINGSAT_INCLUDE_DIRS})
+@@ -399,7 +399,7 @@ install(FILES
+         ${PROJECT_SOURCE_DIR}/src/papilo/verification/CertificateInterface.hpp
+         ${PROJECT_SOURCE_DIR}/src/papilo/verification/EmptyCertificate.hpp
+         ${PROJECT_SOURCE_DIR}/src/papilo/verification/VeriPb.hpp
+-        DESTINATION include/papilo/verification)
++        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/papilo/verification)
+ 
+ 
+ if((DEFINED Boost_VERSION) AND (Boost_VERSION VERSION_LESS 107000))

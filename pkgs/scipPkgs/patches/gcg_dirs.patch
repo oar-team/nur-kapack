@@ -1,0 +1,42 @@
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index 7cbcbf04..3b8761b9 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -467,22 +467,18 @@ set_target_properties(gcg PROPERTIES
+     INSTALL_RPATH_USE_LINK_PATH TRUE)
+ 
+ # install the header files of gcg
+-install(FILES ${gcgheaders} DESTINATION include/gcg)
++install(FILES ${gcgheaders} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/gcg)
+ # separate installation of graph headers to preserve the folder structure
+ # see e.g. here: https://stackoverflow.com/a/11097012
+-install(FILES ${gcggraphheaders} DESTINATION include/graph)
++install(FILES ${gcggraphheaders} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/graph)
+ if(NOT WIN32)
+    if(HMETIS_FOUND)
+-      install(FILES ${CMAKE_CURRENT_BINARY_DIR}/hmetis.h DESTINATION include/gcg)
++      install(FILES ${CMAKE_CURRENT_BINARY_DIR}/hmetis.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/gcg)
+    endif()
+ endif()
+ 
+ # install the binary and the library to appropriate locations and add them to an export group
+-install(TARGETS gcg libgcg EXPORT gcg-targets
+-        LIBRARY DESTINATION lib
+-        ARCHIVE DESTINATION lib
+-        RUNTIME DESTINATION bin
+-        INCLUDES DESTINATION include)
++install(TARGETS gcg libgcg EXPORT gcg-targets)
+ 
+ # Add all targets to the build-tree export set
+ export(TARGETS gcg libgcg
+@@ -505,8 +501,8 @@ configure_file(${PROJECT_SOURCE_DIR}/gcg-config.cmake.in
+ 
+ # install the targets of the gcg export group and the config file so that other projects
+ # can link easily against gcg
+-install(EXPORT gcg-targets FILE gcg-targets.cmake DESTINATION lib/cmake/gcg)
+-install(FILES "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/gcg-config.cmake" DESTINATION lib/cmake/gcg)
++install(EXPORT gcg-targets FILE gcg-targets.cmake DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/gcg)
++install(FILES "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/gcg-config.cmake" DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/gcg)
+ 
+ if(MSVC)
+    if(GCG_DEV_BUILD)

@@ -1,0 +1,103 @@
+diff --git a/setup.py b/setup.py
+index 217aa6c..52af833 100644
+--- a/setup.py
++++ b/setup.py
+@@ -5,52 +5,62 @@ import os, platform, sys, re
+ 
+ # look for environment variable that specifies path to SoPlex
+ soplexdir = os.environ.get("SOPLEX_DIR", "").strip('"').split("/lib")[0]
++soplexincludedir = os.environ.get("SOPLEX_INCLUDE_DIR", "").strip('"')
++soplexlibdir = os.environ.get("SOPLEX_LIB_DIR", "").strip('"')
+ 
+ extra_compile_args = []
+ extra_link_args = []
+ 
+-# if SOPLEX_DIR is not set, we assume that SoPlex is installed globally
+-if not soplexdir:
+-    includedir = "."
+-    libdir = "."
+-    libname = "libsoplex" if platform.system() in ["Windows"] else "soplex"
+-    print("Assuming that SoPlex is installed globally, because SOPLEX_DIR is undefined.\n")
+-
+-else:
++if not soplexincludedir or not soplexlibdir:
++    # if SOPLEX_DIR is not set, we assume that SoPlex is installed globally
++    if not soplexdir:
++        includedir = "."
++        libdir = "."
++        libname = "libsoplex" if platform.system() in ["Windows"] else "soplex"
++        print("Assuming that SoPlex is installed globally, because SOPLEX_DIR is undefined.\n")
+ 
+-    # check whether SoPlex is installed in the given directory
+-    if os.path.exists(os.path.join(soplexdir, "include")):
+-        includedir = os.path.abspath(os.path.join(soplexdir, "include"))
+     else:
+-        print(f"SOPLEX_DIR={soplexdir} does not contain an include directory; searching for include files in src or ../src directory.")
+ 
+-        if os.path.exists(os.path.join(soplexdir, "src")):
+-            # SoPlex seems to be installed in-place; check whether it was built using make or cmake
+-            if os.path.exists(os.path.join(soplexdir, "src", "soplex")):
+-                # assume that SOPLEX_DIR pointed to the main source directory (make)
+-                includedir = os.path.abspath(os.path.join(soplexdir, "src"))
+-            else:
+-                # assume that SOPLEX_DIR pointed to a cmake build directory; try one level up (this is just a heuristic)
+-                if os.path.exists(os.path.join(soplexdir, "..", "src", "soplex")):
+-                    includedir = os.path.abspath(os.path.join(soplexdir, "..", "src"))
++        # check whether SoPlex is installed in the given directory
++        if os.path.exists(os.path.join(soplexdir, "include")):
++            includedir = os.path.abspath(os.path.join(soplexdir, "include"))
++        else:
++            print(f"SOPLEX_DIR={soplexdir} does not contain an include directory; searching for include files in src or ../src directory.")
++
++            if os.path.exists(os.path.join(soplexdir, "src")):
++                # SoPlex seems to be installed in-place; check whether it was built using make or cmake
++                if os.path.exists(os.path.join(soplexdir, "src", "soplex")):
++                    # assume that SOPLEX_DIR pointed to the main source directory (make)
++                    includedir = os.path.abspath(os.path.join(soplexdir, "src"))
+                 else:
+-                    sys.exit(f"Could neither find src/soplex nor ../src/soplex directory in SOPLEX_DIR={soplexdir}. Consider installing SoPlex in a separate directory.")
++                    # assume that SOPLEX_DIR pointed to a cmake build directory; try one level up (this is just a heuristic)
++                    if os.path.exists(os.path.join(soplexdir, "..", "src", "soplex")):
++                        includedir = os.path.abspath(os.path.join(soplexdir, "..", "src"))
++                    else:
++                        sys.exit(f"Could neither find src/soplex nor ../src/soplex directory in SOPLEX_DIR={soplexdir}. Consider installing SoPlex in a separate directory.")
++            else:
++                sys.exit(f"Could not find a src directory in SOPLEX_DIR={soplexdir}; maybe it points to a wrong directory.")
++
++        # determine library
++        if os.path.exists(os.path.join(soplexdir, "lib", "shared", "libsoplex.so")):
++            # SoPlex seems to be created with make
++            libdir = os.path.abspath(os.path.join(soplexdir, "lib", "shared"))
++            libname = "soplex"
++            extra_compile_args.append("-DNO_CONFIG_HEADER")
++            # the following is a temporary hack to make it compile with SoPlex/make:
++            extra_compile_args.append("-DTPI_NONE")  # if other TPIs are used, please modify
+         else:
+-            sys.exit(f"Could not find a src directory in SOPLEX_DIR={soplexdir}; maybe it points to a wrong directory.")
+-
+-    # determine library
+-    if os.path.exists(os.path.join(soplexdir, "lib", "shared", "libsoplex.so")):
+-        # SoPlex seems to be created with make
+-        libdir = os.path.abspath(os.path.join(soplexdir, "lib", "shared"))
+-        libname = "soplex"
+-        extra_compile_args.append("-DNO_CONFIG_HEADER")
+-        # the following is a temporary hack to make it compile with SoPlex/make:
+-        extra_compile_args.append("-DTPI_NONE")  # if other TPIs are used, please modify
+-    else:
+-        # assume that SoPlex is installed on the system
+-        libdir = os.path.abspath(os.path.join(soplexdir, "lib"))
+-        libname = "libsoplex" if platform.system() in ["Windows"] else "soplexshared"
++            # assume that SoPlex is installed on the system
++            libdir = os.path.abspath(os.path.join(soplexdir, "lib"))
++            libname = "libsoplex" if platform.system() in ["Windows"] else "soplexshared"
+ 
++        print(f"Using include path {includedir}.")
++        print(f"Using SoPlex library {libname} at {libdir}.\n")
++        
++else:
++    includedir = os.path.abspath(soplexincludedir)
++    libdir = os.path.abspath(soplexlibdir)
++    libname = "libsoplex" if platform.system() in ["Windows"] else "soplex"
+     print(f"Using include path {includedir}.")
+     print(f"Using SoPlex library {libname} at {libdir}.\n")
+ 

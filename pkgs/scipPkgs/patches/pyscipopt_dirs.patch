@@ -1,0 +1,113 @@
+diff --git a/setup.py b/setup.py
+index dfdd33f..5c0d7bc 100644
+--- a/setup.py
++++ b/setup.py
+@@ -3,56 +3,66 @@ import os, platform, sys, re
+ 
+ # look for environment variable that specifies path to SCIP
+ scipoptdir = os.environ.get("SCIPOPTDIR", "").strip('"')
++scipincludedir = os.environ.get("SCIPINCLUDEDIR", "").strip('"')
++sciplibdir = os.environ.get("SCIPLIBDIR", "").strip('"')
+ 
+ extra_compile_args = []
+ extra_link_args = []
+ 
+-# if SCIPOPTDIR is not set, we assume that SCIP is installed globally
+-if not scipoptdir:
+-    if platform.system() == "Darwin":
+-        includedir = "/usr/local/include/"
+-        libdir = "/usr/local/lib/"
+-    else:
+-        includedir = "."
+-        libdir = "."
+-    libname = "libscip" if platform.system() in ["Windows"] else "scip"
+-    print("Assuming that SCIP is installed globally, because SCIPOPTDIR is undefined.\n")
+-
+-else:
++if not scipincludedir or not sciplibdir:
++    # if SCIPOPTDIR is not set, we assume that SCIP is installed globally
++    if not scipoptdir:
++        if platform.system() == "Darwin":
++            includedir = "/usr/local/include/"
++            libdir = "/usr/local/lib/"
++        else:
++            includedir = "."
++            libdir = "."
++        libname = "libscip" if platform.system() in ["Windows"] else "scip"
++        print("Assuming that SCIP is installed globally, because SCIPOPTDIR is undefined.\n")
+ 
+-    # check whether SCIP is installed in the given directory
+-    if os.path.exists(os.path.join(scipoptdir, "include")):
+-        includedir = os.path.abspath(os.path.join(scipoptdir, "include"))
+     else:
+-        print(f"SCIPOPTDIR={scipoptdir} does not contain an include directory; searching for include files in src or ../src directory.")
+-
+-        if os.path.exists(os.path.join(scipoptdir, "src")):
+-            # SCIP seems to be installed in-place; check whether it was built using make or cmake
+-            if os.path.exists(os.path.join(scipoptdir, "src", "scip")):
+-                # assume that SCIPOPTDIR pointed to the main source directory (make)
+-                includedir = os.path.abspath(os.path.join(scipoptdir, "src"))
+-            else:
+-                # assume that SCIPOPTDIR pointed to a cmake build directory; try one level up (this is just a heuristic)
+-                if os.path.exists(os.path.join(scipoptdir, "..", "src", "scip")):
+-                    includedir = os.path.abspath(os.path.join(scipoptdir, "..", "src"))
++
++        # check whether SCIP is installed in the given directory
++        if os.path.exists(os.path.join(scipoptdir, "include")):
++            includedir = os.path.abspath(os.path.join(scipoptdir, "include"))
++        else:
++            print(f"SCIPOPTDIR={scipoptdir} does not contain an include directory; searching for include files in src or ../src directory.")
++
++            if os.path.exists(os.path.join(scipoptdir, "src")):
++                # SCIP seems to be installed in-place; check whether it was built using make or cmake
++                if os.path.exists(os.path.join(scipoptdir, "src", "scip")):
++                    # assume that SCIPOPTDIR pointed to the main source directory (make)
++                    includedir = os.path.abspath(os.path.join(scipoptdir, "src"))
+                 else:
+-                    sys.exit(f"Could neither find src/scip nor ../src/scip directory in SCIPOPTDIR={scipoptdir}. Consider installing SCIP in a separate directory.")
+-        else:                    
+-            sys.exit(f"Could not find a src directory in SCIPOPTDIR={scipoptdir}; maybe it points to a wrong directory.")
+-
+-    # determine library
+-    if os.path.exists(os.path.join(scipoptdir, "lib", "shared", "libscip.so")):
+-        # SCIP seems to be created with make
+-        libdir = os.path.abspath(os.path.join(scipoptdir, "lib", "shared"))
+-        libname = "scip"
+-        extra_compile_args.append("-DNO_CONFIG_HEADER")
+-        # the following is a temporary hack to make it compile with SCIP/make:
+-        extra_compile_args.append("-DTPI_NONE")  # if other TPIs are used, please modify
+-    else:
+-        # assume that SCIP is installed on the system
+-        libdir = os.path.abspath(os.path.join(scipoptdir, "lib"))
+-        libname = "libscip" if platform.system() in ["Windows"] else "scip"
++                    # assume that SCIPOPTDIR pointed to a cmake build directory; try one level up (this is just a heuristic)
++                    if os.path.exists(os.path.join(scipoptdir, "..", "src", "scip")):
++                        includedir = os.path.abspath(os.path.join(scipoptdir, "..", "src"))
++                    else:
++                        sys.exit(f"Could neither find src/scip nor ../src/scip directory in SCIPOPTDIR={scipoptdir}. Consider installing SCIP in a separate directory.")
++            else:                    
++                sys.exit(f"Could not find a src directory in SCIPOPTDIR={scipoptdir}; maybe it points to a wrong directory.")
++
++        # determine library
++        if os.path.exists(os.path.join(scipoptdir, "lib", "shared", "libscip.so")):
++            # SCIP seems to be created with make
++            libdir = os.path.abspath(os.path.join(scipoptdir, "lib", "shared"))
++            libname = "scip"
++            extra_compile_args.append("-DNO_CONFIG_HEADER")
++            # the following is a temporary hack to make it compile with SCIP/make:
++            extra_compile_args.append("-DTPI_NONE")  # if other TPIs are used, please modify
++        else:
++            # assume that SCIP is installed on the system
++            libdir = os.path.abspath(os.path.join(scipoptdir, "lib"))
++            libname = "libscip" if platform.system() in ["Windows"] else "scip"
++
++        print(f"Using include path {includedir}.")
++        print(f"Using SCIP library {libname} at {libdir}.\n")
+ 
++else:
++    includedir = os.path.abspath(scipincludedir)
++    libdir = os.path.abspath(sciplibdir)
++    libname = "libscip" if platform.system() in ["Windows"] else "scip"
+     print(f"Using include path {includedir}.")
+     print(f"Using SCIP library {libname} at {libdir}.\n")
+ 
