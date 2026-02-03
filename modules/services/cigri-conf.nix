@@ -14,7 +14,7 @@ INSTALL_PATH = "${cfg.package}/share/cigri/"
 
 # Timeout in seconds for jobs remaining in the waiting status on the clusters
 # or in the cigri queues
-REMOTE_WAITING_TIMEOUT = "900"
+REMOTE_WAITING_TIMEOUT = "${toString cfg.server.remoteWaitingTimeout}"
 
 # How often to re-check some events before trying to fix
 AUTOFIX_DELAY = "30"
@@ -37,7 +37,7 @@ STRESS_FACTOR="0.8"
 #File where to log (STDOUT AND STDERR are accepted as  well)
 LOG_FILE = "${cfg.server.logfile}"
 # loglevel as supported by the ruby logger (FATAL, ERROR, WARN, INFO, DEBUG)
-LOG_LEVEL = "INFO"
+LOG_LEVEL = "${cfg.server.logLevel}"
 # Job debugging. Set to 1 if you want to dump all submitted jobs
 LOG_JOBS = "0"
 LOG_JOBS_DIRECTORY = "/var/log/cigri_jobs"

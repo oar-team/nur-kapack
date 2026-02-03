@@ -93,6 +93,18 @@ in
           description = "Specify the log file name.";
           example = "/var/cigri/state/home/cigri.log";
         };
+        logLevel = mkOption {
+          type = types.str;
+          default = "INFO";
+          description = "Specify the log level.";
+          example = "FATAL, ERROR, WARN, INFO, DEBUG";
+        };
+        remoteWaitingTimeout = mkOption {
+          type = types.int;
+          default = 900;
+          description = "Timeout in seconds for jobs remaining in the waiting status on the clusters or in the cigri queues ";
+          example = "900";
+        };
         
         statePath = mkOption {
           type = types.str;
