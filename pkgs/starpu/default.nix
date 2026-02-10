@@ -3,7 +3,7 @@
   fetchFromGitLab,
   lib,
   gnumake,
-  gcc,
+  gcc13,
   libtool,
   autoconf,
   automake,
@@ -33,7 +33,7 @@ stdenv.mkDerivation rec {
   };
   buildInputs = [
     gnumake
-    gcc
+    gcc13
     libtool
     autoconf
     automake
@@ -57,7 +57,10 @@ stdenv.mkDerivation rec {
     substituteInPlace doc/fixLinks.sh --replace "/bin/bash" "${bashInteractive}/bin/bash"
     sh autogen.sh
   '';
-  configureFlags = [
+  configureFlags = lib.optional useCUDA [
+    "NVCC_CC=${gcc13}/bin/g++"
+  ]
+  ++ [
     "--enable-fast"
     "--enable-maxcpus=${builtins.toString maxCPUs}"
     "--disable-build-doc"

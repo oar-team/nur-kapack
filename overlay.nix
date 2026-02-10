@@ -2,6 +2,10 @@
 # case where you don't want to add the whole NUR namespace to your
 # configuration.
 
+self: super: {
+  gcc13 = super.pkgs.gcc13;
+}
+
 final: prev:
 
 let
