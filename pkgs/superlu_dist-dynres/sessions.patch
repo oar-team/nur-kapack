@@ -1,0 +1,407 @@
+--- a/EXAMPLE/pddrive_spawn.c
++++ b/EXAMPLE/pddrive_spawn.c
+@@ -23,6 +23,10 @@ at the top-level directory.
+ 
+ #include <math.h>
+ #include "superlu_ddefs.h"
++#include <stdio.h>
++#include <unistd.h>
++#include <mpi.h>
++
+ 
+ /*! \brief
+  *
+@@ -47,6 +51,23 @@ at the top-level directory.
+  * </pre>
+  */
+ 
++void set_env_from_string(char *env_str) {
++    char *line;
++    char *saveptr1, *saveptr2;
++
++    line = strtok_r(env_str, "\n", &saveptr1);
++    while (line != NULL) {
++        char *key = strtok_r(line, "=", &saveptr2);
++        char *value = strtok_r(NULL, "=", &saveptr2);
++
++        if (key && value) {
++            setenv(key, value, 1);
++        }
++        
++        line = strtok_r(NULL, "\n", &saveptr1);
++    }
++}
++
+ int main(int argc, char *argv[])
+ {
+     superlu_dist_options_t options;
+@@ -76,12 +97,117 @@ int main(int argc, char *argv[])
+ 	lookahead = 10; 
+ 	colperm = 4;
+ 
+-    /* ------------------------------------------------------------
+-       INITIALIZE MPI ENVIRONMENT. 
+-       ------------------------------------------------------------*/
+-    //MPI_Init( &argc, &argv );
+-    MPI_Init_thread( &argc, &argv, MPI_THREAD_MULTIPLE, &omp_mpi_level); 
+-	MPI_Comm_get_parent(&parent);   	
++    MPI_Session session = MPI_SESSION_NULL; 
++    MPI_Group group = MPI_GROUP_NULL;
++    MPI_Comm union_comm = MPI_COMM_NULL;
++    MPI_Info inf = MPI_INFO_NULL;
++    char main_pset[MPI_MAX_PSET_NAME_LEN];
++    int flag = 0;
++
++    printf("\n\n\nwe are inside pddrive_spawn (Session Mode)\n\n\n\n");
++
++    setenv("OMPI_MPI_THREAD_LEVEL", "MPI_THREAD_MULTIPLE", 1);
++
++    int err;
++    
++    MPI_Info session_info = MPI_INFO_NULL;
++    MPI_Info_create(&session_info);
++    MPI_Info_set(session_info, "thread_level", "MPI_THREAD_MULTIPLE");
++    
++    err = MPI_Session_init(session_info, MPI_ERRORS_ARE_FATAL, &session);
++    MPI_Info_free(&session_info);
++
++    MPI_Info info_inside = MPI_INFO_NULL;
++    MPI_Info_create(&info_inside);
++    MPI_Session_get_info(session, &info_inside);
++
++    char thread_str[MPI_MAX_PSET_NAME_LEN] = "";
++
++    MPI_Info_get(info_inside, "thread_level", MPI_MAX_PSET_NAME_LEN, thread_str, &flag);
++    printf("info inside says %s\n", thread_str);
++
++    if (err != MPI_SUCCESS) {
++        printf("Error initializing MPI Session\n");
++        MPI_Abort(MPI_COMM_WORLD, err);
++    }
++    
++    /* Query what threading level we got */
++    int temp_thread_level;
++    MPI_Query_thread(&temp_thread_level);
++    switch (temp_thread_level) {
++      case MPI_THREAD_SINGLE:
++		printf("MPI_Query_thread with MPI_THREAD_SINGLE\n");
++		fflush(stdout);
++	break;
++      case MPI_THREAD_FUNNELED:
++		printf("MPI_Query_thread with MPI_THREAD_FUNNELED\n");
++		fflush(stdout);
++	break;
++      case MPI_THREAD_SERIALIZED:
++		printf("MPI_Query_thread with MPI_THREAD_SERIALIZED\n");
++		fflush(stdout);
++	break;
++      case MPI_THREAD_MULTIPLE:
++		printf("MPI_Query_thread with MPI_THREAD_MULTIPLE\n");
++		fflush(stdout);
++	break;
++    }
++
++
++
++    strcpy(main_pset, "mpi://WORLD");
++    printf("test1\n");
++
++    const char *keys[2] = {"inter_pset", "env_str"};
++
++    // Pass 'keys' directly. In C, the array name 'keys' evaluates to a char**
++    MPI_Session_get_pset_data(session, main_pset, main_pset, keys, 2, 1, &inf);
++
++    char env_str[MPI_MAX_PSET_NAME_LEN] = "";
++
++    /* CLEANUP AFTER USE */
++    if (inf != MPI_INFO_NULL) {
++        MPI_Info_get(inf, "inter_pset", MPI_MAX_PSET_NAME_LEN, main_pset, &flag);
++        MPI_Info_get(inf, "env_str", MPI_MAX_PSET_NAME_LEN, env_str, &flag);
++        MPI_Info_free(&inf);
++    }
++    //free(keys[0]);
++
++    // Set environment variables from the retrieved env_str
++    set_env_from_string(env_str);
++    printf("nrel is now: %s\n", getenv("NREL"));
++    
++
++    //MPI_Info_get(inf, "inter_pset", MPI_MAX_PSET_NAME_LEN, main_pset, &flag);
++
++    printf("test2\n");
++
++    printf("Using pset: %s\n", main_pset);
++   
++    /* Create Group and Communicator from PSet */
++    MPI_Group_from_session_pset (session, main_pset, &group);
++    MPI_Comm_create_from_group(group, "mpi.forum.example", MPI_INFO_NULL, MPI_ERRORS_ARE_FATAL, &union_comm);
++
++
++
++    MPI_Comm comm = MPI_COMM_NULL;
++    MPI_Group group2 = MPI_GROUP_NULL;
++
++    MPI_Group_from_session_pset(session, "mpi://WORLD", &group2);
++    MPI_Comm_create_from_group(group2, "lcm.example", MPI_INFO_NULL, MPI_ERRORS_RETURN, &comm);
++
++    printf("after comm creation\n");
++
++    /*
++    group2 = session.Create_group("mpi://WORLD")
++    local_comm = MPI.Intracomm.Create_from_group(
++        group2, "lcm.example", MPI.INFO_NULL, MPI.ERRORS_RETURN
++    )
++    */
++
++    printf("test3\n");
++    
++    //parent = MPI_COMM_NULL;
+ 	
+ 	
+ 
+@@ -125,7 +251,7 @@ int main(int argc, char *argv[])
+     /* ------------------------------------------------------------
+        INITIALIZE THE SUPERLU PROCESS GRID. 
+        ------------------------------------------------------------*/
+-    superlu_gridinit(MPI_COMM_WORLD, nprow, npcol, &grid);
++    superlu_gridinit(comm, nprow, npcol, &grid);
+ 	
+     if(grid.iam==0){
+ 	MPI_Query_thread(&omp_mpi_level);
+@@ -186,7 +312,6 @@ int main(int argc, char *argv[])
+        GET THE MATRIX FROM FILE AND SETUP THE RIGHT HAND SIDE. 
+        ------------------------------------------------------------*/
+     dcreate_matrix_postfix(&A, nrhs, &b, &ldb, &xtrue, &ldx, fp, postfix, &grid);
+-
+     if ( !(berr = doubleMalloc_dist(nrhs)) )
+ 	ABORT("Malloc fails for berr[].");
+ 
+@@ -233,7 +358,6 @@ int main(int argc, char *argv[])
+     m = A.nrow;
+     n = A.ncol;
+ 
+-    /* Initialize ScalePermstruct and LUstruct. */
+     dScalePermstructInit(m, n, &ScalePermstruct);
+     dLUstructInit(n, &LUstruct);
+ 
+@@ -243,14 +367,14 @@ int main(int argc, char *argv[])
+     /* Call the linear equation solver. */
+     pdgssvx(&options, &A, &ScalePermstruct, b, ldb, nrhs, &grid,
+ 	    &LUstruct, &SOLVEstruct, berr, &stat, &info);
+-
++    
+ 
+     /* Check the accuracy of the solution. */
+     pdinf_norm_error(iam, ((NRformat_loc *)A.Store)->m_loc,
+ 		     nrhs, b, ldb, xtrue, ldx, grid.comm);
+-
++    
+     PStatPrint(&options, &stat, &grid);        /* Print the statistics. */
+-
++    
+ 	
+ 	
+ 	
+@@ -298,21 +422,41 @@ int main(int argc, char *argv[])
+     SUPERLU_FREE(xtrue);
+     SUPERLU_FREE(berr);
+ 
++    printf("we reached here\n");
++    fflush(stdout);
++
+     /* ------------------------------------------------------------
+        RELEASE THE SUPERLU PROCESS GRID.
+        ------------------------------------------------------------*/
+ out:
+-if(parent!=MPI_COMM_NULL)
+-	MPI_Reduce(result, MPI_BOTTOM, 2, MPI_FLOAT,MPI_MAX, 0, parent);
++    /* Parent communication removed */
++    /* if(parent!=MPI_COMM_NULL)
++	MPI_Reduce(result, MPI_BOTTOM, 2, MPI_FLOAT,MPI_MAX, 0, parent); */
++    MPI_Reduce(result, MPI_BOTTOM, 2, MPI_FLOAT,MPI_MAX, 0, union_comm);
+     superlu_gridexit(&grid);
+ 
+     /* ------------------------------------------------------------
+        TERMINATES THE MPI EXECUTION ENVIRONMENT.
+        ------------------------------------------------------------*/
+ 	   
+-	if(parent!=MPI_COMM_NULL)
+-	MPI_Comm_disconnect(&parent);
+-    MPI_Finalize();
++    /* if(parent!=MPI_COMM_NULL)
++	MPI_Comm_disconnect(&parent); */
++
++    printf("we reached here2\n");
++    fflush(stdout);
++
++    MPI_Comm_disconnect(&union_comm);
++
++    printf("we reached here2.1\n");
++    fflush(stdout);
++
++    
++
++
++    MPI_Session_finalize(&session);
++
++    printf("we reached here3\n");
++    fflush(stdout);
+ 
+ #if ( DEBUGlevel>=1 )
+     CHECK_MALLOC(iam, "Exit main()");
+diff --git a/SRC/double/pdgstrf.c b/SRC/double/pdgstrf.c
+index 33c06ea0..0f6421b0 100755
+--- a/SRC/double/pdgstrf.c
++++ b/SRC/double/pdgstrf.c
+@@ -413,12 +413,14 @@ pdgstrf(superlu_dist_options_t * options, int m, int n, double anorm,
+     s_eps = smach_dist("Epsilon");
+     thresh = s_eps * anorm;
+ 
++    /*
+     MPI_Comm_get_attr (MPI_COMM_WORLD, MPI_TAG_UB, &attr_val, &flag);
+     if (!flag) {
+-        fprintf (stderr, "Could not get TAG_UB\n");
++        fprintf (stderr, "Could not get TAG_UB2\n");
+         return (-1);
+     }
+-    int tag_ub = *(int *) attr_val;
++    */
++    int tag_ub = INT16_MAX; // *(int *) attr_val;
+ 
+ #if ( PRNTlevel>=1 )
+     if (!iam) {
+@@ -437,6 +439,7 @@ pdgstrf(superlu_dist_options_t * options, int m, int n, double anorm,
+     int_t *prof_sendR = intCalloc_dist(nsupers);
+ #endif
+ 
++
+     stat->ops[FACT]      = 0.0;
+     stat->current_buffer = 0.0;
+     stat->peak_buffer    = 0.0;
+@@ -562,6 +565,8 @@ pdgstrf(superlu_dist_options_t * options, int m, int n, double anorm,
+ #endif
+ 
+ #if 0
++    printf("test omp good\n\n");
++    fflush(stdout);
+     omp_loop_time = (double *) _mm_malloc (sizeof (double) * num_threads,64);
+ #else
+     omp_loop_time = (double *) SUPERLU_MALLOC(num_threads * sizeof(double));
+@@ -993,7 +998,7 @@ pdgstrf(superlu_dist_options_t * options, int m, int n, double anorm,
+     InitTimer = SuperLU_timer_() - tt1;
+ 
+     double pxgstrfTimer = SuperLU_timer_();
+-
++  
+     /* ##################################################################
+        ** Handle first block column separately to start the pipeline. **
+        ################################################################## */
+@@ -1014,6 +1019,8 @@ pdgstrf(superlu_dist_options_t * options, int m, int n, double anorm,
+                   U_diag_blk_send_req, tag_ub, stat, info);
+ 
+         pdgstrf2_timer += SuperLU_timer_()-ttt1;
++        
++      
+ 
+         scp = &grid->rscp;      /* The scope of process row. */
+ 
+@@ -1042,6 +1049,8 @@ pdgstrf(superlu_dist_options_t * options, int m, int n, double anorm,
+                 MPI_Isend (lusup, msgcnt[1], MPI_DOUBLE, pj,
+                            SLU_MPI_TAG (1, 0) /* 1 */,
+                            scp->comm, &send_req[pj + Pc]);
++                
++
+ #if ( DEBUGlevel>=2 )
+                 printf ("[%d] first block cloumn Send L(:,%4d): lsub %4d, lusup %4d to Pc %2d\n",
+                         iam, 0, msgcnt[0], msgcnt[1], pj);
+@@ -1167,6 +1176,7 @@ pdgstrf(superlu_dist_options_t * options, int m, int n, double anorm,
+                             MPI_Isend (lusup1, msgcnt[1], MPI_DOUBLE, pj,
+                                        SLU_MPI_TAG (1, kk0),  /* (4*kk0+1)%tag_ub */
+                                        scp->comm, &send_req[pj + Pc]);
++
+ #if ( PROFlevel>=1 )
+ 			    TOC (t2, t1);
+ 			    stat->utime[COMM] += t2;
+@@ -1195,6 +1205,7 @@ pdgstrf(superlu_dist_options_t * options, int m, int n, double anorm,
+                                    MPI_DOUBLE, kcol,
+                                    SLU_MPI_TAG (1, kk0), /* (4*kk0+1)%tag_ub */
+                                    scp->comm, &recv_req[1]);
++
+ #if ( PROFlevel>=1 )
+ 			TOC (t2, t1);
+ 			stat->utime[COMM] += t2;
+@@ -1221,6 +1232,7 @@ pdgstrf(superlu_dist_options_t * options, int m, int n, double anorm,
+                     MPI_Irecv (Uval_buf, Llu->bufmax[3], MPI_DOUBLE, krow,
+                                SLU_MPI_TAG (3, kk0) /* (4*kk0+3)%tag_ub */ ,
+                                scp->comm, &recv_reqs_u[look_id][1]);
++
+ #if ( PROFlevel>=1 )
+ 		    TOC (t2, t1);
+ 		    stat->utime[COMM] += t2;
+@@ -1321,6 +1333,7 @@ pdgstrf(superlu_dist_options_t * options, int m, int n, double anorm,
+                         }
+ 
+                         if (ToSendD[lk] == YES) {
++                            
+                             for (pi = 0; pi < Pr; ++pi) {
+                                 if (pi != myrow) {
+ #if ( PROFlevel>=1 )
+@@ -1548,6 +1561,7 @@ pdgstrf(superlu_dist_options_t * options, int m, int n, double anorm,
+                 TIC (t1);
+ #endif
+                 MPI_Wait (&recv_reqs_u[look_id][0], &status);
++               
+                 MPI_Get_count (&status, mpi_int_t, &msgcnt[2]);
+                 MPI_Wait (&recv_reqs_u[look_id][1], &status);
+                 MPI_Get_count (&status, MPI_DOUBLE, &msgcnt[3]);
+@@ -1815,8 +1829,9 @@ pdgstrf(superlu_dist_options_t * options, int m, int n, double anorm,
+         if (U_diag_blk_send_req[myrow] != MPI_REQUEST_NULL) {
+             /* wait for last Isend requests to complete, deallocate objects */
+             for (krow = 0; krow < Pr; ++krow) {
+-                if (krow != myrow)
++                if (krow != myrow) {
+                     MPI_Wait (U_diag_blk_send_req + krow, &status);
++                }
+             }
+         }
+         SUPERLU_FREE (U_diag_blk_send_req);
+@@ -1924,6 +1939,7 @@ pdgstrf(superlu_dist_options_t * options, int m, int n, double anorm,
+     TIC (t1);
+ #endif
+ 
++
+     /* Prepare error message - find the smallesr index i that U(i,i)==0 */
+     if ( *info == 0 ) *info = n + 1;
+     MPI_Allreduce (info, &iinfo, 1, MPI_INT, MPI_MIN, grid->comm);
+@@ -2000,4 +2016,3 @@ pdgstrf(superlu_dist_options_t * options, int m, int n, double anorm,
+ 
+     return 0;
+ } /* PDGSTRF */
+-
+diff --git a/wrapper.sh b/wrapper.sh
+new file mode 100755
+index 00000000..721f854d
+--- /dev/null
++++ b/wrapper.sh
+@@ -0,0 +1,20 @@
++#!/bin/bash
++
++cd "$(dirname "$0")"
++
++echo "--- Hostname Information ---"
++hostname
++echo "--------------------------"
++echo "Process ID: $$"
++
++export OMP_NUM_THREADS=2
++
++command="./pddrive_spawn"
++if [ ! -f $command ] ; then
++    echo "Error: pdqrdriver binary not found!"
++    exit 1
++fi
++echo "Executing command: $command $*"
++$command $*
++#command="./hello"
++#$command
+\ No newline at end of file

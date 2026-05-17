@@ -5,6 +5,7 @@
 , openmpi-dynres
 , dyn_psets
 , pypmix
+, pyscipopt
 }:
 
 python3.pkgs.buildPythonPackage rec {
@@ -17,8 +18,8 @@ python3.pkgs.buildPythonPackage rec {
     group = "dynres";
     owner = "dyn-procs";
     repo = "dyn_rm";
-    rev = "5267f12fa821791809f0d2b115aa2cac94097024";
-    hash = "sha256-qnGByq+4bb8DNQckLoOoaqQqJ/7vBIwQPzPc0uNmPTE=";
+    rev = "f0af3d8acf0406feb9e1e670fdd1ca118f9f9b4a";
+    hash = "sha256-/i938FQqSOiHzC9/zrzc9Xr4soTfZp7D+MfeHmKWBKI=";
   };
 
   nativeBuildInputs = [
@@ -38,6 +39,7 @@ python3.pkgs.buildPythonPackage rec {
     pmix
     dyn_psets
     pypmix
+    pyscipopt
   ];
 
   doCheck = false;
