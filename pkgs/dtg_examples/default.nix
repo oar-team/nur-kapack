@@ -20,8 +20,8 @@ stdenv.mkDerivation rec {
     group = "dynres";
     owner = "applications";
     repo = "dyntaskgraphs_examples";
-    rev = "34f04d29da16bd9f98a96e76f36713cb25597a89";
-    hash = "sha256-q1+VdOLKh2ziEblGpqW5wW3Qwu56uMXsN930YtwAb64=";
+    rev = "48d78a64dc2304e545e55ee357c16e4b74027cd8";
+    hash = "sha256-XGG6wGRJXHiSr8sXY4OCwSPPr7iouxPb99D2RNJEpdM=";
   };
 
   nativeBuildInputs = [
