@@ -25,8 +25,8 @@ stdenv.mkDerivation rec {
     group = "dynres";
     owner = "applications";
     repo = "dyntaskgraphs";
-    rev = "806a90b6574dc178ecfe83da8c2e3b0650253550";
-    sha256 = "sha256-XBoKP7x+WemT2MootY3ig0ktaiUKEwW762hUaAQXuS4=";
+    rev = "d47887e0d93344ceecfbd066bb65bcab63fabf26";
+    sha256 = "sha256-8zgf+0sDhkVXhYMDU2o8A173cLZdovhQJnJ4JZ0ALPQ=";
   };
 
   buildInputs = [
