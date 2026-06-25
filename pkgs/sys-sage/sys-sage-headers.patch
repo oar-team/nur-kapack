@@ -1,0 +1,27 @@
+diff --git a/src/Component.hpp b/src/Component.hpp
+index 3333333..4444444 100644
+--- a/src/Component.hpp
++++ b/src/Component.hpp
+@@ -4,6 +4,7 @@
+ 
+ #include <iostream>
+ #include <type_traits>
++#include <array>
+ #include <vector>
+ #include <map>
+ #include <set>
+
+diff --git a/pkg/sys-sage.pc.in b/pkg/sys-sage.pc.in
+--- a/pkg/sys-sage.pc.in
++++ b/pkg/sys-sage.pc.in
+@@ -1,7 +1,7 @@
+ prefix=@CMAKE_INSTALL_PREFIX@
+ exec_prefix=@CMAKE_INSTALL_PREFIX@
+-libdir=${exec_prefix}/@CMAKE_INSTALL_LIBDIR@
+-includedir=${prefix}/@CMAKE_INSTALL_INCLUDEDIR@
++libdir=@CMAKE_INSTALL_FULL_LIBDIR@
++includedir=@CMAKE_INSTALL_FULL_INCLUDEDIR@
+
+ Name: @PROJECT_NAME@
+ Description: @PROJECT_DESCRIPTION@
+ Version: @PROJECT_VERSION@

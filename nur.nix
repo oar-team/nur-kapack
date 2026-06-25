@@ -131,10 +131,17 @@ rec {
   oac =  pkgs.callPackage ./pkgs/oac { };
   ucc_1_3 = pkgs.callPackage ./pkgs/ucc { ucx = ucx_1_17; };
   ucx_1_17 = pkgs.callPackage ./pkgs/ucx { };
+  ctestCheckHook = pkgs.callPackage ./pkgs/ctestCheckHook { };
+  netgauge = pkgs.callPackage ./pkgs/netgauge { openmpi = openmpi-dynres; };
+  onetbb = pkgs.callPackage ./pkgs/onetbb { ctestCheckHook = ctestCheckHook; };
+  dyninst =  pkgs.callPackage ./pkgs/dyninst { onetbb = onetbb; };
+  sys-sage = pkgs.callPackage ./pkgs/sys-sage { };
+  mitos = pkgs.callPackage ./pkgs/mitos { sys-sage = sys-sage; dyninst = dyninst; onetbb = onetbb;};
+  data_redist = pkgs.callPackage ./pkgs/data_redist { openmpi = openmpi-dynres; };
+  data_redist_bench = pkgs.callPackage ./pkgs/data_redist { openmpi = openmpi-dynres; mitos = mitos; enableTests = true; enableBenchmarks = true; };
   dmr = pkgs.callPackage ./pkgs/dmr { openmpi = openmpi-dynres; };
   dmr-examples = pkgs.callPackage ./pkgs/dmr_examples { openmpi = openmpi-dynres; inherit dmr timestamps data_redist dyn_rm-dynres pypmix-dynres; };
   timestamps = pkgs.callPackage ./pkgs/timestamps { };
-  data_redist = pkgs.callPackage ./pkgs/data_redist { openmpi = openmpi-dynres; };
   p4est-sc-dynres = pkgs.p4est-sc.override { mpi=openmpi-dynres; };
   p4est-dynres = pkgs.p4est.override { p4est-sc=p4est-sc-dynres; };
   p4est-dyn = pkgs.callPackage ./pkgs/p4est_dyn {inherit openmpi-dynres p4est-dynres; };
@@ -150,6 +157,7 @@ rec {
   libpfasst = pkgs.callPackage ./pkgs/libpfasst { inherit openmpi-dynres timestamps hypre; };
   libpfasst-app = pkgs.callPackage ./pkgs/libpfasst_app { inherit  openmpi-dynres timestamps hypre libpfasst dyn_rm-dynres pypmix-dynres; }; 
   ulfius = pkgs.callPackage ./pkgs/ulfius {};
+  dynpkgs = pkgs.callPackage ./pkgs/dynpkgs {};
   #yder = pkgs.callPackage ./pkgs/yder {};
   dtg-backend = pkgs.callPackage ./pkgs/dtg-backend {};
   dtg = pkgs.callPackage ./pkgs/dtg { inherit ulfius openmpi-dynres dyn_psets; };
