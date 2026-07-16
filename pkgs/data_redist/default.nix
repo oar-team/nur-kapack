@@ -22,8 +22,8 @@ stdenv.mkDerivation rec {
     group = "dynres";
     owner = "utils";
     repo = pname;
-    rev = "376bc749d0168d5c2715186b06885bd060784c5c";
-    sha256 = "sha256-DSlIH1GblHNUAbEXnQRfpNb90m0Lf/s1OVT+lrya/Ao=";
+    rev = "5109618589187a9c6be841ae7ed9d9e3e4fccb66";
+    sha256 = "sha256-6OBvdzkmqGpmJ8Tse6eS8a2gY4LuXZcxXkEebQm32fw=";
   };
 
   nativeBuildInputs = [
@@ -54,6 +54,15 @@ stdenv.mkDerivation rec {
 
     runHook postBuild
   '';
+
+    dontStrip = true;
+    
+  postInstall = ''
+      make bin/bench_redist_alltoallv INSTALL_DIR=$out \
+        LDFLAGS="-L${mitos}/lib -lmitos -lmitoshooks -Wl,-rpath,${mitos}/lib"
+      install -Dm555 bin/bench_redist_alltoallv $out/bin/bench_redist_alltoallv
+    '';
+
 
   installPhase = ''
     runHook preInstall

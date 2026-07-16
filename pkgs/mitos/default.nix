@@ -22,8 +22,8 @@ stdenv.mkDerivation rec {
   src = fetchFromGitHub {
     owner = "caps-tum";
     repo = "mitos";
-    rev = "8b11b251c3cde6076c0b838a92b1aedb94f7af64";
-    hash = "sha256-3dSRySb9J/uBkIb5W/D9r+5TSOAmc7DBgPqwxWotcjg=";
+    rev = "412b17672cce3b2de32d96ffd71a299849ce7a82";
+    hash = "sha256-UyLWgj2iTW2JtK/0qlOyIaAXedJ1FnxkPYvesQPRSTQ=";
   };
 
   nativeBuildInputs = [
